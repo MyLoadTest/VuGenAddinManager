@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<AddIn name="AddInManager 2nd Generation for VuGen"
+        author="Andreas Weizel and Vitalii Maklai"
+        description="Allows installing and updating VuGen AddIns."
+        addInManagerHidden="preinstalled">
+
+    <Manifest>
+        <Identity name="MyLoadTest.VuGenAddInManager" version="@MyLoadTest.VuGenAddInManager.dll" />
+        <Dependency addin="SharpDevelop" version="4.1" />
+    </Manifest>
+
+    <Runtime>
+        <Import assembly="MyLoadTest.VuGenAddInManager.dll" />
+        <Import assembly="NuGet.Core.dll" />
+    </Runtime>
+
+    <Path name="/SharpDevelop/Workbench/MainMenu/Tools">
+        <MenuItem id="MyLoadTest.VuGenAddInManager.Show"
+                label="${res:AddInManager.Title}"
+                class="MyLoadTest.VuGenAddInManager.ShowAddInManagerCommand" />
+    </Path>
+
+    <Path name="/SharpDevelop/Dialogs/OptionsDialog">
+        <OptionPanel
+                id="MyLoadTest.VuGenAddInManager"
+                label="${res:MyLoadTest.VuGenAddInManager.OptionPanel.Tree.AddIns}"
+                insertafter="ToolsOptions">
+            <OptionPanel
+                    id="AddInGeneralOptions"
+                    label="${res:MyLoadTest.VuGenAddInManager.OptionPanel.Tree.General}"
+                    class="ICSharpCode.MyLoadTest.VuGenAddInManager.View.PackageOptionsView" />
+            <OptionPanel
+                    id="AddInRepositories"
+                    label="${res:MyLoadTest.VuGenAddInManager.OptionPanel.Tree.Repositories}"
+                    class="ICSharpCode.MyLoadTest.VuGenAddInManager.View.PackageRepositoriesView" />
+        </OptionPanel>
+    </Path>
+
+    <Path name="/Workspace/Autostart">
+        <Class id="MyLoadTest.VuGenAddInManager.Initialization"
+                class="MyLoadTest.VuGenAddInManager.AddInManagerInitializationCommand" />
+    </Path>
+    <Path name="/SharpDevelop/Workbench/AutostartAfterWorkbenchInitialized">
+        <Class id="MyLoadTest.VuGenAddInManager.VisualInitialization"
+                class="MyLoadTest.VuGenAddInManager.AddInManagerVisualInitializationCommand" />
+    </Path>
+</AddIn>

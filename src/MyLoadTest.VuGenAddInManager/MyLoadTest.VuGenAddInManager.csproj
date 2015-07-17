@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7A7D584E-EBF6-4ED9-AF2F-18B5F236151E}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MyLoadTest.VuGenAddInManager</RootNamespace>
+    <AssemblyName>MyLoadTest.VuGenAddInManager</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.Core">
+      <HintPath>..\..\lib\ICSharpCode.Core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.Core.Presentation">
+      <HintPath>..\..\lib\ICSharpCode.Core.Presentation.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.Core.WinForms">
+      <HintPath>..\..\lib\ICSharpCode.Core.WinForms.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpDevelop">
+      <HintPath>..\..\lib\ICSharpCode.SharpDevelop.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\lib\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="NuGet.Core, Version=1.6.30117.9648, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\NuGet.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AddInManagerServices.cs" />
+    <Compile Include="AddInManagerTask.cs" />
+    <Compile Include="AddInManagerTask.Helper.cs" />
+    <Compile Include="BooleanToFontWeightConverter.cs" />
+    <Compile Include="HostCommands\Commands.cs" />
+    <Compile Include="Compatibility\AddInTreeImpl.cs" />
+    <Compile Include="Compatibility\CustomWindowsFormsHost.cs" />
+    <Compile Include="Compatibility\DirectoryName.cs" />
+    <Compile Include="Compatibility\FallbackServiceProvider.cs" />
+    <Compile Include="Compatibility\FileName.cs" />
+    <Compile Include="Compatibility\IAddInTree.cs" />
+    <Compile Include="Compatibility\IPrintable.cs" />
+    <Compile Include="Compatibility\IPropertyService.cs" />
+    <Compile Include="Compatibility\IResourceService.cs" />
+    <Compile Include="Compatibility\IWinFormsMenuService.cs" />
+    <Compile Include="Compatibility\IWinFormsService.cs" />
+    <Compile Include="Compatibility\IWinFormsToolbarService.cs" />
+    <Compile Include="Compatibility\PathName.cs" />
+    <Compile Include="Compatibility\SDServiceAttribute.cs" />
+    <Compile Include="Compatibility\ServiceSingleton.cs" />
+    <Compile Include="Compatibility\SharpDevelopExtensions.cs" />
+    <Compile Include="Compatibility\SharpDevelopServiceContainer.cs" />
+    <Compile Include="DelegateCommand.cs" />
+    <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="Model\AcceptLicensesEventArgs.cs" />
+    <Compile Include="Model\AddInDependency.cs" />
+    <Compile Include="Model\AddInInstallationEventArgs.cs" />
+    <Compile Include="Model\AddInManagerEvents.cs" />
+    <Compile Include="Model\AddInManagerSettings.cs" />
+    <Compile Include="Model\AddInOperationErrorEventArgs.cs" />
+    <Compile Include="Model\AddInSetup.cs" />
+    <Compile Include="Model\Interfaces\IAddInManagerEvents.cs" />
+    <Compile Include="Model\Interfaces\IAddInManagerServices.cs" />
+    <Compile Include="Model\Interfaces\IAddInManagerSettings.cs" />
+    <Compile Include="Model\Interfaces\IAddInPackage.cs" />
+    <Compile Include="Model\Interfaces\IAddInSetup.cs" />
+    <Compile Include="Model\Interfaces\INuGetPackageManager.cs" />
+    <Compile Include="Model\Interfaces\IPackageRepositories.cs" />
+    <Compile Include="Model\Interfaces\ISDAddInManagement.cs" />
+    <Compile Include="Model\ManagedAddIn.cs" />
+    <Compile Include="Model\Model.cs" />
+    <Compile Include="Model\NuGetPackageManager.cs" />
+    <Compile Include="Model\NuGetPackageOperationEventArgs.cs" />
+    <Compile Include="Model\PackageListDownloadEndedEventArgs.cs" />
+    <Compile Include="Model\PackageMessageLoggedEventArgs.cs" />
+    <Compile Include="Model\PackageRepositories.cs" />
+    <Compile Include="Model\PackageRepository.cs" />
+    <Compile Include="Model\Page.cs" />
+    <Compile Include="Model\Pages.cs" />
+    <Compile Include="Model\ReadPackagesResult.cs" />
+    <Compile Include="Model\SDAddInManagement.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <AppDesigner Include="Properties\" />
+    <Compile Include="SemanticVersionExtensions.cs" />
+    <Compile Include="UpdateNotifier.cs" />
+    <Compile Include="Compatibility\SD.cs" />
+    <Compile Include="Compatibility\SimpleCommand.cs" />
+    <Compile Include="ViewModel\AddInManagerViewModel.cs" />
+    <Compile Include="ViewModel\AddInPackageViewModelBase.cs" />
+    <Compile Include="ViewModel\AddInsViewModelBase.cs" />
+    <Compile Include="ViewModel\AvailableAddInsViewModel.cs" />
+    <Compile Include="ViewModel\InstalledAddInsViewModel.cs" />
+    <Compile Include="ViewModel\LicenseAcceptanceViewModel.cs" />
+    <Compile Include="ViewModel\NuGetAddInsViewModelBase.cs" />
+    <Compile Include="ViewModel\NuGetPackageViewModel.cs" />
+    <Compile Include="ViewModel\OfflineAddInViewModel.cs" />
+    <Compile Include="ViewModel\OpenHyperlinkCommand.cs" />
+    <Compile Include="ViewModel\PackageOptionsViewModel.cs" />
+    <Compile Include="ViewModel\PackageRepositoriesViewModel.cs" />
+    <Compile Include="ViewModel\UpdatedAddInsViewModel.cs" />
+    <Compile Include="View\AddInManagerView.xaml.cs">
+      <DependentUpon>AddInManagerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AddInsView.xaml.cs">
+      <DependentUpon>AddInsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LicenseAcceptanceView.xaml.cs">
+      <DependentUpon>LicenseAcceptanceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PackageOptionsView.xaml.cs">
+      <DependentUpon>PackageOptionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PackageRepositoriesView.xaml.cs">
+      <DependentUpon>PackageRepositoriesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PagedResultsView.xaml.cs">
+      <DependentUpon>PagedResultsView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\accept.png" />
+    <Resource Include="Resources\exclamation.png" />
+    <Resource Include="Resources\external_addin_small.png" />
+    <Resource Include="Resources\license.txt" />
+    <Resource Include="Resources\magnifier.png" />
+    <Resource Include="Resources\packageicon.png" />
+    <Resource Include="Resources\packageicon_small.png" />
+    <Resource Include="Resources\resultset_next.png" />
+    <Resource Include="Resources\resultset_previous.png" />
+    <Resource Include="Resources\sd_packageicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="View\AddInManagerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\AddInsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\LicenseAcceptanceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PackageOptionsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PackageRepositoriesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PagedResultsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MyLoadTest.VuGenAddInManager.addin" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
