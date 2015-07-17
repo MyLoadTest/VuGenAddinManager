@@ -29,11 +29,11 @@
             <OptionPanel
                     id="AddInGeneralOptions"
                     label="${res:MyLoadTest.VuGenAddInManager.OptionPanel.Tree.General}"
-                    class="ICSharpCode.MyLoadTest.VuGenAddInManager.View.PackageOptionsView" />
+                    class="MyLoadTest.VuGenAddInManager.View.PackageOptionsView" />
             <OptionPanel
                     id="AddInRepositories"
                     label="${res:MyLoadTest.VuGenAddInManager.OptionPanel.Tree.Repositories}"
-                    class="ICSharpCode.MyLoadTest.VuGenAddInManager.View.PackageRepositoriesView" />
+                    class="MyLoadTest.VuGenAddInManager.View.PackageRepositoriesView" />
         </OptionPanel>
     </Path>
 

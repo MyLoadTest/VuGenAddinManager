@@ -173,7 +173,7 @@
     <Resource Include="Resources\accept.png" />
     <Resource Include="Resources\exclamation.png" />
     <Resource Include="Resources\external_addin_small.png" />
-    <Resource Include="Resources\license.txt" />
+    <None Include="Resources\license.txt" />
     <Resource Include="Resources\magnifier.png" />
     <Resource Include="Resources\packageicon.png" />
     <Resource Include="Resources\packageicon_small.png" />
