@@ -1,14 +1,11 @@
 ﻿// Copyright (c) 2014 AlphaSierraPapa for the SharpDevelop Team
-//
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this
 // software and associated documentation files (the "Software"), to deal in the Software
 // without restriction, including without limitation the rights to use, copy, modify, merge,
 // publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons
 // to whom the Software is furnished to do so, subject to the following conditions:
-//
 // The above copyright notice and this permission notice shall be included in all copies or
 // substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
 // INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
 // PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
@@ -29,56 +26,63 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
     /// <summary>
     /// A thread-safe service container class.
     /// </summary>
-    internal sealed class SharpDevelopServiceContainer : IServiceProvider, IServiceContainer, IDisposable
+    internal sealed class SharpDevelopServiceContainer : IServiceContainer, IDisposable
     {
-        private readonly ConcurrentStack<IServiceProvider> fallbackProviders = new ConcurrentStack<IServiceProvider>();
-        private readonly Dictionary<Type, object> services = new Dictionary<Type, object>();
-        private readonly List<Type> servicesToDispose = new List<Type>();
-        private readonly Dictionary<Type, object> taskCompletionSources = new Dictionary<Type, object>(); // object = TaskCompletionSource<T> for various T
+        private readonly ConcurrentStack<IServiceProvider> _fallbackProviders = new ConcurrentStack<IServiceProvider>();
+        private readonly Dictionary<Type, object> _services = new Dictionary<Type, object>();
+        private readonly List<Type> _servicesToDispose = new List<Type>();
+        private readonly Dictionary<Type, object> _taskCompletionSources = new Dictionary<Type, object>(); // object = TaskCompletionSource<T> for various T
 
         public SharpDevelopServiceContainer()
         {
-            services.Add(typeof(SharpDevelopServiceContainer), this);
-            services.Add(typeof(IServiceContainer), this);
+            _services.Add(typeof(SharpDevelopServiceContainer), this);
+            _services.Add(typeof(IServiceContainer), this);
         }
 
         public void AddFallbackProvider(IServiceProvider provider)
         {
-            this.fallbackProviders.Push(provider);
+            this._fallbackProviders.Push(provider);
         }
 
         public object GetService(Type serviceType)
         {
             object instance;
-            lock (services)
+            lock (_services)
             {
-                if (services.TryGetValue(serviceType, out instance))
+                if (_services.TryGetValue(serviceType, out instance))
                 {
-                    ServiceCreatorCallback callback = instance as ServiceCreatorCallback;
+                    var callback = instance as ServiceCreatorCallback;
                     if (callback != null)
                     {
                         SD.Log.Debug("Service startup: " + serviceType);
                         instance = callback(this, serviceType);
                         if (instance != null)
                         {
-                            services[serviceType] = instance;
+                            _services[serviceType] = instance;
                             OnServiceInitialized(serviceType, instance);
                         }
                         else
                         {
-                            services.Remove(serviceType);
+                            _services.Remove(serviceType);
                         }
                     }
                 }
             }
+
             if (instance != null)
+            {
                 return instance;
-            foreach (var fallbackProvider in fallbackProviders)
+            }
+
+            foreach (var fallbackProvider in _fallbackProviders)
             {
                 instance = fallbackProvider.GetService(serviceType);
                 if (instance != null)
+                {
                     return instance;
+                }
             }
+
             return null;
         }
 
@@ -86,28 +90,31 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         {
             var loggingService = SD.Log;
             Type[] disposableTypes;
-            lock (services)
+            lock (_services)
             {
-                disposableTypes = servicesToDispose.ToArray();
+                disposableTypes = _servicesToDispose.ToArray();
 
-                //services.Clear();
-                servicesToDispose.Clear();
+                // services.Clear();
+                _servicesToDispose.Clear();
             }
 
             // dispose services in reverse order of their creation
-            for (int i = disposableTypes.Length - 1; i >= 0; i--)
+            for (var i = disposableTypes.Length - 1; i >= 0; i--)
             {
                 IDisposable disposable = null;
-                lock (services)
+                lock (_services)
                 {
                     object serviceInstance;
-                    if (services.TryGetValue(disposableTypes[i], out serviceInstance))
+                    if (_services.TryGetValue(disposableTypes[i], out serviceInstance))
                     {
                         disposable = serviceInstance as IDisposable;
                         if (disposable != null)
-                            services.Remove(disposableTypes[i]);
+                        {
+                            _services.Remove(disposableTypes[i]);
+                        }
                     }
                 }
+
                 if (disposable != null)
                 {
                     loggingService.Debug("Service shutdown: " + disposableTypes[i]);
@@ -116,25 +123,11 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
             }
         }
 
-        private void OnServiceInitialized(Type serviceType, object serviceInstance)
-        {
-            IDisposable disposableService = serviceInstance as IDisposable;
-            if (disposableService != null)
-                servicesToDispose.Add(serviceType);
-
-            dynamic taskCompletionSource;
-            if (taskCompletionSources.TryGetValue(serviceType, out taskCompletionSource))
-            {
-                taskCompletionSources.Remove(serviceType);
-                taskCompletionSource.SetResult((dynamic)serviceInstance);
-            }
-        }
-
         public void AddService(Type serviceType, object serviceInstance)
         {
-            lock (services)
+            lock (_services)
             {
-                services.Add(serviceType, serviceInstance);
+                _services.Add(serviceType, serviceInstance);
                 OnServiceInitialized(serviceType, serviceInstance);
             }
         }
@@ -146,9 +139,9 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
 
         public void AddService(Type serviceType, ServiceCreatorCallback callback)
         {
-            lock (services)
+            lock (_services)
             {
-                services.Add(serviceType, callback);
+                _services.Add(serviceType, callback);
             }
         }
 
@@ -159,15 +152,17 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
 
         public void RemoveService(Type serviceType)
         {
-            lock (services)
+            lock (_services)
             {
                 object instance;
-                if (services.TryGetValue(serviceType, out instance))
+                if (_services.TryGetValue(serviceType, out instance))
                 {
-                    services.Remove(serviceType);
-                    IDisposable disposableInstance = instance as IDisposable;
+                    _services.Remove(serviceType);
+                    var disposableInstance = instance as IDisposable;
                     if (disposableInstance != null)
-                        servicesToDispose.Remove(serviceType);
+                    {
+                        _servicesToDispose.Remove(serviceType);
+                    }
                 }
             }
         }
@@ -179,27 +174,39 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
 
         public Task<T> GetFutureService<T>()
         {
-            Type serviceType = typeof(T);
-            lock (services)
+            var serviceType = typeof(T);
+            lock (_services)
             {
-                if (services.ContainsKey(serviceType))
+                if (_services.ContainsKey(serviceType))
                 {
-                    return System.Threading.Tasks.Task.FromResult((T)GetService(serviceType));
+                    return Task.FromResult((T)GetService(serviceType));
                 }
-                else
+
+                object taskCompletionSource;
+                if (_taskCompletionSources.TryGetValue(serviceType, out taskCompletionSource))
                 {
-                    object taskCompletionSource;
-                    if (taskCompletionSources.TryGetValue(serviceType, out taskCompletionSource))
-                    {
-                        return ((TaskCompletionSource<T>)taskCompletionSource).Task;
-                    }
-                    else
-                    {
-                        var tcs = new TaskCompletionSource<T>();
-                        taskCompletionSources.Add(serviceType, tcs);
-                        return tcs.Task;
-                    }
+                    return ((TaskCompletionSource<T>)taskCompletionSource).Task;
                 }
+
+                var tcs = new TaskCompletionSource<T>();
+                _taskCompletionSources.Add(serviceType, tcs);
+                return tcs.Task;
+            }
+        }
+
+        private void OnServiceInitialized(Type serviceType, object serviceInstance)
+        {
+            var disposableService = serviceInstance as IDisposable;
+            if (disposableService != null)
+            {
+                _servicesToDispose.Add(serviceType);
+            }
+
+            dynamic taskCompletionSource;
+            if (_taskCompletionSources.TryGetValue(serviceType, out taskCompletionSource))
+            {
+                _taskCompletionSources.Remove(serviceType);
+                taskCompletionSource.SetResult((dynamic)serviceInstance);
             }
         }
     }

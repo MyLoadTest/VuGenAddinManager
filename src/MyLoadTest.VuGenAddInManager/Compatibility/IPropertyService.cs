@@ -49,10 +49,8 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         /// <inheritdoc cref="Properties.Get{T}(string, T)"/>
         T Get<T>(string key, T defaultValue);
 
-        /// <inheritdoc cref="Properties.NestedProperties"/>
         Properties NestedProperties(string key);
 
-        /// <inheritdoc cref="Properties.SetNestedProperties"/>
         void SetNestedProperties(string key, Properties nestedProperties);
 
         /// <inheritdoc cref="Properties.Contains"/>
@@ -61,10 +59,8 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         /// <inheritdoc cref="Properties.Set{T}(string, T)"/>
         void Set<T>(string key, T value);
 
-        /// <inheritdoc cref="Properties.GetList"/>
         IReadOnlyList<T> GetList<T>(string key);
 
-        /// <inheritdoc cref="Properties.SetList"/>
         void SetList<T>(string key, IEnumerable<T> value);
 
         /// <inheritdoc cref="Properties.Remove"/>

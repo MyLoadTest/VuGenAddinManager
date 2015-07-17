@@ -1,14 +1,14 @@
 ﻿// Copyright (c) 2014 AlphaSierraPapa for the SharpDevelop Team
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this
 // software and associated documentation files (the "Software"), to deal in the Software
 // without restriction, including without limitation the rights to use, copy, modify, merge,
 // publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons
 // to whom the Software is furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all copies or
 // substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
 // INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
 // PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
@@ -22,47 +22,61 @@ using NuGet;
 
 namespace MyLoadTest.VuGenAddInManager.Model.Interfaces
 {
-	/// <summary>
-	/// Interface for AddInManager event service.
-	/// </summary>
-	public interface IAddInManagerEvents
-	{
-		event EventHandler OperationStarted;
-		void OnOperationStarted(EventArgs e);
-		void OnOperationStarted();
-		
-		event EventHandler AddInManagerViewOpened;
-		void OnAddInManagerViewOpened(EventArgs e);
-		void OnAddInManagerViewOpened();
-		
-		event EventHandler<PackageListDownloadEndedEventArgs> PackageListDownloadEnded;
-		void OnPackageListDownloadEnded(object sender, PackageListDownloadEndedEventArgs e);
-		
-		event EventHandler<AddInInstallationEventArgs> AddInInstalled;
-		void OnAddInInstalled(AddInInstallationEventArgs e);
-		
-		event EventHandler<AddInInstallationEventArgs> AddInUninstalled;
-		void OnAddInUninstalled(AddInInstallationEventArgs e);
-		
-		event EventHandler<AddInOperationErrorEventArgs> AddInOperationError;
-		void OnAddInOperationError(AddInOperationErrorEventArgs e);
-		
-		event EventHandler<PackageOperationEventArgs> AddInPackageDownloaded;
-		void OnAddInPackageDownloaded(PackageOperationEventArgs e);
-		
-		event EventHandler<PackageOperationEventArgs> AddInPackageRemoved;
-		void OnAddInPackageRemoved(PackageOperationEventArgs e);
-		
-		event EventHandler<AddInInstallationEventArgs> AddInStateChanged;
-		void OnAddInStateChanged(AddInInstallationEventArgs e);
-		
-		event EventHandler<PackageMessageLoggedEventArgs> PackageMessageLogged;
-		void OnPackageMessageLogged(PackageMessageLoggedEventArgs e);
-		
-		event EventHandler<AcceptLicensesEventArgs> AcceptLicenses;
-		void OnAcceptLicenses(AcceptLicensesEventArgs e);
-		
-		event EventHandler<EventArgs> PackageSourcesChanged;
-		void OnPackageSourcesChanged(EventArgs e);
-	}
+    /// <summary>
+    /// Interface for AddInManager event service.
+    /// </summary>
+    public interface IAddInManagerEvents
+    {
+        event EventHandler OperationStarted;
+
+        event EventHandler AddInManagerViewOpened;
+
+        event EventHandler<PackageListDownloadEndedEventArgs> PackageListDownloadEnded;
+
+        event EventHandler<AddInInstallationEventArgs> AddInInstalled;
+
+        event EventHandler<AddInInstallationEventArgs> AddInUninstalled;
+
+        event EventHandler<AddInOperationErrorEventArgs> AddInOperationError;
+
+        event EventHandler<PackageOperationEventArgs> AddInPackageDownloaded;
+
+        event EventHandler<PackageOperationEventArgs> AddInPackageRemoved;
+
+        event EventHandler<AddInInstallationEventArgs> AddInStateChanged;
+
+        event EventHandler<PackageMessageLoggedEventArgs> PackageMessageLogged;
+
+        event EventHandler<AcceptLicensesEventArgs> AcceptLicenses;
+
+        event EventHandler<EventArgs> PackageSourcesChanged;
+
+        void OnOperationStarted(EventArgs e);
+
+        void OnOperationStarted();
+
+        void OnAddInManagerViewOpened(EventArgs e);
+
+        void OnAddInManagerViewOpened();
+
+        void OnPackageListDownloadEnded(object sender, PackageListDownloadEndedEventArgs e);
+
+        void OnAddInInstalled(AddInInstallationEventArgs e);
+
+        void OnAddInUninstalled(AddInInstallationEventArgs e);
+
+        void OnAddInOperationError(AddInOperationErrorEventArgs e);
+
+        void OnAddInPackageDownloaded(PackageOperationEventArgs e);
+
+        void OnAddInPackageRemoved(PackageOperationEventArgs e);
+
+        void OnAddInStateChanged(AddInInstallationEventArgs e);
+
+        void OnPackageMessageLogged(PackageMessageLoggedEventArgs e);
+
+        void OnAcceptLicenses(AcceptLicensesEventArgs e);
+
+        void OnPackageSourcesChanged(EventArgs e);
+    }
 }

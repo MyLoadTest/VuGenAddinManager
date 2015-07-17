@@ -1,14 +1,11 @@
 ﻿// Copyright (c) 2014 AlphaSierraPapa for the SharpDevelop Team
-//
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this
 // software and associated documentation files (the "Software"), to deal in the Software
 // without restriction, including without limitation the rights to use, copy, modify, merge,
 // publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons
 // to whom the Software is furnished to do so, subject to the following conditions:
-//
 // The above copyright notice and this permission notice shall be included in all copies or
 // substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
 // INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
 // PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
@@ -19,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -32,6 +30,7 @@ using ICSharpCode.Core;
 using ICSharpCode.Core.Presentation;
 using ICSharpCode.SharpDevelop;
 using ICSharpCode.SharpDevelop.Project;
+using Task = System.Threading.Tasks.Task;
 
 //// ReSharper disable once CheckNamespace - SD 5.0 Compatibility
 namespace MyLoadTest.VuGenAddInManager.Compatibility
@@ -94,19 +93,18 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         /// Call this method on asynchronous tasks if you do not care about the result, but do not want
         /// unhandled exceptions to go unnoticed.
         /// </summary>
-        public static void FireAndForget(this System.Threading.Tasks.Task task)
+        public static void FireAndForget(this Task task)
         {
             task.ContinueWith(
                 t =>
                 {
                     if (t.Exception != null)
                     {
-                        if (t.Exception.InnerExceptions.Count == 1)
-                            ICSharpCode.Core.MessageService.ShowException(t.Exception.InnerExceptions[0]);
-                        else
-                            ICSharpCode.Core.MessageService.ShowException(t.Exception);
+                        MessageService.ShowException(
+                            t.Exception.InnerExceptions.Count == 1 ? t.Exception.InnerExceptions[0] : t.Exception);
                     }
-                }, TaskContinuationOptions.OnlyOnFaulted);
+                },
+                TaskContinuationOptions.OnlyOnFaulted);
         }
 
         #endregion
@@ -142,12 +140,20 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         /// <summary>
         /// Obsolete. Please use a regular foreach loop instead. ForEach() is executed for its side-effects, and side-effects mix poorly with a functional programming style.
         /// </summary>
-        //[Obsolete("Please use a regular foreach loop instead. ForEach() is executed for its side-effects, and side-effects mix poorly with a functional programming style.")]
+        //// [Obsolete("Please use a regular foreach loop instead. ForEach() is executed for its side-effects, and side-effects mix poorly with a functional programming style.")]
         public static void ForEach<T>(this IEnumerable<T> input, Action<T> action)
         {
             if (input == null)
+            {
                 throw new ArgumentNullException("input");
-            foreach (T element in input)
+            }
+
+            if (action == null)
+            {
+                throw new ArgumentNullException("action");
+            }
+
+            foreach (var element in input)
             {
                 action(element);
             }
@@ -158,8 +164,10 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         /// </summary>
         public static void AddRange<T>(this ICollection<T> list, IEnumerable<T> elements)
         {
-            foreach (T o in elements)
+            foreach (var o in elements)
+            {
                 list.Add(o);
+            }
         }
 
         public static ReadOnlyCollection<T> AsReadOnly<T>(this IList<T> arr)
@@ -173,9 +181,9 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
             return new ReadOnlyCollectionWrapper<T>(arr);
         }
 
-        public static V GetOrDefault<K, V>(this IReadOnlyDictionary<K, V> dict, K key)
+        public static TValue GetOrDefault<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dict, TKey key)
         {
-            V ret;
+            TValue ret;
             dict.TryGetValue(key, out ret);
             return ret;
         }
@@ -190,7 +198,11 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         /// <returns>Returns the index of the element with the specified key.
         /// If no such element is found, this method returns a negative number that is the bitwise complement of the
         /// index where the element could be inserted while maintaining the order.</returns>
-        public static int BinarySearch<T, K>(this IList<T> list, K key, Func<T, K> keySelector, IComparer<K> keyComparer = null)
+        public static int BinarySearch<T, TKey>(
+            this IList<T> list,
+            TKey key,
+            Func<T, TKey> keySelector,
+            IComparer<TKey> keyComparer = null)
         {
             return BinarySearch(list, 0, list.Count, key, keySelector, keyComparer);
         }
@@ -207,21 +219,31 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         /// <returns>Returns the index of the element with the specified key.
         /// If no such element is found in the specified range, this method returns a negative number that is the bitwise complement of the
         /// index where the element could be inserted while maintaining the order.</returns>
-        public static int BinarySearch<T, K>(this IList<T> list, int index, int length, K key, Func<T, K> keySelector, IComparer<K> keyComparer = null)
+        public static int BinarySearch<T, TKey>(
+            this IList<T> list,
+            int index,
+            int length,
+            TKey key,
+            Func<T, TKey> keySelector,
+            IComparer<TKey> keyComparer = null)
         {
             if (keyComparer == null)
-                keyComparer = Comparer<K>.Default;
-            int low = index;
-            int high = index + length - 1;
+            {
+                keyComparer = Comparer<TKey>.Default;
+            }
+
+            var low = index;
+            var high = index + length - 1;
             while (low <= high)
             {
-                int mid = low + (high - low >> 1);
-                int r = keyComparer.Compare(keySelector(list[mid]), key);
+                var mid = low + (high - low >> 1);
+                var r = keyComparer.Compare(keySelector(list[mid]), key);
                 if (r == 0)
                 {
                     return mid;
                 }
-                else if (r < 0)
+
+                if (r < 0)
                 {
                     low = mid + 1;
                 }
@@ -230,6 +252,7 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
                     high = mid - 1;
                 }
             }
+
             return ~low;
         }
 
@@ -238,9 +261,12 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         /// </summary>
         public static void OrderedInsert<T>(this IList<T> list, T item, IComparer<T> comparer)
         {
-            int pos = BinarySearch(list, item, x => x, comparer);
+            var pos = BinarySearch(list, item, x => x, comparer);
             if (pos < 0)
+            {
                 pos = ~pos;
+            }
+
             list.Insert(pos, item);
         }
 
@@ -249,7 +275,7 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         /// </summary>
         public static IOrderedEnumerable<T> OrderBy<T>(this IEnumerable<T> input, IComparer<T> comparer)
         {
-            return Enumerable.OrderBy(input, e => e, comparer);
+            return input.OrderBy(e => e, comparer);
         }
 
         /////// <summary>
@@ -269,7 +295,10 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         public static T[] Splice<T>(this T[] array, int startIndex)
         {
             if (array == null)
+            {
                 throw new ArgumentNullException("array");
+            }
+
             return Splice(array, startIndex, array.Length - startIndex);
         }
 
@@ -279,20 +308,36 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         public static T[] Splice<T>(this T[] array, int startIndex, int length)
         {
             if (array == null)
+            {
                 throw new ArgumentNullException("array");
+            }
+
             if (startIndex < 0 || startIndex > array.Length)
-                throw new ArgumentOutOfRangeException("startIndex", startIndex, "Value must be between 0 and " + array.Length);
+            {
+                throw new ArgumentOutOfRangeException(
+                    "startIndex",
+                    startIndex,
+                    "Value must be between 0 and " + array.Length);
+            }
+
             if (length < 0 || length > array.Length - startIndex)
-                throw new ArgumentOutOfRangeException("length", length, "Value must be between 0 and " + (array.Length - startIndex));
-            T[] result = new T[length];
+            {
+                throw new ArgumentOutOfRangeException(
+                    "length",
+                    length,
+                    "Value must be between 0 and " + (array.Length - startIndex));
+            }
+
+            var result = new T[length];
             Array.Copy(array, startIndex, result, 0, length);
             return result;
         }
 
-        public static IEnumerable<T> DistinctBy<T, K>(this IEnumerable<T> source, Func<T, K> keySelector) where K : IEquatable<K>
+        public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> source, Func<T, TKey> keySelector)
+            where TKey : IEquatable<TKey>
         {
             // Don't just use .Distinct(KeyComparer.Create(keySelector)) - that would evaluate the keySelector multiple times.
-            var hashSet = new HashSet<K>();
+            var hashSet = new HashSet<TKey>();
             foreach (var element in source)
             {
                 if (hashSet.Add(keySelector(element)))
@@ -306,39 +351,52 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         /// Returns the minimum element.
         /// </summary>
         /// <exception cref="InvalidOperationException">The input sequence is empty</exception>
-        public static T MinBy<T, K>(this IEnumerable<T> source, Func<T, K> keySelector) where K : IComparable<K>
+        public static T MinBy<T, TKey>(this IEnumerable<T> source, Func<T, TKey> keySelector) where TKey : IComparable<TKey>
         {
-            return source.MinBy(keySelector, Comparer<K>.Default);
+            return source.MinBy(keySelector, Comparer<TKey>.Default);
         }
 
         /// <summary>
         /// Returns the minimum element.
         /// </summary>
         /// <exception cref="InvalidOperationException">The input sequence is empty</exception>
-        public static T MinBy<T, K>(this IEnumerable<T> source, Func<T, K> keySelector, IComparer<K> keyComparer)
+        public static T MinBy<T, TKey>(this IEnumerable<T> source, Func<T, TKey> keySelector, IComparer<TKey> keyComparer)
         {
             if (source == null)
+            {
                 throw new ArgumentNullException("source");
+            }
+
             if (keySelector == null)
+            {
                 throw new ArgumentNullException("keySelector");
+            }
+
             if (keyComparer == null)
-                keyComparer = Comparer<K>.Default;
+            {
+                keyComparer = Comparer<TKey>.Default;
+            }
+
             using (var enumerator = source.GetEnumerator())
             {
                 if (!enumerator.MoveNext())
+                {
                     throw new InvalidOperationException("Sequence contains no elements");
-                T minElement = enumerator.Current;
-                K minKey = keySelector(minElement);
+                }
+
+                var minElement = enumerator.Current;
+                var minKey = keySelector(minElement);
                 while (enumerator.MoveNext())
                 {
-                    T element = enumerator.Current;
-                    K key = keySelector(element);
+                    var element = enumerator.Current;
+                    var key = keySelector(element);
                     if (keyComparer.Compare(key, minKey) < 0)
                     {
                         minElement = element;
                         minKey = key;
                     }
                 }
+
                 return minElement;
             }
         }
@@ -347,39 +405,52 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         /// Returns the maximum element.
         /// </summary>
         /// <exception cref="InvalidOperationException">The input sequence is empty</exception>
-        public static T MaxBy<T, K>(this IEnumerable<T> source, Func<T, K> keySelector) where K : IComparable<K>
+        public static T MaxBy<T, TKey>(this IEnumerable<T> source, Func<T, TKey> keySelector) where TKey : IComparable<TKey>
         {
-            return source.MaxBy(keySelector, Comparer<K>.Default);
+            return source.MaxBy(keySelector, Comparer<TKey>.Default);
         }
 
         /// <summary>
         /// Returns the maximum element.
         /// </summary>
         /// <exception cref="InvalidOperationException">The input sequence is empty</exception>
-        public static T MaxBy<T, K>(this IEnumerable<T> source, Func<T, K> keySelector, IComparer<K> keyComparer)
+        public static T MaxBy<T, TKey>(this IEnumerable<T> source, Func<T, TKey> keySelector, IComparer<TKey> keyComparer)
         {
             if (source == null)
+            {
                 throw new ArgumentNullException("source");
+            }
+
             if (keySelector == null)
+            {
                 throw new ArgumentNullException("keySelector");
+            }
+
             if (keyComparer == null)
-                keyComparer = Comparer<K>.Default;
+            {
+                keyComparer = Comparer<TKey>.Default;
+            }
+
             using (var enumerator = source.GetEnumerator())
             {
                 if (!enumerator.MoveNext())
+                {
                     throw new InvalidOperationException("Sequence contains no elements");
-                T maxElement = enumerator.Current;
-                K maxKey = keySelector(maxElement);
+                }
+
+                var maxElement = enumerator.Current;
+                var maxKey = keySelector(maxElement);
                 while (enumerator.MoveNext())
                 {
-                    T element = enumerator.Current;
-                    K key = keySelector(element);
+                    var element = enumerator.Current;
+                    var key = keySelector(element);
                     if (keyComparer.Compare(key, maxKey) > 0)
                     {
                         maxElement = element;
                         maxKey = key;
                     }
                 }
+
                 return maxElement;
             }
         }
@@ -390,10 +461,12 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         /// </summary>
         public static int FindIndex<T>(this IList<T> list, Func<T, bool> predicate)
         {
-            for (int i = 0; i < list.Count; i++)
+            for (var i = 0; i < list.Count; i++)
             {
                 if (predicate(list[i]))
+                {
                     return i;
+                }
             }
 
             return -1;
@@ -405,10 +478,12 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         /// </summary>
         public static int FindIndex<T>(this IReadOnlyList<T> list, Func<T, bool> predicate)
         {
-            for (int i = 0; i < list.Count; i++)
+            for (var i = 0; i < list.Count; i++)
             {
                 if (predicate(list[i]))
+                {
                     return i;
+                }
             }
 
             return -1;
@@ -420,20 +495,29 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         public static void AddIfNotNull<T>(this IList<T> list, T itemToAdd) where T : class
         {
             if (itemToAdd != null)
+            {
                 list.Add(itemToAdd);
+            }
         }
 
         public static void RemoveAll<T>(this IList<T> list, Predicate<T> condition)
         {
             if (list == null)
+            {
                 throw new ArgumentNullException("list");
-            int i = 0;
+            }
+
+            var i = 0;
             while (i < list.Count)
             {
                 if (condition(list[i]))
+                {
                     list.RemoveAt(i);
+                }
                 else
+                {
                     i++;
+                }
             }
         }
 
@@ -688,37 +772,37 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
 
         public static Rect TransformToDevice(this Rect rect, Visual visual)
         {
-            Matrix matrix = PresentationSource.FromVisual(visual).CompositionTarget.TransformToDevice;
+            var matrix = PresentationSource.FromVisual(visual).CompositionTarget.TransformToDevice;
             return Rect.Transform(rect, matrix);
         }
 
         public static Rect TransformFromDevice(this Rect rect, Visual visual)
         {
-            Matrix matrix = PresentationSource.FromVisual(visual).CompositionTarget.TransformFromDevice;
+            var matrix = PresentationSource.FromVisual(visual).CompositionTarget.TransformFromDevice;
             return Rect.Transform(rect, matrix);
         }
 
         public static Size TransformToDevice(this Size size, Visual visual)
         {
-            Matrix matrix = PresentationSource.FromVisual(visual).CompositionTarget.TransformToDevice;
+            var matrix = PresentationSource.FromVisual(visual).CompositionTarget.TransformToDevice;
             return new Size(size.Width * matrix.M11, size.Height * matrix.M22);
         }
 
         public static Size TransformFromDevice(this Size size, Visual visual)
         {
-            Matrix matrix = PresentationSource.FromVisual(visual).CompositionTarget.TransformFromDevice;
+            var matrix = PresentationSource.FromVisual(visual).CompositionTarget.TransformFromDevice;
             return new Size(size.Width * matrix.M11, size.Height * matrix.M22);
         }
 
         public static Point TransformToDevice(this Point point, Visual visual)
         {
-            Matrix matrix = PresentationSource.FromVisual(visual).CompositionTarget.TransformToDevice;
+            var matrix = PresentationSource.FromVisual(visual).CompositionTarget.TransformToDevice;
             return matrix.Transform(point);
         }
 
         public static Point TransformFromDevice(this Point point, Visual visual)
         {
-            Matrix matrix = PresentationSource.FromVisual(visual).CompositionTarget.TransformFromDevice;
+            var matrix = PresentationSource.FromVisual(visual).CompositionTarget.TransformFromDevice;
             return matrix.Transform(point);
         }
 
@@ -733,11 +817,20 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         public static string RemoveFromStart(this string s, string stringToRemove)
         {
             if (s == null)
+            {
                 return null;
+            }
+
             if (string.IsNullOrEmpty(stringToRemove))
+            {
                 return s;
+            }
+
             if (!s.StartsWith(stringToRemove))
+            {
                 throw new ArgumentException(string.Format("{0} does not start with {1}", s, stringToRemove));
+            }
+
             return s.Substring(stringToRemove.Length);
         }
 
@@ -748,11 +841,20 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         public static string RemoveFromEnd(this string s, string stringToRemove)
         {
             if (s == null)
+            {
                 return null;
+            }
+
             if (string.IsNullOrEmpty(stringToRemove))
+            {
                 return s;
+            }
+
             if (!s.EndsWith(stringToRemove))
+            {
                 throw new ArgumentException(string.Format("{0} does not end with {1}", s, stringToRemove));
+            }
+
             return s.Substring(0, s.Length - stringToRemove.Length);
         }
 
@@ -763,16 +865,12 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         public static string CutoffEnd(this string s, string cutoffStart)
         {
             if (s == null)
+            {
                 return null;
-            int pos = s.IndexOf(cutoffStart);
-            if (pos != -1)
-            {
-                return s.Substring(0, pos);
             }
-            else
-            {
-                return s;
-            }
+
+            var pos = s.IndexOf(cutoffStart, StringComparison.Ordinal);
+            return pos >= 0 ? s.Substring(0, pos) : s;
         }
 
         /// <summary>
@@ -782,7 +880,10 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         public static string TakeStart(this string s, int length)
         {
             if (string.IsNullOrEmpty(s) || length >= s.Length)
+            {
                 return s;
+            }
+
             return s.Substring(0, length);
         }
 
@@ -793,7 +894,10 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         public static string TakeStartEllipsis(this string s, int length)
         {
             if (string.IsNullOrEmpty(s) || length >= s.Length)
+            {
                 return s;
+            }
+
             return s.Substring(0, length) + "...";
         }
 
@@ -803,29 +907,48 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         public static string RemoveAny(this string s, params char[] chars)
         {
             if (string.IsNullOrEmpty(s))
-                return s;
-            var b = new StringBuilder(s);
-            foreach (char ch in chars)
             {
-                b.Replace(ch.ToString(), "");
+                return s;
             }
+
+            var b = new StringBuilder(s);
+            foreach (var ch in chars)
+            {
+                b.Replace(ch.ToString(CultureInfo.InvariantCulture), string.Empty);
+            }
+
             return b.ToString();
         }
 
-        public static string Replace(this string original, string pattern, string replacement, StringComparison comparisonType)
+        public static string Replace(
+            this string original,
+            string pattern,
+            string replacement,
+            StringComparison comparisonType)
         {
             if (original == null)
+            {
                 throw new ArgumentNullException("original");
-            if (pattern == null)
-                throw new ArgumentNullException("pattern");
-            if (pattern.Length == 0)
-                throw new ArgumentException("String cannot be of zero length.", "pattern");
-            if (comparisonType != StringComparison.Ordinal && comparisonType != StringComparison.OrdinalIgnoreCase)
-                throw new NotSupportedException("Currently only ordinal comparisons are implemented.");
+            }
 
-            StringBuilder result = new StringBuilder(original.Length);
-            int currentPos = 0;
-            int nextMatch = original.IndexOf(pattern, comparisonType);
+            if (pattern == null)
+            {
+                throw new ArgumentNullException("pattern");
+            }
+
+            if (pattern.Length == 0)
+            {
+                throw new ArgumentException("String cannot be of zero length.", "pattern");
+            }
+
+            if (comparisonType != StringComparison.Ordinal && comparisonType != StringComparison.OrdinalIgnoreCase)
+            {
+                throw new NotSupportedException("Currently only ordinal comparisons are implemented.");
+            }
+
+            var result = new StringBuilder(original.Length);
+            var currentPos = 0;
+            var nextMatch = original.IndexOf(pattern, comparisonType);
             while (nextMatch >= 0)
             {
                 result.Append(original, currentPos, nextMatch - currentPos);
@@ -844,58 +967,78 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
 
         public static byte[] GetBytesWithPreamble(this Encoding encoding, string text)
         {
-            byte[] encodedText = encoding.GetBytes(text);
-            byte[] bom = encoding.GetPreamble();
+            var encodedText = encoding.GetBytes(text);
+            var bom = encoding.GetPreamble();
             if (bom != null && bom.Length > 0)
             {
-                byte[] result = new byte[bom.Length + encodedText.Length];
+                var result = new byte[bom.Length + encodedText.Length];
                 bom.CopyTo(result, 0);
                 encodedText.CopyTo(result, bom.Length);
                 return result;
             }
-            else
-            {
-                return encodedText;
-            }
+
+            return encodedText;
         }
 
-        public static int IndexOfAny(this string haystack, IEnumerable<string> needles, int startIndex, out int matchLength)
+        public static int IndexOfAny(
+            this string haystack,
+            IEnumerable<string> needles,
+            int startIndex,
+            out int matchLength)
         {
             if (haystack == null)
+            {
                 throw new ArgumentNullException("haystack");
+            }
+
             if (needles == null)
+            {
                 throw new ArgumentNullException("needles");
-            int index = -1;
+            }
+
+            var index = -1;
             matchLength = 0;
             foreach (var needle in needles)
             {
-                int i = haystack.IndexOf(needle, startIndex, StringComparison.Ordinal);
+                var i = haystack.IndexOf(needle, startIndex, StringComparison.Ordinal);
                 if (i != -1 && (index == -1 || index > i))
                 {
                     index = i;
                     matchLength = needle.Length;
                 }
             }
+
             return index;
         }
 
-        public static bool ContainsAny(this string haystack, IEnumerable<string> needles, int startIndex, out string match)
+        public static bool ContainsAny(
+            this string haystack,
+            IEnumerable<string> needles,
+            int startIndex,
+            out string match)
         {
             if (haystack == null)
+            {
                 throw new ArgumentNullException("haystack");
+            }
+
             if (needles == null)
+            {
                 throw new ArgumentNullException("needles");
-            int index = -1;
+            }
+
+            var index = -1;
             match = null;
             foreach (var needle in needles)
             {
-                int i = haystack.IndexOf(needle, startIndex, StringComparison.Ordinal);
+                var i = haystack.IndexOf(needle, startIndex, StringComparison.Ordinal);
                 if (i != -1 && (index == -1 || index > i))
                 {
                     index = i;
                     match = needle;
                 }
             }
+
             return index > -1;
         }
 
@@ -910,18 +1053,19 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         {
             unchecked
             {
-                int h = 0;
-                foreach (char c in text)
+                var h = 0;
+                foreach (var c in text)
                 {
                     h = (h << 5) - h + c;
                 }
+
                 return h;
             }
         }
 
-        public static async System.Threading.Tasks.Task CopyToAsync(this TextReader reader, TextWriter writer)
+        public static async Task CopyToAsync(this TextReader reader, TextWriter writer)
         {
-            char[] buffer = new char[2048];
+            var buffer = new char[2048];
             int read;
             while ((read = await reader.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) > 0)
             {
@@ -957,9 +1101,12 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         /// </summary>
         public static object GetRequiredService(this IServiceProvider provider, Type serviceType)
         {
-            object service = provider.GetService(serviceType);
+            var service = provider.GetService(serviceType);
             if (service == null)
+            {
                 throw new ServiceNotFoundException(serviceType);
+            }
+
             return service;
         }
 
@@ -974,9 +1121,15 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         public static IImage GetImage(this IResourceService resourceService, string resourceName)
         {
             if (resourceService == null)
+            {
                 throw new ArgumentNullException("resourceService");
+            }
+
             if (resourceName == null)
+            {
                 throw new ArgumentNullException("resourceName");
+            }
+
             ////return new ResourceServiceImage(resourceService, resourceName);
             return new ResourceServiceImage(resourceName);
         }
@@ -988,9 +1141,15 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         public static ImageSource GetImageSource(this IResourceService resourceService, string resourceName)
         {
             if (resourceService == null)
+            {
                 throw new ArgumentNullException("resourceService");
+            }
+
             if (resourceName == null)
+            {
                 throw new ArgumentNullException("resourceName");
+            }
+
             return PresentationResourceService.GetBitmapSource(resourceName);
         }
 
@@ -1000,7 +1159,10 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         public static Image CreateImage(this IImage image)
         {
             if (image == null)
+            {
                 throw new ArgumentNullException("image");
+            }
+
             return new Image { Source = image.ImageSource };
         }
 
@@ -1010,8 +1172,8 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
 
         public static XElement FormatXml(this XElement element, int indentationLevel)
         {
-            StringWriter sw = new StringWriter();
-            using (XmlTextWriter xmlW = new XmlTextWriter(sw))
+            var sw = new StringWriter();
+            using (var xmlW = new XmlTextWriter(sw))
             {
                 if (SD.EditorControlService.GlobalOptions.ConvertTabsToSpaces)
                 {
@@ -1023,38 +1185,43 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
                     xmlW.Indentation = 1;
                     xmlW.IndentChar = '\t';
                 }
+
                 xmlW.Formatting = Formatting.Indented;
                 element.WriteTo(xmlW);
             }
-            string xmlText = sw.ToString();
+
+            var xmlText = sw.ToString();
             xmlText = xmlText.Replace(sw.NewLine, sw.NewLine + GetIndentation(indentationLevel));
             return XElement.Parse(xmlText, LoadOptions.PreserveWhitespace);
         }
 
         private static string GetIndentation(int level)
         {
-            StringBuilder indentation = new StringBuilder();
-            for (int i = 0; i < level; i++)
+            var indentation = new StringBuilder();
+            for (var i = 0; i < level; i++)
             {
                 indentation.Append(SD.EditorControlService.GlobalOptions.IndentationString);
             }
+
             return indentation.ToString();
         }
 
         public static XElement AddWithIndentation(this XElement element, XElement newContent)
         {
-            int indentationLevel = 0;
-            XElement tmp = element;
+            var indentationLevel = 0;
+            var tmp = element;
             while (tmp != null)
             {
                 tmp = tmp.Parent;
                 indentationLevel++;
             }
+
             if (!element.Nodes().Any())
             {
                 element.Add(new XText(Environment.NewLine + GetIndentation(indentationLevel - 1)));
             }
-            XText whitespace = element.Nodes().Last() as XText;
+
+            var whitespace = element.Nodes().Last() as XText;
             if (whitespace != null && string.IsNullOrWhiteSpace(whitespace.Value))
             {
                 whitespace.AddBeforeSelf(new XText(Environment.NewLine + GetIndentation(indentationLevel)));
@@ -1065,26 +1232,29 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
                 element.Add(new XText(Environment.NewLine + GetIndentation(indentationLevel)));
                 element.Add(newContent = FormatXml(newContent, indentationLevel));
             }
+
             return newContent;
         }
 
         public static XElement AddFirstWithIndentation(this XElement element, XElement newContent)
         {
-            int indentationLevel = 0;
-            StringBuilder indentation = new StringBuilder();
-            XElement tmp = element;
+            var indentationLevel = 0;
+            var indentation = new StringBuilder();
+            var tmp = element;
             while (tmp != null)
             {
                 tmp = tmp.Parent;
                 indentationLevel++;
                 indentation.Append(SD.EditorControlService.GlobalOptions.IndentationString);
             }
+
             if (!element.Nodes().Any())
             {
                 element.Add(new XText(Environment.NewLine + GetIndentation(indentationLevel - 1)));
             }
+
             element.AddFirst(newContent = FormatXml(newContent, indentationLevel));
-            element.AddFirst(new XText(Environment.NewLine + indentation.ToString()));
+            element.AddFirst(new XText(Environment.NewLine + indentation));
             return newContent;
         }
 
@@ -1131,13 +1301,15 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         /// </summary>
         public static bool IsPlatformTarget32BitOrAnyCPU(this IProject project)
         {
-            MSBuildBasedProject msbuildProject = project as MSBuildBasedProject;
+            var msbuildProject = project as MSBuildBasedProject;
             if (msbuildProject != null)
             {
-                string platformTarget = msbuildProject.GetEvaluatedProperty("PlatformTarget");
-                return string.IsNullOrEmpty(platformTarget) || String.Equals(platformTarget, "x86", StringComparison.OrdinalIgnoreCase)
-                    || String.Equals(platformTarget, "AnyCPU", StringComparison.OrdinalIgnoreCase);
+                var platformTarget = msbuildProject.GetEvaluatedProperty("PlatformTarget");
+                return string.IsNullOrEmpty(platformTarget)
+                    || string.Equals(platformTarget, "x86", StringComparison.OrdinalIgnoreCase)
+                    || string.Equals(platformTarget, "AnyCPU", StringComparison.OrdinalIgnoreCase);
             }
+
             return false;
         }
 

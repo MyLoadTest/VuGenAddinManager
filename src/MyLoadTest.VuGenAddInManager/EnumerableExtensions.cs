@@ -22,6 +22,7 @@ namespace MyLoadTest.VuGenAddInManager
     public static class EnumerableExtensions
     {
         public static IEnumerable<T> DistinctLast<T>(this IEnumerable<T> source, IEqualityComparer<T> comparer)
+            where T : class
         {
             var previousItem = default(T);
 

@@ -73,7 +73,7 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         Font LoadFont(string fontName, int size, FontStyle style = FontStyle.Regular);
 
         /// <summary>
-        /// The main window as IWin32Window.
+        /// Gets the main window as IWin32Window.
         /// </summary>
         IWin32Window MainWin32Window { get; }
 
@@ -134,14 +134,14 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         /// Creates a new SDWindowsFormsHost instance.
         /// </summary>
         /// <param name="serviceProvider">The service provider that provides the IClipboardHandler, IUndoHandler etc. implementations.</param>
-        /// <param name="processShortcutsInWPF">
+        /// <param name="processShortcutsInWpf">
         /// Determines whether the shortcuts for the default actions (Cut,Copy,Paste,Undo, etc.)
         /// are processed by the WPF command system.
         /// The default value is false. Pass true only if WinForms does not handle those shortcuts by itself.
         /// See SD-1671 and SD-1737.
         /// </param>
         /// <returns>SDWindowsFormsHost instance</returns>
-        CustomWindowsFormsHost CreateWindowsFormsHost(IServiceProvider serviceProvider = null, bool processShortcutsInWPF = false);
+        CustomWindowsFormsHost CreateWindowsFormsHost(IServiceProvider serviceProvider = null, bool processShortcutsInWpf = false);
 
         /// <summary>
         /// Provides access to <see cref="System.Windows.Input.CommandManager.RequerySuggested"/> from Windows Forms-based AddIns.

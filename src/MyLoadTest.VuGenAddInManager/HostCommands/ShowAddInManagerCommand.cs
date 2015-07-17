@@ -18,41 +18,18 @@
 
 using System;
 using System.Linq;
-using MyLoadTest.VuGenAddInManager.Compatibility;
+using ICSharpCode.SharpDevelop;
 using MyLoadTest.VuGenAddInManager.View;
 
-namespace MyLoadTest.VuGenAddInManager
+namespace MyLoadTest.VuGenAddInManager.HostCommands
 {
-    public class ShowAddInManagerCommand : SimpleCommand
+    public sealed class ShowAddInManagerCommand : SimpleCommand
     {
         public override void Execute(object parameter)
         {
-            // Open AddInManager2 main dialog
-            using (AddInManagerView view = AddInManagerView.Create())
+            using (var view = AddInManagerView.Create())
             {
                 view.ShowDialog();
-            }
-        }
-    }
-
-    public class AddInManagerInitializationCommand : SimpleCommand
-    {
-        public override void Execute(object parameter)
-        {
-            // Remove all unreferenced NuGet packages
-            AddInManagerServices.Setup.RemoveUnreferencedNuGetPackages();
-        }
-    }
-
-    public class AddInManagerVisualInitializationCommand : SimpleCommand
-    {
-        public override void Execute(object parameter)
-        {
-            if (AddInManagerServices.Settings.AutoSearchForUpdates)
-            {
-                // Initialize UpdateNotifier and let it check for available updates
-                UpdateNotifier updateNotifier = new UpdateNotifier();
-                updateNotifier.StartUpdateLookup();
             }
         }
     }

@@ -1,14 +1,11 @@
 ﻿// Copyright (c) 2014 AlphaSierraPapa for the SharpDevelop Team
-//
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this
 // software and associated documentation files (the "Software"), to deal in the Software
 // without restriction, including without limitation the rights to use, copy, modify, merge,
 // publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons
 // to whom the Software is furnished to do so, subject to the following conditions:
-//
 // The above copyright notice and this permission notice shall be included in all copies or
 // substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
 // INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
 // PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
@@ -29,12 +26,8 @@ namespace MyLoadTest.VuGenAddInManager.Model
     /// <summary>
     /// Implementation of a thin interface to SharpDevelop's AddIn management.
     /// </summary>
-    public class SDAddInManagement : ISDAddInManagement
+    public sealed class SDAddInManagement : ISDAddInManagement
     {
-        public SDAddInManagement()
-        {
-        }
-
         public IReadOnlyList<AddIn> AddIns
         {
             get
@@ -47,7 +40,7 @@ namespace MyLoadTest.VuGenAddInManager.Model
         {
             get
             {
-                return ICSharpCode.Core.AddInManager.AddInInstallTemp;
+                return AddInManager.AddInInstallTemp;
             }
         }
 
@@ -55,7 +48,7 @@ namespace MyLoadTest.VuGenAddInManager.Model
         {
             get
             {
-                return ICSharpCode.Core.AddInManager.UserAddInPath;
+                return AddInManager.UserAddInPath;
             }
         }
 
@@ -83,7 +76,7 @@ namespace MyLoadTest.VuGenAddInManager.Model
             SD.Log.DebugFormatted(
                 "[AddInManager2.SD] Aborting removal of AddIn {0}", identity);
 
-            ICSharpCode.Core.AddInManager.AbortRemoveUserAddInOnNextStart(identity);
+            AddInManager.AbortRemoveUserAddInOnNextStart(identity);
         }
 
         public void Enable(IList<AddIn> addIns)
@@ -91,7 +84,7 @@ namespace MyLoadTest.VuGenAddInManager.Model
             SD.Log.DebugFormatted(
                 "[AddInManager2.SD] Enabling AddIn {0}", addIns[0].Name);
 
-            ICSharpCode.Core.AddInManager.Enable(addIns);
+            AddInManager.Enable(addIns);
         }
 
         public void Disable(IList<AddIn> addIns)
@@ -99,7 +92,7 @@ namespace MyLoadTest.VuGenAddInManager.Model
             SD.Log.DebugFormatted(
                 "[AddInManager2.SD] Disabling AddIn {0}", addIns[0].Name);
 
-            ICSharpCode.Core.AddInManager.Disable(addIns);
+            AddInManager.Disable(addIns);
         }
 
         public void RemoveExternalAddIns(IList<AddIn> addIns)
@@ -107,7 +100,7 @@ namespace MyLoadTest.VuGenAddInManager.Model
             SD.Log.DebugFormatted(
                 "[AddInManager2.SD] Removing external AddIn {0}", addIns[0]);
 
-            ICSharpCode.Core.AddInManager.RemoveExternalAddIns(addIns);
+            AddInManager.RemoveExternalAddIns(addIns);
         }
 
         public void RemoveUserAddInOnNextStart(string identity)
@@ -115,7 +108,7 @@ namespace MyLoadTest.VuGenAddInManager.Model
             SD.Log.DebugFormatted(
                 "[AddInManager2.SD] Marking AddIn {0} for removal", identity);
 
-            ICSharpCode.Core.AddInManager.RemoveUserAddInOnNextStart(identity);
+            AddInManager.RemoveUserAddInOnNextStart(identity);
         }
 
         public AddIn Load(TextReader textReader)
@@ -138,7 +131,7 @@ namespace MyLoadTest.VuGenAddInManager.Model
             SD.Log.DebugFormatted(
                 "[AddInManager2.SD] Adding external AddIn {0}", addIns[0].Name);
 
-            ICSharpCode.Core.AddInManager.AddExternalAddIns(addIns);
+            AddInManager.AddExternalAddIns(addIns);
         }
 
         public bool IsAddInManifestInExternalPath(AddIn addIn)

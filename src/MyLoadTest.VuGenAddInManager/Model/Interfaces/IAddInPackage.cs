@@ -1,14 +1,14 @@
 ﻿// Copyright (c) 2014 AlphaSierraPapa for the SharpDevelop Team
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this
 // software and associated documentation files (the "Software"), to deal in the Software
 // without restriction, including without limitation the rights to use, copy, modify, merge,
 // publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons
 // to whom the Software is furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all copies or
 // substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
 // INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
 // PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
@@ -22,124 +22,124 @@ using System.Linq;
 
 namespace MyLoadTest.VuGenAddInManager.Model.Interfaces
 {
-	/// <summary>
-	/// Describes an AddIn package entry in AddInManager.
-	/// </summary>
-	public interface IAddInPackage
-	{	
-		string Name
-		{
-			get;
-		}
-		
-		bool HasLicenseUrl
-		{
-			get;
-		}
+    /// <summary>
+    /// Describes an AddIn package entry in AddInManager.
+    /// </summary>
+    public interface IAddInPackage
+    {
+        string Name
+        {
+            get;
+        }
 
-		Uri LicenseUrl
-		{
-			get;
-		}
+        bool HasLicenseUrl
+        {
+            get;
+        }
 
-		bool HasProjectUrl
-		{
-			get;
-		}
+        Uri LicenseUrl
+        {
+            get;
+        }
 
-		Uri ProjectUrl
-		{
-			get;
-		}
+        bool HasProjectUrl
+        {
+            get;
+        }
 
-		bool HasReportAbuseUrl
-		{
-			get;
-		}
+        Uri ProjectUrl
+        {
+            get;
+        }
 
-		Uri ReportAbuseUrl
-		{
-			get;
-		}
+        bool HasReportAbuseUrl
+        {
+            get;
+        }
 
-		bool IsAdded
-		{
-			get;
-		}
+        Uri ReportAbuseUrl
+        {
+            get;
+        }
 
-		IEnumerable<AddInDependency> Dependencies
-		{
-			get;
-		}
+        bool IsAdded
+        {
+            get;
+        }
 
-		bool HasDependencies
-		{
-			get;
-		}
+        IEnumerable<AddInDependency> Dependencies
+        {
+            get;
+        }
 
-		bool HasNoDependencies
-		{
-			get;
-		}
+        bool HasDependencies
+        {
+            get;
+        }
 
-		IEnumerable<string> Authors
-		{
-			get;
-		}
+        bool HasNoDependencies
+        {
+            get;
+        }
 
-		bool HasDownloadCount
-		{
-			get;
-		}
+        IEnumerable<string> Authors
+        {
+            get;
+        }
 
-		string Id
-		{
-			get;
-		}
+        bool HasDownloadCount
+        {
+            get;
+        }
 
-		Uri IconUrl
-		{
-			get;
-		}
+        string Id
+        {
+            get;
+        }
 
-		string Summary
-		{
-			get;
-		}
+        Uri IconUrl
+        {
+            get;
+        }
 
-		Version Version
-		{
-			get;
-		}
+        string Summary
+        {
+            get;
+        }
 
-		int DownloadCount
-		{
-			get;
-		}
+        Version Version
+        {
+            get;
+        }
 
-		string Description
-		{
-			get;
-		}
+        int DownloadCount
+        {
+            get;
+        }
 
-		DateTime? LastUpdated
-		{
-			get;
-		}
+        string Description
+        {
+            get;
+        }
 
-		bool HasLastUpdated
-		{
-			get;
-		}
-		
-		bool HasVersion
-		{
-			get;
-		}
+        DateTime? LastUpdated
+        {
+            get;
+        }
 
-		bool IsManaged
-		{
-			get;
-		}
-	}
+        bool HasLastUpdated
+        {
+            get;
+        }
+
+        bool HasVersion
+        {
+            get;
+        }
+
+        bool IsManaged
+        {
+            get;
+        }
+    }
 }

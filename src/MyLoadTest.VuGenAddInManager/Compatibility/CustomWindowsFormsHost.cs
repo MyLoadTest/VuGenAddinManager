@@ -1,14 +1,11 @@
 ﻿// Copyright (c) 2014 AlphaSierraPapa for the SharpDevelop Team
-//
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this
 // software and associated documentation files (the "Software"), to deal in the Software
 // without restriction, including without limitation the rights to use, copy, modify, merge,
 // publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons
 // to whom the Software is furnished to do so, subject to the following conditions:
-//
 // The above copyright notice and this permission notice shall be included in all copies or
 // substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
 // INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
 // PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
@@ -39,22 +36,21 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
     public class CustomWindowsFormsHost : HwndHost
     {
         // Interactions of the MS WinFormsHost:
-        //   IME
-        //   Font sync
-        //   Property sync
-        //   Background sync (rendering bitmaps!)
-        //   Access keys
-        //   Tab Navigation
-        //   Save/Restore focus for app switch
-        //   Size feedback (WinForms control tells WPF desired size)
-        //   Focus enter/leave - validation events
-        //   ...
+        // IME
+        // Font sync
+        // Property sync
+        // Background sync (rendering bitmaps!)
+        // Access keys
+        // Tab Navigation
+        // Save/Restore focus for app switch
+        // Size feedback (WinForms control tells WPF desired size)
+        // Focus enter/leave - validation events
+        // ...
 
         // We don't need most of that.
 
-        // Bugs in our implementation:
-        //  - Slight background color mismatch in project options
-
+        //// Bugs in our implementation:
+        ////  - Slight background color mismatch in project options
         private static class Win32
         {
             [DllImport("user32.dll")]
@@ -75,42 +71,45 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
 
         private sealed class HostNativeWindow : NativeWindow
         {
-            private readonly CustomWindowsFormsHost host;
+            private readonly CustomWindowsFormsHost _host;
 
             public HostNativeWindow(CustomWindowsFormsHost host)
             {
-                this.host = host;
+                this._host = host;
             }
 
             protected override void WndProc(ref Message m)
             {
+                //// ReSharper disable once InconsistentNaming - WinApi constant
                 const int WM_ACTIVATEAPP = 0x1C;
+
                 if (m.Msg == WM_ACTIVATEAPP)
                 {
                     if (m.WParam == IntPtr.Zero)
                     {
                         // The window is being deactivated:
                         // If a WinForms control within this host has focus, remember it.
-                        IntPtr focus = Win32.GetFocus();
-                        if (focus == host.Handle || Win32.IsChild(host.Handle, focus))
+                        var focus = Win32.GetFocus();
+                        if (focus == _host.Handle || Win32.IsChild(_host.Handle, focus))
                         {
-                            host.RememberActiveControl();
-                            host.Log("Window deactivated; RememberActiveControl(): " + host.savedActiveControl);
+                            _host.RememberActiveControl();
+                            _host.Log("Window deactivated; RememberActiveControl(): " + _host._savedActiveControl);
                         }
                         else
                         {
-                            host.Log("Window deactivated; but focus not within WinForms");
+                            _host.Log("Window deactivated; but focus not within WinForms");
                         }
                     }
                     else
                     {
                         // The window is being activated.
-                        host.Log("Window activated");
-                        host.Dispatcher.BeginInvoke(
+                        _host.Log("Window activated");
+                        _host.Dispatcher.BeginInvoke(
                             DispatcherPriority.Normal,
-                            new Action(host.RestoreActiveControl));
+                            new Action(_host.RestoreActiveControl));
                     }
                 }
+
                 base.WndProc(ref m);
             }
 
@@ -120,21 +119,21 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
             }
         }
 
-        private HostNativeWindow hostNativeWindow;
-        private Control savedActiveControl;
+        private HostNativeWindow _hostNativeWindow;
+        private Control _savedActiveControl;
 
         private void RememberActiveControl()
         {
-            savedActiveControl = container.ActiveControl;
+            _savedActiveControl = _container.ActiveControl;
         }
 
         private void RestoreActiveControl()
         {
-            if (savedActiveControl != null)
+            if (_savedActiveControl != null)
             {
-                Log("RestoreActiveControl(): " + savedActiveControl);
-                savedActiveControl.Focus();
-                savedActiveControl = null;
+                Log("RestoreActiveControl(): " + _savedActiveControl);
+                _savedActiveControl.Focus();
+                _savedActiveControl = null;
             }
         }
 
@@ -144,29 +143,46 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
 
         private sealed class HostedControlContainer : ContainerControl
         {
-            private Control child;
+            private Control _child;
 
             protected override void OnHandleCreated(EventArgs e)
             {
-                base.OnHandleCreated(e);
+                //// ReSharper disable once InconsistentNaming - WinApi constant
                 const int WM_UPDATEUISTATE = 0x0128;
+
+                //// ReSharper disable once InconsistentNaming - WinApi constant
                 const int UISF_HIDEACCEL = 2;
+
+                //// ReSharper disable once InconsistentNaming - WinApi constant
                 const int UISF_HIDEFOCUS = 1;
+
+                //// ReSharper disable once InconsistentNaming - WinApi constant
                 const int UIS_SET = 1;
-                Win32.SendMessage(this.Handle, WM_UPDATEUISTATE, new IntPtr(UISF_HIDEACCEL | UISF_HIDEFOCUS | (UIS_SET << 16)), IntPtr.Zero);
+
+                base.OnHandleCreated(e);
+
+                Win32.SendMessage(
+                    this.Handle,
+                    WM_UPDATEUISTATE,
+                    new IntPtr(UISF_HIDEACCEL | UISF_HIDEFOCUS | (UIS_SET << 16)),
+                    IntPtr.Zero);
             }
 
             public Control Child
             {
-                get { return child; }
+                get
+                {
+                    return _child;
+                }
 
                 set
                 {
-                    if (child != null)
+                    if (_child != null)
                     {
-                        this.Controls.Remove(child);
+                        this.Controls.Remove(_child);
                     }
-                    child = value;
+
+                    _child = value;
                     if (value != null)
                     {
                         value.Dock = DockStyle.Fill;
@@ -178,7 +194,7 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
 
         #endregion
 
-        private readonly HostedControlContainer container;
+        private readonly HostedControlContainer _container;
 
         #region Constructors
 
@@ -187,7 +203,7 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         /// </summary>
         public CustomWindowsFormsHost()
         {
-            this.container = new HostedControlContainer();
+            this._container = new HostedControlContainer();
             Init();
         }
 
@@ -197,8 +213,9 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         /// </summary>
         public CustomWindowsFormsHost(AppDomain childDomain)
         {
-            Type type = typeof(HostedControlContainer);
-            this.container = (HostedControlContainer)childDomain.CreateInstanceAndUnwrap(type.Assembly.FullName, type.FullName);
+            var type = typeof(HostedControlContainer);
+            this._container =
+                (HostedControlContainer)childDomain.CreateInstanceAndUnwrap(type.Assembly.FullName, type.FullName);
             Init();
         }
 
@@ -214,20 +231,22 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         {
             Log("OnLoaded()");
             SetFont();
-            if (hwndParent.Handle != IntPtr.Zero && hostNativeWindow != null)
+            if (_hwndParent.Handle != IntPtr.Zero && _hostNativeWindow != null)
             {
-                if (hostNativeWindow.Handle == IntPtr.Zero)
-                    hostNativeWindow.AssignHandle(hwndParent.Handle);
+                if (_hostNativeWindow.Handle == IntPtr.Zero)
+                {
+                    _hostNativeWindow.AssignHandle(_hwndParent.Handle);
+                }
             }
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
             Log("OnUnloaded()");
-            if (hostNativeWindow != null)
+            if (_hostNativeWindow != null)
             {
-                savedActiveControl = null;
-                hostNativeWindow.ReleaseHandle();
+                _savedActiveControl = null;
+                _hostNativeWindow.ReleaseHandle();
             }
         }
 
@@ -244,23 +263,37 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
             }
         }
 
-        public bool EnableFontInheritance { get; set; }
+        public bool EnableFontInheritance
+        {
+            get;
+            set;
+        }
 
         private void SetFont()
         {
             if (!EnableFontInheritance)
+            {
                 return;
-            string fontFamily = TextBlock.GetFontFamily(this).Source;
-            float fontSize = (float)(TextBlock.GetFontSize(this) * (72.0 / 96.0));
-            container.Font = new System.Drawing.Font(fontFamily, fontSize, System.Drawing.FontStyle.Regular);
+            }
+
+            var fontFamily = TextBlock.GetFontFamily(this).Source;
+            var fontSize = (float)(TextBlock.GetFontSize(this) * (72.0 / 96.0));
+            _container.Font = new System.Drawing.Font(fontFamily, fontSize, System.Drawing.FontStyle.Regular);
         }
 
         #endregion
 
         public Control Child
         {
-            get { return container.Child; }
-            set { container.Child = value; }
+            get
+            {
+                return _container.Child;
+            }
+
+            set
+            {
+                _container.Child = value;
+            }
         }
 
         protected override Size MeasureOverride(Size constraint)
@@ -270,37 +303,38 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            container.Size = new System.Drawing.Size((int)finalSize.Width, (int)finalSize.Height);
+            _container.Size = new System.Drawing.Size((int)finalSize.Width, (int)finalSize.Height);
             return finalSize;
         }
 
-        private HandleRef hwndParent;
+        private HandleRef _hwndParent;
 
         protected override HandleRef BuildWindowCore(HandleRef hwndParent)
         {
             Log("BuildWindowCore");
-            if (hostNativeWindow != null)
+            if (_hostNativeWindow != null)
             {
-                hostNativeWindow.ReleaseHandle();
+                _hostNativeWindow.ReleaseHandle();
             }
             else
             {
-                hostNativeWindow = new CustomWindowsFormsHost.HostNativeWindow(this);
+                _hostNativeWindow = new HostNativeWindow(this);
             }
-            this.hwndParent = hwndParent;
-            hostNativeWindow.AssignHandle(hwndParent.Handle);
 
-            IntPtr childHandle = container.Handle;
+            this._hwndParent = hwndParent;
+            _hostNativeWindow.AssignHandle(hwndParent.Handle);
+
+            var childHandle = _container.Handle;
             Win32.SetParent(childHandle, hwndParent.Handle);
-            return new HandleRef(container, childHandle);
+            return new HandleRef(_container, childHandle);
         }
 
         protected override void DestroyWindowCore(HandleRef hwnd)
         {
             Log("DestroyWindowCore");
-            hostNativeWindow.ReleaseHandle();
-            savedActiveControl = null;
-            hwndParent = default(HandleRef);
+            _hostNativeWindow.ReleaseHandle();
+            _savedActiveControl = null;
+            _hwndParent = default(HandleRef);
         }
 
         protected override void Dispose(bool disposing)
@@ -309,7 +343,7 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
             base.Dispose(disposing);
             if (disposing)
             {
-                container.Dispose();
+                _container.Dispose();
             }
         }
 
@@ -326,25 +360,28 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
                     {
                         focusScope = VisualTreeHelper.GetParent(focusScope);
                     }
+
                     if (focusScope != null)
                     {
                         FocusManager.SetFocusedElement(focusScope, this);
                     }
+
                     break;
             }
+
             return base.WndProc(hwnd, msg, wParam, lParam, ref handled);
         }
 
 #if DEBUG
-        private static int hostCount;
-        private int instanceID = System.Threading.Interlocked.Increment(ref hostCount);
+        private static int _hostCount;
+        private readonly int _instanceId = System.Threading.Interlocked.Increment(ref _hostCount);
 #endif
 
         [Conditional("DEBUG")]
         private void Log(string text)
         {
 #if DEBUG
-            Debug.WriteLine("CustomWindowsFormsHost #{0}: {1}", instanceID, text);
+            Debug.WriteLine("CustomWindowsFormsHost #{0}: {1}", _instanceId, text);
 #endif
         }
     }

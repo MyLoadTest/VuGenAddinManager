@@ -19,6 +19,7 @@
 using System;
 using System.Drawing.Printing;
 using System.Linq;
+using ICSharpCode.SharpDevelop.Gui;
 
 //// ReSharper disable once CheckNamespace - SD 5.0 Compatibility
 namespace MyLoadTest.VuGenAddInManager.Compatibility
@@ -34,7 +35,7 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
     public interface IPrintable
     {
         /// <summary>
-        /// Returns the PrintDocument for this object, see the .NET reference
+        /// Gets the PrintDocument for this object, see the .NET reference
         /// for more information about printing.
         /// </summary>
         PrintDocument PrintDocument

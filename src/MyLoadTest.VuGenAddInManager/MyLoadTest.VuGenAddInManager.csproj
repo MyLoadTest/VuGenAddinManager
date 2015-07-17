@@ -78,12 +78,14 @@
     <Compile Include="AddInManagerTask.cs" />
     <Compile Include="AddInManagerTask.Helper.cs" />
     <Compile Include="BooleanToFontWeightConverter.cs" />
-    <Compile Include="HostCommands\Commands.cs" />
+    <Compile Include="Compatibility\DirectoryNameConverter.cs" />
+    <Compile Include="HostCommands\AddInManagerInitializationCommand.cs" />
+    <Compile Include="HostCommands\AddInManagerVisualInitializationCommand.cs" />
+    <Compile Include="HostCommands\ShowAddInManagerCommand.cs" />
     <Compile Include="Compatibility\AddInTreeImpl.cs" />
     <Compile Include="Compatibility\CustomWindowsFormsHost.cs" />
     <Compile Include="Compatibility\DirectoryName.cs" />
     <Compile Include="Compatibility\FallbackServiceProvider.cs" />
-    <Compile Include="Compatibility\FileName.cs" />
     <Compile Include="Compatibility\IAddInTree.cs" />
     <Compile Include="Compatibility\IPrintable.cs" />
     <Compile Include="Compatibility\IPropertyService.cs" />
@@ -101,6 +103,7 @@
     <Compile Include="Model\AcceptLicensesEventArgs.cs" />
     <Compile Include="Model\AddInDependency.cs" />
     <Compile Include="Model\AddInInstallationEventArgs.cs" />
+    <Compile Include="Model\AddInInstallationSource.cs" />
     <Compile Include="Model\AddInManagerEvents.cs" />
     <Compile Include="Model\AddInManagerSettings.cs" />
     <Compile Include="Model\AddInOperationErrorEventArgs.cs" />
@@ -119,6 +122,7 @@
     <Compile Include="Model\NuGetPackageOperationEventArgs.cs" />
     <Compile Include="Model\PackageListDownloadEndedEventArgs.cs" />
     <Compile Include="Model\PackageMessageLoggedEventArgs.cs" />
+    <Compile Include="Model\PackageOperationMessage.cs" />
     <Compile Include="Model\PackageRepositories.cs" />
     <Compile Include="Model\PackageRepository.cs" />
     <Compile Include="Model\Page.cs" />

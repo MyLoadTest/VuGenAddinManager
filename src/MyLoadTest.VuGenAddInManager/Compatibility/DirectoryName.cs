@@ -1,14 +1,11 @@
 ﻿// Copyright (c) 2014 AlphaSierraPapa for the SharpDevelop Team
-//
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this
 // software and associated documentation files (the "Software"), to deal in the Software
 // without restriction, including without limitation the rights to use, copy, modify, merge,
 // publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons
 // to whom the Software is furnished to do so, subject to the following conditions:
-//
 // The above copyright notice and this permission notice shall be included in all copies or
 // substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
 // INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
 // PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
@@ -18,7 +15,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using ICSharpCode.Core;
@@ -44,121 +40,18 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         {
         }
 
-        /// <summary>
-        /// Creates a DirectoryName instance from the string.
-        /// It is valid to pass null or an empty string to this method (in that case, a null reference will be returned).
-        /// </summary>
-        public static DirectoryName Create(string DirectoryName)
-        {
-            if (string.IsNullOrEmpty(DirectoryName))
-                return null;
-            else
-                return new DirectoryName(DirectoryName);
-        }
-
-        [Obsolete("The input already is a DirectoryName")]
-        public static DirectoryName Create(DirectoryName directoryName)
-        {
-            return directoryName;
-        }
-
-        /// <summary>
-        /// Combines this directory name with a relative path.
-        /// </summary>
-        public DirectoryName Combine(DirectoryName relativePath)
-        {
-            if (relativePath == null)
-                return null;
-            return DirectoryName.Create(Path.Combine(normalizedPath, relativePath));
-        }
-
-        /// <summary>
-        /// Combines this directory name with a relative path.
-        /// </summary>
-        public FileName Combine(FileName relativePath)
-        {
-            if (relativePath == null)
-                return null;
-            return FileName.Create(Path.Combine(normalizedPath, relativePath));
-        }
-
-        /// <summary>
-        /// Combines this directory name with a relative path.
-        /// </summary>
-        public FileName CombineFile(string relativeFileName)
-        {
-            if (relativeFileName == null)
-                return null;
-            return FileName.Create(Path.Combine(normalizedPath, relativeFileName));
-        }
-
-        /// <summary>
-        /// Combines this directory name with a relative path.
-        /// </summary>
-        public DirectoryName CombineDirectory(string relativeDirectoryName)
-        {
-            if (relativeDirectoryName == null)
-                return null;
-            return DirectoryName.Create(Path.Combine(normalizedPath, relativeDirectoryName));
-        }
-
-        /// <summary>
-        /// Converts the specified absolute path into a relative path (relative to <c>this</c>).
-        /// </summary>
-        public DirectoryName GetRelativePath(DirectoryName path)
-        {
-            if (path == null)
-                return null;
-            return DirectoryName.Create(FileUtility.GetRelativePath(normalizedPath, path));
-        }
-
-        /// <summary>
-        /// Converts the specified absolute path into a relative path (relative to <c>this</c>).
-        /// </summary>
-        public FileName GetRelativePath(FileName path)
-        {
-            if (path == null)
-                return null;
-            return FileName.Create(FileUtility.GetRelativePath(normalizedPath, path));
-        }
-
-        /// <summary>
-        /// Gets the directory name as a string, including a trailing backslash.
-        /// </summary>
-        public string ToStringWithTrailingBackslash()
-        {
-            if (normalizedPath.EndsWith("\\", StringComparison.Ordinal))
-                return normalizedPath; // trailing backslash exists in normalized version for root of drives ("C:\")
-            else
-                return normalizedPath + "\\";
-        }
-
-        #region Equals and GetHashCode implementation
-
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as DirectoryName);
-        }
-
-        public bool Equals(DirectoryName other)
-        {
-            if (other != null)
-                return string.Equals(normalizedPath, other.normalizedPath, StringComparison.OrdinalIgnoreCase);
-            else
-                return false;
-        }
-
-        public override int GetHashCode()
-        {
-            return StringComparer.OrdinalIgnoreCase.GetHashCode(normalizedPath);
-        }
-
         public static bool operator ==(DirectoryName left, DirectoryName right)
         {
             if (ReferenceEquals(left, right))
+            {
                 return true;
+            }
+
             if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            {
                 return false;
+            }
+
             return left.Equals(right);
         }
 
@@ -191,38 +84,91 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
             return left != (string)right;
         }
 
-        #endregion
-    }
-
-    public class DirectoryNameConverter : TypeConverter
-    {
-        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        /// <summary>
+        /// Creates a DirectoryName instance from the string.
+        /// It is valid to pass null or an empty string to this method (in that case, a null reference will be returned).
+        /// </summary>
+        public static DirectoryName Create(string directoryName)
         {
-            return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
+            return string.IsNullOrEmpty(directoryName) ? null : new DirectoryName(directoryName);
         }
 
-        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+        [Obsolete("The input already is a DirectoryName")]
+        public static DirectoryName Create(DirectoryName directoryName)
         {
-            return destinationType == typeof(DirectoryName) || base.CanConvertTo(context, destinationType);
+            return directoryName;
         }
 
-        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+        /// <summary>
+        /// Combines this directory name with a relative path.
+        /// </summary>
+        public DirectoryName Combine(DirectoryName relativePath)
         {
-            if (value is string)
-            {
-                return DirectoryName.Create((string)value);
-            }
-            return base.ConvertFrom(context, culture, value);
+            return relativePath == null ? null : Create(Path.Combine(NormalizedPath, relativePath));
         }
 
-        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture,
-                                         object value, Type destinationType)
+        /// <summary>
+        /// Combines this directory name with a relative path.
+        /// </summary>
+        public FileName Combine(FileName relativePath)
         {
-            if (destinationType == typeof(string))
-            {
-                return value.ToString();
-            }
-            return base.ConvertTo(context, culture, value, destinationType);
+            return relativePath == null ? null : FileName.Create(Path.Combine(NormalizedPath, relativePath));
+        }
+
+        /// <summary>
+        /// Combines this directory name with a relative path.
+        /// </summary>
+        public FileName CombineFile(string relativeFileName)
+        {
+            return relativeFileName == null ? null : FileName.Create(Path.Combine(NormalizedPath, relativeFileName));
+        }
+
+        /// <summary>
+        /// Combines this directory name with a relative path.
+        /// </summary>
+        public DirectoryName CombineDirectory(string relativeDirectoryName)
+        {
+            return relativeDirectoryName == null ? null : Create(Path.Combine(NormalizedPath, relativeDirectoryName));
+        }
+
+        /// <summary>
+        /// Converts the specified absolute path into a relative path (relative to <c>this</c>).
+        /// </summary>
+        public DirectoryName GetRelativePath(DirectoryName path)
+        {
+            return path == null ? null : Create(FileUtility.GetRelativePath(NormalizedPath, path));
+        }
+
+        /// <summary>
+        /// Converts the specified absolute path into a relative path (relative to <c>this</c>).
+        /// </summary>
+        public FileName GetRelativePath(FileName path)
+        {
+            return path == null ? null : FileName.Create(FileUtility.GetRelativePath(NormalizedPath, path));
+        }
+
+        /// <summary>
+        /// Gets the directory name as a string, including a trailing backslash.
+        /// </summary>
+        public string ToStringWithTrailingBackslash()
+        {
+            // trailing backslash exists in normalized version for root of drives ("C:\")
+            return NormalizedPath.EndsWith("\\", StringComparison.Ordinal) ? NormalizedPath : NormalizedPath + "\\";
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as DirectoryName);
+        }
+
+        public bool Equals(DirectoryName other)
+        {
+            return other != null && string.Equals(NormalizedPath, other.NormalizedPath, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public override int GetHashCode()
+        {
+            return StringComparer.OrdinalIgnoreCase.GetHashCode(NormalizedPath);
         }
     }
 }
