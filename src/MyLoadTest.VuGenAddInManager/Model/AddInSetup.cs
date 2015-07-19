@@ -142,12 +142,12 @@ namespace MyLoadTest.VuGenAddInManager.Model
 
                         break;
 
-                    case ".sdaddin":
+                    case ".vugenaddin":
                     case ".zip":
 
                         SD.Log.DebugFormatted("[AddInManager2] Trying to load {0} as local AddIn package.", fileName);
 
-                        // Try to load the *.sdaddin file as ZIP archive
+                        // Try to load the *.vugenaddin file as ZIP archive
                         ZipFile zipFile = null;
                         try
                         {

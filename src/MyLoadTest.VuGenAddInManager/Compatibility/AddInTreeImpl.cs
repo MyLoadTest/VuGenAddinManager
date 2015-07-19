@@ -23,7 +23,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using ICSharpCode.Core;
 
-//// ReSharper disable once CheckNamespace - SD 5.0 Compatibility
 namespace MyLoadTest.VuGenAddInManager.Compatibility
 {
     /// <summary>

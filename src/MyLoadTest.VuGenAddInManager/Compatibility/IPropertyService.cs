@@ -44,14 +44,14 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         /// <summary>
         /// Gets the main properties container for this property service.
         /// </summary>
-        Properties MainPropertiesContainer { get; }
+        ICSharpCode.Core.Properties MainPropertiesContainer { get; }
 
         /// <inheritdoc cref="Properties.Get{T}(string, T)"/>
         T Get<T>(string key, T defaultValue);
 
-        Properties NestedProperties(string key);
+        ICSharpCode.Core.Properties NestedProperties(string key);
 
-        void SetNestedProperties(string key, Properties nestedProperties);
+        void SetNestedProperties(string key, ICSharpCode.Core.Properties nestedProperties);
 
         /// <inheritdoc cref="Properties.Contains"/>
         bool Contains(string key);
@@ -79,11 +79,11 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
         /// </summary>
         /// <returns>Properties container that was loaded; or an empty properties container
         /// if no container with the specified key exists.</returns>
-        Properties LoadExtraProperties(string key);
+        ICSharpCode.Core.Properties LoadExtraProperties(string key);
 
         /// <summary>
         /// Saves extra properties that are not part of the main properties container.
         /// </summary>
-        void SaveExtraProperties(string key, Properties p);
+        void SaveExtraProperties(string key, ICSharpCode.Core.Properties p);
     }
 }

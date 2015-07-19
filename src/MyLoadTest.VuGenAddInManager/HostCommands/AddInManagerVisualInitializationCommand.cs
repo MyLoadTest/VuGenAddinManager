@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
-using ICSharpCode.SharpDevelop;
+using ICSharpCode.Core;
 
 namespace MyLoadTest.VuGenAddInManager.HostCommands
 {
-    public sealed class AddInManagerVisualInitializationCommand : SimpleCommand
+    public sealed class AddInManagerVisualInitializationCommand : AbstractMenuCommand
     {
-        public override void Execute(object parameter)
+        public override void Run()
         {
             if (AddInManagerServices.Settings.AutoSearchForUpdates)
             {

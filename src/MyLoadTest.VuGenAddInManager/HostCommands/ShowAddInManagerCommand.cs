@@ -18,14 +18,14 @@
 
 using System;
 using System.Linq;
-using ICSharpCode.SharpDevelop;
+using ICSharpCode.Core;
 using MyLoadTest.VuGenAddInManager.View;
 
 namespace MyLoadTest.VuGenAddInManager.HostCommands
 {
-    public sealed class ShowAddInManagerCommand : SimpleCommand
+    public sealed class ShowAddInManagerCommand : AbstractMenuCommand
     {
-        public override void Execute(object parameter)
+        public override void Run()
         {
             using (var view = AddInManagerView.Create())
             {

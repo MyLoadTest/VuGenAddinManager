@@ -1,14 +1,11 @@
 ﻿// Copyright (c) 2014 AlphaSierraPapa for the SharpDevelop Team
-//
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this
 // software and associated documentation files (the "Software"), to deal in the Software
 // without restriction, including without limitation the rights to use, copy, modify, merge,
 // publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons
 // to whom the Software is furnished to do so, subject to the following conditions:
-//
 // The above copyright notice and this permission notice shall be included in all copies or
 // substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
 // INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
 // PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
@@ -18,38 +15,23 @@
 
 using System;
 using System.Linq;
-using MyLoadTest.VuGenAddInManager.Compatibility;
-using MyLoadTest.VuGenAddInManager.ViewModel;
+using ICSharpCode.Core.WinForms;
 
-namespace MyLoadTest.VuGenAddInManager.View
+namespace MyLoadTest.VuGenAddInManager.Compatibility
 {
-    public partial class AddInManagerView : IDisposable
+    internal sealed class SDMessageService : WinFormsMessageService
     {
-        public AddInManagerView()
+        public override void ShowException(Exception ex, string message)
         {
-            InitializeComponent();
-
-            ICSharpCode.SharpDevelop.Gui.FormLocationHelper.ApplyWindow(this, "AddInManager2.WindowBounds", true);
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="AddInManagerView"/> instance.
-        /// </summary>
-        /// <returns>New <see cref="AddInManagerView"/> instance.</returns>
-        public static AddInManagerView Create()
-        {
-            return new AddInManagerView
+            SD.Log.Error(message, ex);
+            SD.Log.Warn("Stack trace of last exception log:" + Environment.NewLine + Environment.StackTrace);
+            if (ex != null)
             {
-                Owner = SD.Workbench.MainWindow
-            };
-        }
-
-        public void Dispose()
-        {
-            var viewModel = DataContext as AddInManagerViewModel;
-            if (viewModel != null)
+                ShowError(message + Environment.NewLine + Environment.NewLine + ex);
+            }
+            else
             {
-                viewModel.Dispose();
+                ShowError(message);
             }
         }
     }

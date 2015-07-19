@@ -29,6 +29,11 @@ namespace MyLoadTest.VuGenAddInManager.Model
 
         protected Model()
         {
+            if (WpfHelper.IsInDesignMode())
+            {
+                return;
+            }
+
             // Use default services container
             _services = AddInManagerServices.Services;
         }

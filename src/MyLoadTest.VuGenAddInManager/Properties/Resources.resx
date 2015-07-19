@@ -1,0 +1,387 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddInManager_ActionCancelDeinstallation" xml:space="preserve">
+    <value>Cancel deinstallation</value>
+  </data>
+  <data name="AddInManager_ActionCancelInstallation" xml:space="preserve">
+    <value>Cancel installation</value>
+  </data>
+  <data name="AddInManager_ActionCancelUpdate" xml:space="preserve">
+    <value>Cancel update</value>
+  </data>
+  <data name="AddInManager_ActionDisable" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="AddInManager_ActionEnable" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="AddInManager_ActionInstall" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="AddInManager_ActionUninstall" xml:space="preserve">
+    <value>Uninstall</value>
+  </data>
+  <data name="AddInManager_ActionUpdate" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="AddInManager_AddInDependencyFailed" xml:space="preserve">
+    <value>A dependency for this AddIn was not found. Install it to enable this AddIn.</value>
+  </data>
+  <data name="AddInManager_AddInDisabled" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="AddInManager_AddInEnabled" xml:space="preserve">
+    <value>AddIn will be enabled after restarting SharpDevelop</value>
+  </data>
+  <data name="AddInManager_AddInInstalled" xml:space="preserve">
+    <value>AddIn will be installed after restarting SharpDevelop</value>
+  </data>
+  <data name="AddInManager_AddInInstalledTwice" xml:space="preserve">
+    <value>This AddIns is installed twice. Please uninstall one  copy.</value>
+  </data>
+  <data name="AddInManager_AddInMustHaveIdentity" xml:space="preserve">
+    <value>The AddIn must have an &lt;Identity&gt; for use with the AddIn-Manager.</value>
+  </data>
+  <data name="AddInManager_AddInRemoved" xml:space="preserve">
+    <value>AddIn will be removed after restarting SharpDevelop</value>
+  </data>
+  <data name="AddInManager_AddInUpdated" xml:space="preserve">
+    <value>AddIn will be updated after restarting SharpDevelop</value>
+  </data>
+  <data name="AddInManager_AddInWillBeDisabled" xml:space="preserve">
+    <value>AddIn will be disabled after restarting SharpDevelop</value>
+  </data>
+  <data name="AddInManager_CannotDisableAddInManager" xml:space="preserve">
+    <value>You cannot disable the AddInManager because you need it to re-enable AddIns!</value>
+  </data>
+  <data name="AddInManager_CannotInstallIntoApplicationDirectory" xml:space="preserve">
+    <value>You cannot install AddIns inside the ${ProductName} directory, they will be picked up as pre-installed AddIns automatically.</value>
+  </data>
+  <data name="AddInManager_DescriptionCancelDeinstallation" xml:space="preserve">
+    <value>Aborts the deinstallation of the selected AddIn(s).</value>
+  </data>
+  <data name="AddInManager_DescriptionCancelInstall" xml:space="preserve">
+    <value>Aborts the installation of the selected AddIn(s).</value>
+  </data>
+  <data name="AddInManager_DescriptionCancelUpdate" xml:space="preserve">
+    <value>Aborts the update of the selected AddIn(s).</value>
+  </data>
+  <data name="AddInManager_DescriptionDisable" xml:space="preserve">
+    <value>Disables the selected AddIn(s).</value>
+  </data>
+  <data name="AddInManager_DescriptionEnable" xml:space="preserve">
+    <value>Enables the selected AddIn(s).</value>
+  </data>
+  <data name="AddInManager_DescriptionInconsistentSelection" xml:space="preserve">
+    <value>The selection is inconsistent, please select only AddIns with the same status.</value>
+  </data>
+  <data name="AddInManager_FileAssociation" xml:space="preserve">
+    <value>AddIn Installation Package</value>
+  </data>
+  <data name="AddInManager_FileFilter" xml:space="preserve">
+    <value>VuGen add-ins|*.vugenaddin|All files|*.*</value>
+  </data>
+  <data name="AddInManager_InstallButton" xml:space="preserve">
+    <value>&amp;Install AddIn</value>
+  </data>
+  <data name="AddInManager_NoAddInsInstalled" xml:space="preserve">
+    <value>You don't have any AddIns installed.
+Download an AddIn from the Internet, then click 'Install AddIn' and choose the downloaded file to install it.</value>
+  </data>
+  <data name="AddInManager_OpenWebsite" xml:space="preserve">
+    <value>Open Website</value>
+  </data>
+  <data name="AddInManager_Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="AddInManager_RequiredBy" xml:space="preserve">
+    <value>AddIns are required by:</value>
+  </data>
+  <data name="AddInManager_RequiredDependencies" xml:space="preserve">
+    <value>Required dependencies:</value>
+  </data>
+  <data name="AddInManager_ShowPreinstalledAddIns" xml:space="preserve">
+    <value>Show preinstalled AddIns</value>
+  </data>
+  <data name="AddInManager_Title" xml:space="preserve">
+    <value>AddIn Manager</value>
+  </data>
+  <data name="AddInManager_UnknownFileFormat" xml:space="preserve">
+    <value>Unknown file format:</value>
+  </data>
+  <data name="AddInManager2_AddInsView_InstallFromArchive" xml:space="preserve">
+    <value>Install from archive...</value>
+  </data>
+  <data name="AddInManager2_AddInsView_Repository" xml:space="preserve">
+    <value>Repository:</value>
+  </data>
+  <data name="AddInManager2_AddInsView_Search" xml:space="preserve">
+    <value>Search:</value>
+  </data>
+  <data name="AddInManager2_AddInsView_ShowPreinstalledAddIns" xml:space="preserve">
+    <value>Show preinstalled AddIns</value>
+  </data>
+  <data name="AddInManager2_AddInsView_ShowPrereleaseAddIns" xml:space="preserve">
+    <value>Show prereleases</value>
+  </data>
+  <data name="AddInManager2_CannotRemoveAddInManager" xml:space="preserve">
+    <value>You cannot uninstall the AddInManager because you need it to re-install AddIns!</value>
+  </data>
+  <data name="AddInManager2_DefaultRepository" xml:space="preserve">
+    <value>SharpDevelop AddIn Repository</value>
+  </data>
+  <data name="AddInManager2_Details_CreatedBy" xml:space="preserve">
+    <value>Created by:</value>
+  </data>
+  <data name="AddInManager2_Details_Dependencies" xml:space="preserve">
+    <value>Dependencies:</value>
+  </data>
+  <data name="AddInManager2_Details_DownloadCount" xml:space="preserve">
+    <value>Downloads:</value>
+  </data>
+  <data name="AddInManager2_Details_FileName" xml:space="preserve">
+    <value>File name:</value>
+  </data>
+  <data name="AddInManager2_Details_InstalledVersion" xml:space="preserve">
+    <value>Installed version:</value>
+  </data>
+  <data name="AddInManager2_Details_LastUpdated" xml:space="preserve">
+    <value>Last updated:</value>
+  </data>
+  <data name="AddInManager2_Details_MoreInformation" xml:space="preserve">
+    <value>More information</value>
+  </data>
+  <data name="AddInManager2_Details_NewVersion" xml:space="preserve">
+    <value>New version:</value>
+  </data>
+  <data name="AddInManager2_Details_Rating" xml:space="preserve">
+    <value>Rating:</value>
+  </data>
+  <data name="AddInManager2_Details_ReportAbuse" xml:space="preserve">
+    <value>Report abuse</value>
+  </data>
+  <data name="AddInManager2_Details_Version" xml:space="preserve">
+    <value>Version:</value>
+  </data>
+  <data name="AddInManager2_Details_ViewLicenseTerms" xml:space="preserve">
+    <value>View License Terms</value>
+  </data>
+  <data name="AddInManager2_DisableDependentWarning" xml:space="preserve">
+    <value>Following installed AddIns are depending on "{0}":
+
+{1}
+
+They will stop working after disabling this AddIn! Are you sure you want to continue?</value>
+  </data>
+  <data name="AddInManager2_InstallDependentMessage" xml:space="preserve">
+    <value>Package "{0}" needs at least one additional package:
+
+{1}
+
+The application will try to download and install them, as well. Do you want to continue?</value>
+  </data>
+  <data name="AddInManager2_InvalidPackage" xml:space="preserve">
+    <value>Selected package doesn't contain a valid SharpDevelop AddIn.</value>
+  </data>
+  <data name="AddInManager2_LicenseAcceptance_AcceptButton" xml:space="preserve">
+    <value>I &amp;Accept</value>
+  </data>
+  <data name="AddInManager2_LicenseAcceptance_DeclineButton" xml:space="preserve">
+    <value>I &amp;Decline</value>
+  </data>
+  <data name="AddInManager2_LicenseAcceptance_Explanation.Package" xml:space="preserve">
+    <value>By clicking "I Accept" you agree to the license terms for the package listed above.
+If you do not agree to the license terms click "I Decline".</value>
+  </data>
+  <data name="AddInManager2_LicenseAcceptance_Explanation.Packages" xml:space="preserve">
+    <value>By clicking "I Accept" you agree to the license terms for the packages listed above.
+If you do not agree to the license terms click "I Decline".</value>
+  </data>
+  <data name="AddInManager2_LicenseAcceptance_Introduction.Package" xml:space="preserve">
+    <value>The following package requires a click-to-accept license:</value>
+  </data>
+  <data name="AddInManager2_LicenseAcceptance_Introduction.Packages" xml:space="preserve">
+    <value>The following packages require a click-to-accept license:</value>
+  </data>
+  <data name="AddInManager2_LicenseAcceptance_Title" xml:space="preserve">
+    <value>License Agreements</value>
+  </data>
+  <data name="AddInManager2_OptionPanel_Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddInManager2_OptionPanel_AutoCheckForUpdates" xml:space="preserve">
+    <value>Automatically check for updates</value>
+  </data>
+  <data name="AddInManager2_OptionPanel_MoveDown" xml:space="preserve">
+    <value>Move Down</value>
+  </data>
+  <data name="AddInManager2_OptionPanel_MoveUp" xml:space="preserve">
+    <value>Move Up</value>
+  </data>
+  <data name="AddInManager2_OptionPanel_Name" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="AddInManager2_OptionPanel_Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="AddInManager2_OptionPanel_Source" xml:space="preserve">
+    <value>Source:</value>
+  </data>
+  <data name="AddInManager2_OptionPanel_Tree.AddIns" xml:space="preserve">
+    <value>AddIns</value>
+  </data>
+  <data name="AddInManager2_OptionPanel_Tree.General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="AddInManager2_OptionPanel_Tree.Repositories" xml:space="preserve">
+    <value>Repositories</value>
+  </data>
+  <data name="AddInManager2_RemoveDependentWarning" xml:space="preserve">
+    <value>Following installed AddIns are depending on "{0}":
+
+{1}
+
+They will stop working after removing this AddIn! Are you sure you want to continue?</value>
+  </data>
+  <data name="AddInManager2_SDAddInFileFilter" xml:space="preserve">
+    <value>VuGen AddIns|*.vugenaddin|All files|*.*</value>
+  </data>
+  <data name="AddInManager2_UpdateNotifier.BubbleText" xml:space="preserve">
+    <value>Click here to see the updates.</value>
+  </data>
+  <data name="AddInManager2_UpdateNotifier.BubbleTitle" xml:space="preserve">
+    <value>Updates for SharpDevelop are available</value>
+  </data>
+  <data name="AddInManager2_Views.Available" xml:space="preserve">
+    <value>Available</value>
+  </data>
+  <data name="AddInManager2_Views.Installed" xml:space="preserve">
+    <value>Installed</value>
+  </data>
+  <data name="AddInManager2_Views.Updates" xml:space="preserve">
+    <value>Updates</value>
+  </data>
+  <data name="AddInManager_About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="AddInManager_CloseButtonText" xml:space="preserve">
+    <value>_Close</value>
+  </data>
+</root>

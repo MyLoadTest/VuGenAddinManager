@@ -18,7 +18,7 @@
     <Path name="/SharpDevelop/Workbench/MainMenu/Tools">
         <MenuItem id="MyLoadTest.VuGenAddInManager.Show"
                 label="${res:AddInManager.Title}"
-                class="MyLoadTest.VuGenAddInManager.ShowAddInManagerCommand" />
+                class="MyLoadTest.VuGenAddInManager.HostCommands.ShowAddInManagerCommand" />
     </Path>
 
     <Path name="/SharpDevelop/Dialogs/OptionsDialog">
@@ -39,10 +39,10 @@
 
     <Path name="/Workspace/Autostart">
         <Class id="MyLoadTest.VuGenAddInManager.Initialization"
-                class="MyLoadTest.VuGenAddInManager.AddInManagerInitializationCommand" />
+                class="MyLoadTest.VuGenAddInManager.HostCommands.AddInManagerInitializationCommand" />
     </Path>
     <Path name="/SharpDevelop/Workbench/AutostartAfterWorkbenchInitialized">
         <Class id="MyLoadTest.VuGenAddInManager.VisualInitialization"
-                class="MyLoadTest.VuGenAddInManager.AddInManagerVisualInitializationCommand" />
+                class="MyLoadTest.VuGenAddInManager.HostCommands.AddInManagerVisualInitializationCommand" />
     </Path>
 </AddIn>

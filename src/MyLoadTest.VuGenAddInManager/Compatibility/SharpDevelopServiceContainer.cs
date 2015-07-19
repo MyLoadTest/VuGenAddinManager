@@ -17,6 +17,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,10 +29,14 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
     /// </summary>
     internal sealed class SharpDevelopServiceContainer : IServiceContainer, IDisposable
     {
-        private readonly ConcurrentStack<IServiceProvider> _fallbackProviders = new ConcurrentStack<IServiceProvider>();
+        private readonly ConcurrentStack<IServiceProvider> _fallbackProviders =
+            new ConcurrentStack<IServiceProvider>();
+
         private readonly Dictionary<Type, object> _services = new Dictionary<Type, object>();
         private readonly List<Type> _servicesToDispose = new List<Type>();
-        private readonly Dictionary<Type, object> _taskCompletionSources = new Dictionary<Type, object>(); // object = TaskCompletionSource<T> for various T
+
+        // object = TaskCompletionSource<T> for various T
+        private readonly Dictionary<Type, object> _taskCompletionSources = new Dictionary<Type, object>();
 
         public SharpDevelopServiceContainer()
         {
@@ -58,6 +63,16 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
                         instance = callback(this, serviceType);
                         if (instance != null)
                         {
+                            if (!serviceType.IsInstanceOfType(instance))
+                            {
+                                throw new InvalidOperationException(
+                                    string.Format(
+                                        CultureInfo.InvariantCulture,
+                                        @"The service instance type '{0}' is incompatible with the specified service type '{1}'.",
+                                        instance.GetType().FullName,
+                                        serviceType.FullName));
+                            }
+
                             _services[serviceType] = instance;
                             OnServiceInitialized(serviceType, instance);
                         }
@@ -125,6 +140,27 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
 
         public void AddService(Type serviceType, object serviceInstance)
         {
+            if (serviceType == null)
+            {
+                throw new ArgumentNullException("serviceType");
+            }
+
+            if (serviceInstance == null)
+            {
+                throw new ArgumentNullException("serviceInstance");
+            }
+
+            if (!serviceType.IsInstanceOfType(serviceInstance))
+            {
+                throw new ArgumentException(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        @"The service instance type '{0}' is incompatible with the specified service type '{1}'.",
+                        serviceInstance.GetType().FullName,
+                        serviceType.FullName),
+                    "serviceInstance");
+            }
+
             lock (_services)
             {
                 _services.Add(serviceType, serviceInstance);
@@ -139,6 +175,16 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
 
         public void AddService(Type serviceType, ServiceCreatorCallback callback)
         {
+            if (serviceType == null)
+            {
+                throw new ArgumentNullException("serviceType");
+            }
+
+            if (callback == null)
+            {
+                throw new ArgumentNullException("callback");
+            }
+
             lock (_services)
             {
                 _services.Add(serviceType, callback);
@@ -152,6 +198,11 @@ namespace MyLoadTest.VuGenAddInManager.Compatibility
 
         public void RemoveService(Type serviceType)
         {
+            if (serviceType == null)
+            {
+                throw new ArgumentNullException("serviceType");
+            }
+
             lock (_services)
             {
                 object instance;

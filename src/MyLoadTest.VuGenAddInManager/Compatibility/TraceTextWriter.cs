@@ -17,40 +17,50 @@
 // DEALINGS IN THE SOFTWARE.
 
 using System;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
 using System.Linq;
-using MyLoadTest.VuGenAddInManager.Compatibility;
-using MyLoadTest.VuGenAddInManager.ViewModel;
+using System.Text;
 
-namespace MyLoadTest.VuGenAddInManager.View
+namespace MyLoadTest.VuGenAddInManager.Compatibility
 {
-    public partial class AddInManagerView : IDisposable
+    /// <summary>
+    /// TextWriter that writes into System.Diagnostics.Trace
+    /// </summary>
+    public class TraceTextWriter : TextWriter
     {
-        public AddInManagerView()
+        public override Encoding Encoding
         {
-            InitializeComponent();
-
-            ICSharpCode.SharpDevelop.Gui.FormLocationHelper.ApplyWindow(this, "AddInManager2.WindowBounds", true);
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="AddInManagerView"/> instance.
-        /// </summary>
-        /// <returns>New <see cref="AddInManagerView"/> instance.</returns>
-        public static AddInManagerView Create()
-        {
-            return new AddInManagerView
+            get
             {
-                Owner = SD.Workbench.MainWindow
-            };
-        }
-
-        public void Dispose()
-        {
-            var viewModel = DataContext as AddInManagerViewModel;
-            if (viewModel != null)
-            {
-                viewModel.Dispose();
+                return Encoding.Unicode;
             }
+        }
+
+        public override void Write(char value)
+        {
+            Trace.Write(value.ToString(CultureInfo.InvariantCulture));
+        }
+
+        public override void Write(char[] buffer, int index, int count)
+        {
+            Trace.Write(new string(buffer, index, count));
+        }
+
+        public override void Write(string value)
+        {
+            Trace.Write(value);
+        }
+
+        public override void WriteLine()
+        {
+            Trace.WriteLine(string.Empty);
+        }
+
+        public override void WriteLine(string value)
+        {
+            Trace.WriteLine(value);
         }
     }
 }

@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using ICSharpCode.Core;
 using MyLoadTest.VuGenAddInManager.Compatibility;
 using MyLoadTest.VuGenAddInManager.Model;
@@ -42,14 +43,116 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
             Initialize();
         }
 
-        public AddInManagerViewModel(IAddInManagerServices services)
-            : base(services)
+        public AvailableAddInsViewModel AvailableAddInsViewModel
         {
-            Initialize();
+            get;
+            private set;
+        }
+
+        public InstalledAddInsViewModel InstalledAddInsViewModel
+        {
+            get;
+            private set;
+        }
+
+        public UpdatedAddInsViewModel UpdatedAddInsViewModel
+        {
+            get;
+            private set;
+        }
+
+        public ObservableCollection<AddInsViewModelBase> ViewModels
+        {
+            get
+            {
+                return _viewModels;
+            }
+        }
+
+        public string Title
+        {
+            get;
+            private set;
+        }
+
+        public void Dispose()
+        {
+            AddInManager.Events.OperationStarted -= AddInManager_Events_OperationStarted;
+            AddInManager.Events.AddInOperationError -= AddInManager_Events_AddInOperationError;
+            AddInManager.Events.AcceptLicenses -= AddInManager_Events_AcceptLicenses;
+            foreach (var viewModel in _viewModels)
+            {
+                viewModel.PropertyChanged -= ViewModel_PropertyChanged;
+            }
+        }
+
+        public string Message
+        {
+            get
+            {
+                return _message;
+            }
+
+            set
+            {
+                _message = value;
+                OnPropertyChanged(model => model.Message);
+            }
+        }
+
+        public bool HasError
+        {
+            get
+            {
+                return _hasError;
+            }
+
+            set
+            {
+                _hasError = value;
+                OnPropertyChanged(model => model.HasError);
+            }
+        }
+
+        private static void ShowErrorMessage(string message)
+        {
+            SD.MessageService.ShowWarning(StringParser.Parse(message));
+        }
+
+        private static void AddInManager_Events_AddInOperationError(object sender, AddInOperationErrorEventArgs e)
+        {
+            ShowErrorMessage(e.Message);
+        }
+
+        private static void AddInManager_Events_AcceptLicenses(object sender, AcceptLicensesEventArgs e)
+        {
+            // Show a license acceptance prompt to the user
+            e.IsAccepted = ShowLicenseAcceptancePrompt(e.Packages);
+        }
+
+        private static bool ShowLicenseAcceptancePrompt(IEnumerable<IPackage> packages)
+        {
+            if (packages == null)
+            {
+                // No package -> nothing to accept
+                return true;
+            }
+
+            // Create a license acceptance view
+            var viewModel = new LicenseAcceptanceViewModel(packages);
+            var view = new LicenseAcceptanceView();
+            view.DataContext = viewModel;
+            view.Owner = SD.Workbench.MainWindow;
+            return view.ShowDialog() ?? false;
         }
 
         private void Initialize()
         {
+            if (WpfHelper.IsInDesignMode())
+            {
+                return;
+            }
+
             // Visuals
             this.Title = SD.ResourceService.GetString("AddInManager.Title");
 
@@ -85,83 +188,6 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
             UpdatedAddInsViewModel.ReadPackages();
         }
 
-        public AvailableAddInsViewModel AvailableAddInsViewModel
-        {
-            get;
-            private set;
-        }
-
-        public InstalledAddInsViewModel InstalledAddInsViewModel
-        {
-            get;
-            private set;
-        }
-
-        public UpdatedAddInsViewModel UpdatedAddInsViewModel
-        {
-            get;
-            private set;
-        }
-
-        public ObservableCollection<AddInsViewModelBase> ViewModels
-        {
-            get
-            {
-                return _viewModels;
-            }
-        }
-
-        public string Title
-        {
-            //			get { return viewTitle.Title; }
-            get;
-            private set;
-        }
-
-        public void Dispose()
-        {
-            AddInManager.Events.OperationStarted -= AddInManager_Events_OperationStarted;
-            AddInManager.Events.AddInOperationError -= AddInManager_Events_AddInOperationError;
-            AddInManager.Events.AcceptLicenses -= AddInManager_Events_AcceptLicenses;
-            foreach (var viewModel in _viewModels)
-            {
-                viewModel.PropertyChanged -= ViewModel_PropertyChanged;
-            }
-        }
-
-        private void ShowErrorMessage(string message)
-        {
-            SD.MessageService.ShowWarning(StringParser.Parse(message));
-        }
-
-        public string Message
-        {
-            get
-            {
-                return _message;
-            }
-
-            set
-            {
-                _message = value;
-                OnPropertyChanged(model => model.Message);
-            }
-        }
-
-        public bool HasError
-        {
-            get
-            {
-                return _hasError;
-            }
-
-            set
-            {
-                _hasError = value;
-                OnPropertyChanged(model => model.HasError);
-            }
-        }
-
         private void AddInManager_Events_OperationStarted(object sender, EventArgs e)
         {
             ClearMessage();
@@ -171,33 +197,6 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
         {
             this.Message = null;
             this.HasError = false;
-        }
-
-        private void AddInManager_Events_AddInOperationError(object sender, AddInOperationErrorEventArgs e)
-        {
-            ShowErrorMessage(e.Message);
-        }
-
-        private void AddInManager_Events_AcceptLicenses(object sender, AcceptLicensesEventArgs e)
-        {
-            // Show a license acceptance prompt to the user
-            e.IsAccepted = ShowLicenseAcceptancePrompt(e.Packages);
-        }
-
-        private bool ShowLicenseAcceptancePrompt(IEnumerable<IPackage> packages)
-        {
-            if (packages == null)
-            {
-                // No package -> nothing to accept
-                return true;
-            }
-
-            // Create a license acceptance view
-            var viewModel = new LicenseAcceptanceViewModel(packages);
-            var view = new LicenseAcceptanceView();
-            view.DataContext = viewModel;
-            view.Owner = SD.Workbench.MainWindow;
-            return view.ShowDialog() ?? false;
         }
 
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
