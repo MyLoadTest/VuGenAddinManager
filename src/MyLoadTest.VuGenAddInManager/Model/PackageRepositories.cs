@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MyLoadTest.VuGenAddInManager.Compatibility;
 using MyLoadTest.VuGenAddInManager.Model.Interfaces;
+using MyLoadTest.VuGenAddInManager.Properties;
 using NuGet;
 
 namespace MyLoadTest.VuGenAddInManager.Model
@@ -74,7 +75,7 @@ namespace MyLoadTest.VuGenAddInManager.Model
                 SavePackageSources();
 
                 // Send around the update
-                _events.OnPackageSourcesChanged(new EventArgs());
+                _events.OnPackageSourcesChanged(EventArgs.Empty);
             }
         }
 
@@ -123,7 +124,9 @@ namespace MyLoadTest.VuGenAddInManager.Model
                             }
                             catch (Exception)
                             {
-                                SD.Log.WarnFormatted("[AddInManager2] URL '{0}' can't be used as valid package source.", splittedEntry[1]);
+                                SD.Log.WarnFormatted(
+                                    "[AddInManager2] URL '{0}' can't be used as valid package source.",
+                                    splittedEntry[1]);
                             }
                         }
                     }
@@ -139,21 +142,19 @@ namespace MyLoadTest.VuGenAddInManager.Model
         private void SavePackageSources()
         {
             AddDefaultRepository();
-            var savedRepositories = _registeredPackageSources.Select(ps => ps.Name + "=" + ps.Source);
-            _settings.PackageRepositories = savedRepositories.ToArray();
+            var savedRepositories = _registeredPackageSources.Select(ps => ps.Name + "=" + ps.Source).ToArray();
+            _settings.PackageRepositories = savedRepositories;
             UpdateCurrentRepository();
         }
 
         private void AddDefaultRepository()
         {
-            var defaultPackageSource = (
-                from packageSource in _registeredPackageSources
-                where packageSource.Source == DefaultRepositorySource
-                select packageSource).SingleOrDefault();
+            var defaultPackageSource = _registeredPackageSources
+                .SingleOrDefault(packageSource => packageSource.Source == DefaultRepositorySource);
+
             if (defaultPackageSource == null)
             {
-                var defaultRepositoryName =
-                    SD.ResourceService.GetString("AddInManager2.DefaultRepository") ?? DefaultRepositoryName;
+                var defaultRepositoryName = Resources.AddInManager2_DefaultRepository ?? DefaultRepositoryName;
 
                 // Default repository is not configured, add it
                 defaultPackageSource =
@@ -166,7 +167,11 @@ namespace MyLoadTest.VuGenAddInManager.Model
         private void UpdateCurrentRepository()
         {
             _registeredPackageRepositories =
-                _registeredPackageSources.Select(packageSource => PackageRepositoryFactory.Default.CreateRepository(packageSource.Source));
+                _registeredPackageSources
+                    .Select(
+                        packageSource => PackageRepositoryFactory.Default.CreateRepository(packageSource.Source))
+                    .ToArray();
+
             if (_registeredPackageRepositories.Any())
             {
                 _aggregatedRepository = new AggregateRepository(_registeredPackageRepositories);

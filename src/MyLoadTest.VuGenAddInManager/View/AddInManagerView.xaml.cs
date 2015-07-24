@@ -18,18 +18,18 @@
 
 using System;
 using System.Linq;
+using ICSharpCode.SharpDevelop.Gui;
 using MyLoadTest.VuGenAddInManager.Compatibility;
-using MyLoadTest.VuGenAddInManager.ViewModel;
 
 namespace MyLoadTest.VuGenAddInManager.View
 {
-    public partial class AddInManagerView : IDisposable
+    public sealed partial class AddInManagerView : IDisposable
     {
         public AddInManagerView()
         {
             InitializeComponent();
 
-            ICSharpCode.SharpDevelop.Gui.FormLocationHelper.ApplyWindow(this, "AddInManager2.WindowBounds", true);
+            FormLocationHelper.ApplyWindow(this, "AddInManager2.WindowBounds", true);
         }
 
         /// <summary>
@@ -46,11 +46,7 @@ namespace MyLoadTest.VuGenAddInManager.View
 
         public void Dispose()
         {
-            var viewModel = DataContext as AddInManagerViewModel;
-            if (viewModel != null)
-            {
-                viewModel.Dispose();
-            }
+            ViewModel.Dispose();
         }
     }
 }

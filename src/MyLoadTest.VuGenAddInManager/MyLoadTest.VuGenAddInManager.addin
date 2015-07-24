@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<AddIn name="AddInManager 2nd Generation for VuGen"
+<AddIn name="Add-in Manager 2nd Generation for VuGen"
         author="Andreas Weizel and Vitalii Maklai"
         description="Allows installing and updating VuGen AddIns."
         addInManagerHidden="preinstalled">
@@ -17,22 +17,22 @@
 
     <Path name="/SharpDevelop/Workbench/MainMenu/Tools">
         <MenuItem id="MyLoadTest.VuGenAddInManager.Show"
-                label="${res:AddInManager.Title}"
+                label="${res:AddInManager_Title}"
                 class="MyLoadTest.VuGenAddInManager.HostCommands.ShowAddInManagerCommand" />
     </Path>
 
     <Path name="/SharpDevelop/Dialogs/OptionsDialog">
         <OptionPanel
                 id="MyLoadTest.VuGenAddInManager"
-                label="${res:MyLoadTest.VuGenAddInManager.OptionPanel.Tree.AddIns}"
+                label="${res:AddInManager2_OptionPanel_Tree_AddIns}"
                 insertafter="ToolsOptions">
             <OptionPanel
                     id="AddInGeneralOptions"
-                    label="${res:MyLoadTest.VuGenAddInManager.OptionPanel.Tree.General}"
+                    label="${res:AddInManager2_OptionPanel_Tree_General}"
                     class="MyLoadTest.VuGenAddInManager.View.PackageOptionsView" />
             <OptionPanel
                     id="AddInRepositories"
-                    label="${res:MyLoadTest.VuGenAddInManager.OptionPanel.Tree.Repositories}"
+                    label="${res:AddInManager2_OptionPanel_Tree_Repositories}"
                     class="MyLoadTest.VuGenAddInManager.View.PackageRepositoriesView" />
         </OptionPanel>
     </Path>

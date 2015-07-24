@@ -70,20 +70,20 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cancel deinstallation.
-        /// </summary>
-        public static string AddInManager_ActionCancelDeinstallation {
-            get {
-                return ResourceManager.GetString("AddInManager_ActionCancelDeinstallation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Cancel installation.
         /// </summary>
         public static string AddInManager_ActionCancelInstallation {
             get {
                 return ResourceManager.GetString("AddInManager_ActionCancelInstallation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel uninstallation.
+        /// </summary>
+        public static string AddInManager_ActionCancelUninstallation {
+            get {
+                return ResourceManager.GetString("AddInManager_ActionCancelUninstallation", resourceCulture);
             }
         }
         
@@ -142,7 +142,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A dependency for this AddIn was not found. Install it to enable this AddIn..
+        ///   Looks up a localized string similar to A dependency for this AddIn was not found. Install it to enable this add-in..
         /// </summary>
         public static string AddInManager_AddInDependencyFailed {
             get {
@@ -160,7 +160,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AddIn will be enabled after restarting SharpDevelop.
+        ///   Looks up a localized string similar to Add-in will be enabled after restarting HP Virtual User Generator.
         /// </summary>
         public static string AddInManager_AddInEnabled {
             get {
@@ -169,7 +169,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AddIn will be installed after restarting SharpDevelop.
+        ///   Looks up a localized string similar to Add-in will be installed after restarting HP Virtual User Generator.
         /// </summary>
         public static string AddInManager_AddInInstalled {
             get {
@@ -178,7 +178,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This AddIns is installed twice. Please uninstall one  copy..
+        ///   Looks up a localized string similar to This add-in is installed twice. Please uninstall one copy..
         /// </summary>
         public static string AddInManager_AddInInstalledTwice {
             get {
@@ -187,7 +187,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The AddIn must have an &lt;Identity&gt; for use with the AddIn-Manager..
+        ///   Looks up a localized string similar to The add-in must have an &lt;Identity&gt; for use with the AddIn-Manager..
         /// </summary>
         public static string AddInManager_AddInMustHaveIdentity {
             get {
@@ -196,7 +196,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AddIn will be removed after restarting SharpDevelop.
+        ///   Looks up a localized string similar to Add-in will be removed after restarting HP Virtual User Generator.
         /// </summary>
         public static string AddInManager_AddInRemoved {
             get {
@@ -205,7 +205,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AddIn will be updated after restarting SharpDevelop.
+        ///   Looks up a localized string similar to Add-in will be updated after restarting HP Virtual User Generator.
         /// </summary>
         public static string AddInManager_AddInUpdated {
             get {
@@ -214,7 +214,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AddIn will be disabled after restarting SharpDevelop.
+        ///   Looks up a localized string similar to Add-in will be disabled after restarting HP Virtual User Generator.
         /// </summary>
         public static string AddInManager_AddInWillBeDisabled {
             get {
@@ -232,7 +232,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You cannot install AddIns inside the ${ProductName} directory, they will be picked up as pre-installed AddIns automatically..
+        ///   Looks up a localized string similar to You cannot install add-ins inside the HP Virtual User Generator directory, they will be picked up as pre-installed add-ins automatically..
         /// </summary>
         public static string AddInManager_CannotInstallIntoApplicationDirectory {
             get {
@@ -250,20 +250,20 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Aborts the deinstallation of the selected AddIn(s)..
-        /// </summary>
-        public static string AddInManager_DescriptionCancelDeinstallation {
-            get {
-                return ResourceManager.GetString("AddInManager_DescriptionCancelDeinstallation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Aborts the installation of the selected AddIn(s)..
         /// </summary>
         public static string AddInManager_DescriptionCancelInstall {
             get {
                 return ResourceManager.GetString("AddInManager_DescriptionCancelInstall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Aborts the uninstallation of the selected AddIn(s)..
+        /// </summary>
+        public static string AddInManager_DescriptionCancelUninstallation {
+            get {
+                return ResourceManager.GetString("AddInManager_DescriptionCancelUninstallation", resourceCulture);
             }
         }
         
@@ -322,7 +322,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;Install AddIn.
+        ///   Looks up a localized string similar to &amp;Install add-in.
         /// </summary>
         public static string AddInManager_InstallButton {
             get {
@@ -458,7 +458,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SharpDevelop AddIn Repository.
+        ///   Looks up a localized string similar to HP Virtual User Generator AddIn Repository.
         /// </summary>
         public static string AddInManager2_DefaultRepository {
             get {
@@ -601,7 +601,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Selected package doesn&apos;t contain a valid SharpDevelop AddIn..
+        ///   Looks up a localized string similar to Selected package doesn&apos;t contain a valid HP Virtual User Generator AddIn..
         /// </summary>
         public static string AddInManager2_InvalidPackage {
             get {
@@ -633,7 +633,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         /// </summary>
         public static string AddInManager2_LicenseAcceptance_Explanation_Package {
             get {
-                return ResourceManager.GetString("AddInManager2_LicenseAcceptance_Explanation.Package", resourceCulture);
+                return ResourceManager.GetString("AddInManager2_LicenseAcceptance_Explanation_Package", resourceCulture);
             }
         }
         
@@ -643,7 +643,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         /// </summary>
         public static string AddInManager2_LicenseAcceptance_Explanation_Packages {
             get {
-                return ResourceManager.GetString("AddInManager2_LicenseAcceptance_Explanation.Packages", resourceCulture);
+                return ResourceManager.GetString("AddInManager2_LicenseAcceptance_Explanation_Packages", resourceCulture);
             }
         }
         
@@ -652,7 +652,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         /// </summary>
         public static string AddInManager2_LicenseAcceptance_Introduction_Package {
             get {
-                return ResourceManager.GetString("AddInManager2_LicenseAcceptance_Introduction.Package", resourceCulture);
+                return ResourceManager.GetString("AddInManager2_LicenseAcceptance_Introduction_Package", resourceCulture);
             }
         }
         
@@ -661,7 +661,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         /// </summary>
         public static string AddInManager2_LicenseAcceptance_Introduction_Packages {
             get {
-                return ResourceManager.GetString("AddInManager2_LicenseAcceptance_Introduction.Packages", resourceCulture);
+                return ResourceManager.GetString("AddInManager2_LicenseAcceptance_Introduction_Packages", resourceCulture);
             }
         }
         
@@ -742,7 +742,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         /// </summary>
         public static string AddInManager2_OptionPanel_Tree_AddIns {
             get {
-                return ResourceManager.GetString("AddInManager2_OptionPanel_Tree.AddIns", resourceCulture);
+                return ResourceManager.GetString("AddInManager2_OptionPanel_Tree_AddIns", resourceCulture);
             }
         }
         
@@ -751,7 +751,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         /// </summary>
         public static string AddInManager2_OptionPanel_Tree_General {
             get {
-                return ResourceManager.GetString("AddInManager2_OptionPanel_Tree.General", resourceCulture);
+                return ResourceManager.GetString("AddInManager2_OptionPanel_Tree_General", resourceCulture);
             }
         }
         
@@ -760,7 +760,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         /// </summary>
         public static string AddInManager2_OptionPanel_Tree_Repositories {
             get {
-                return ResourceManager.GetString("AddInManager2_OptionPanel_Tree.Repositories", resourceCulture);
+                return ResourceManager.GetString("AddInManager2_OptionPanel_Tree_Repositories", resourceCulture);
             }
         }
         
@@ -791,16 +791,16 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         /// </summary>
         public static string AddInManager2_UpdateNotifier_BubbleText {
             get {
-                return ResourceManager.GetString("AddInManager2_UpdateNotifier.BubbleText", resourceCulture);
+                return ResourceManager.GetString("AddInManager2_UpdateNotifier_BubbleText", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Updates for SharpDevelop are available.
+        ///   Looks up a localized string similar to Updates for HP Virtual User Generator are available.
         /// </summary>
         public static string AddInManager2_UpdateNotifier_BubbleTitle {
             get {
-                return ResourceManager.GetString("AddInManager2_UpdateNotifier.BubbleTitle", resourceCulture);
+                return ResourceManager.GetString("AddInManager2_UpdateNotifier_BubbleTitle", resourceCulture);
             }
         }
         
@@ -809,7 +809,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         /// </summary>
         public static string AddInManager2_Views_Available {
             get {
-                return ResourceManager.GetString("AddInManager2_Views.Available", resourceCulture);
+                return ResourceManager.GetString("AddInManager2_Views_Available", resourceCulture);
             }
         }
         
@@ -818,7 +818,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         /// </summary>
         public static string AddInManager2_Views_Installed {
             get {
-                return ResourceManager.GetString("AddInManager2_Views.Installed", resourceCulture);
+                return ResourceManager.GetString("AddInManager2_Views_Installed", resourceCulture);
             }
         }
         
@@ -827,7 +827,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         /// </summary>
         public static string AddInManager2_Views_Updates {
             get {
-                return ResourceManager.GetString("AddInManager2_Views.Updates", resourceCulture);
+                return ResourceManager.GetString("AddInManager2_Views_Updates", resourceCulture);
             }
         }
     }

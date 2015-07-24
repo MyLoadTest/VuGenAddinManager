@@ -20,6 +20,7 @@ using Microsoft.Win32;
 using MyLoadTest.VuGenAddInManager.Compatibility;
 using MyLoadTest.VuGenAddInManager.Model;
 using MyLoadTest.VuGenAddInManager.Model.Interfaces;
+using MyLoadTest.VuGenAddInManager.Properties;
 using NuGet;
 
 namespace MyLoadTest.VuGenAddInManager.ViewModel
@@ -80,11 +81,14 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
             // Notify about new operation
             AddInManager.Events.OnOperationStarted();
 
-            var dlg = new OpenFileDialog();
-            dlg.Filter = SD.ResourceService.GetString("AddInManager2.SDAddInFileFilter");
-            dlg.Multiselect = true;
+            var dlg = new OpenFileDialog
+            {
+                Filter = Resources.AddInManager2_SDAddInFileFilter,
+                Multiselect = true
+            };
+
             var showDialogResult = dlg.ShowDialog();
-            if (showDialogResult.HasValue && showDialogResult.Value)
+            if (showDialogResult ?? false)
             {
                 foreach (var file in dlg.FileNames)
                 {
@@ -97,7 +101,7 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
         {
             AllowInstallFromArchive = true;
             HasFilterForPreinstalled = true;
-            Title = SD.ResourceService.GetString("AddInManager2.Views.Installed");
+            Title = Resources.AddInManager2_Views_Installed;
 
             // Load preinstalled AddIn filter
             LoadPreinstalledAddInFilter();

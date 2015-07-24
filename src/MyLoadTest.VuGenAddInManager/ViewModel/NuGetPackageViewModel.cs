@@ -17,9 +17,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ICSharpCode.Core;
-using MyLoadTest.VuGenAddInManager.Compatibility;
 using MyLoadTest.VuGenAddInManager.Model;
 using MyLoadTest.VuGenAddInManager.Model.Interfaces;
+using MyLoadTest.VuGenAddInManager.Properties;
 using NuGet;
 
 namespace MyLoadTest.VuGenAddInManager.ViewModel
@@ -34,13 +34,13 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
 
         public NuGetPackageViewModel(IPackage package)
         {
-            this._package = package;
+            _package = package;
         }
 
         public NuGetPackageViewModel(IAddInManagerServices services, IPackage package)
             : base(services)
         {
-            this._package = package;
+            _package = package;
         }
 
         public IPackage Package
@@ -109,7 +109,9 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
                 //  LoggingService.DebugFormatted("isAdded: installedAddIn.Action = {0}", installedAddIn.Action);
                 // else
                 //  LoggingService.DebugFormatted("isAdded: installedAddIn for {0} is null", _package.Id);
-                return (installedAddIn != null) && ((installedAddIn.Action == AddInAction.Install) || (installedAddIn.Action == AddInAction.Update));
+                return (installedAddIn != null)
+                    && ((installedAddIn.Action == AddInAction.Install)
+                        || (installedAddIn.Action == AddInAction.Update));
             }
         }
 
@@ -234,17 +236,19 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
             {
                 if (IsAdded)
                 {
-                    return IsUpdate ? SD.ResourceService.GetString("AddInManager.AddInUpdated") : SurroundWithParantheses(SD.ResourceService.GetString("AddInManager.AddInInstalled"));
+                    return IsUpdate
+                        ? Resources.AddInManager_AddInUpdated
+                        : SurroundWithParantheses(Resources.AddInManager_AddInInstalled);
                 }
 
                 if (IsRemoved)
                 {
-                    return SurroundWithParantheses(SD.ResourceService.GetString("AddInManager.AddInRemoved"));
+                    return SurroundWithParantheses(Resources.AddInManager_AddInRemoved);
                 }
 
                 if (!IsEnabled)
                 {
-                    return SurroundWithParantheses(SD.ResourceService.GetString("AddInManager.AddInDisabled"));
+                    return SurroundWithParantheses(Resources.AddInManager_AddInDisabled);
                 }
 
                 return _package.Summary;
@@ -409,7 +413,10 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
                     }
 
                     if (!MessageService.AskQuestionFormatted(
-                        "${res:AddInManager.Title}", "${res:AddInManager2.InstallDependentMessage}", _package.Id, addInNames))
+                        "${res:AddInManager.Title}",
+                        "${res:AddInManager2.InstallDependentMessage}",
+                        _package.Id,
+                        addInNames))
                     {
                         return false;
                     }
@@ -420,8 +427,7 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
             var packages = GetPackagesRequiringLicenseAcceptance();
             if (packages.Any())
             {
-                var acceptLicenses = new AcceptLicensesEventArgs(packages);
-                acceptLicenses.IsAccepted = true;
+                var acceptLicenses = new AcceptLicensesEventArgs(packages) { IsAccepted = true };
                 AddInManager.Events.OnAcceptLicenses(acceptLicenses);
                 return acceptLicenses.IsAccepted;
             }

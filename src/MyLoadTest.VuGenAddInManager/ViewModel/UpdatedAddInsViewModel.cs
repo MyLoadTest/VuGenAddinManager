@@ -16,9 +16,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MyLoadTest.VuGenAddInManager.Compatibility;
 using MyLoadTest.VuGenAddInManager.Model;
 using MyLoadTest.VuGenAddInManager.Model.Interfaces;
+using MyLoadTest.VuGenAddInManager.Properties;
 using NuGet;
 
 namespace MyLoadTest.VuGenAddInManager.ViewModel
@@ -81,7 +81,7 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
             IsSearchable = true;
             ShowPackageSources = true;
             HasFilterForPrereleases = true;
-            Title = SD.ResourceService.GetString("AddInManager2.Views.Updates");
+            Title = Resources.AddInManager2_Views_Updates;
 
             ShowPrereleases = AddInManager.Settings.ShowPrereleases;
 
@@ -118,7 +118,8 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
                     }
 
                     // Set update count for repository in list
-                    var packageRepositoryModel = PackageRepositories.FirstOrDefault(pr => pr.SourceUrl == repository.Source);
+                    var packageRepositoryModel =
+                        PackageRepositories.FirstOrDefault(pr => pr.SourceUrl == repository.Source);
                     if (packageRepositoryModel != null)
                     {
                         var updatesCount = updatesForThisRepository.Count();
@@ -139,7 +140,9 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
             return updatedPackages.AsQueryable();
         }
 
-        private IPackage[] GetUpdatedPackages(IPackageRepository sourceRepository, IEnumerable<IPackage> localPackages)
+        private IPackage[] GetUpdatedPackages(
+            IPackageRepository sourceRepository,
+            IEnumerable<IPackage> localPackages)
         {
             return sourceRepository.GetUpdates(localPackages, ShowPrereleases, false).ToArray();
         }

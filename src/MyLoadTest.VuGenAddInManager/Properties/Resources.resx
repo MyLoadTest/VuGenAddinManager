@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddInManager_ActionCancelDeinstallation" xml:space="preserve">
-    <value>Cancel deinstallation</value>
+  <data name="AddInManager_ActionCancelUninstallation" xml:space="preserve">
+    <value>Cancel uninstallation</value>
   </data>
   <data name="AddInManager_ActionCancelInstallation" xml:space="preserve">
     <value>Cancel installation</value>
@@ -142,40 +142,40 @@
     <value>Update</value>
   </data>
   <data name="AddInManager_AddInDependencyFailed" xml:space="preserve">
-    <value>A dependency for this AddIn was not found. Install it to enable this AddIn.</value>
+    <value>A dependency for this AddIn was not found. Install it to enable this add-in.</value>
   </data>
   <data name="AddInManager_AddInDisabled" xml:space="preserve">
     <value>Disabled</value>
   </data>
   <data name="AddInManager_AddInEnabled" xml:space="preserve">
-    <value>AddIn will be enabled after restarting SharpDevelop</value>
+    <value>Add-in will be enabled after restarting HP Virtual User Generator</value>
   </data>
   <data name="AddInManager_AddInInstalled" xml:space="preserve">
-    <value>AddIn will be installed after restarting SharpDevelop</value>
+    <value>Add-in will be installed after restarting HP Virtual User Generator</value>
   </data>
   <data name="AddInManager_AddInInstalledTwice" xml:space="preserve">
-    <value>This AddIns is installed twice. Please uninstall one  copy.</value>
+    <value>This add-in is installed twice. Please uninstall one copy.</value>
   </data>
   <data name="AddInManager_AddInMustHaveIdentity" xml:space="preserve">
-    <value>The AddIn must have an &lt;Identity&gt; for use with the AddIn-Manager.</value>
+    <value>The add-in must have an &lt;Identity&gt; for use with the AddIn-Manager.</value>
   </data>
   <data name="AddInManager_AddInRemoved" xml:space="preserve">
-    <value>AddIn will be removed after restarting SharpDevelop</value>
+    <value>Add-in will be removed after restarting HP Virtual User Generator</value>
   </data>
   <data name="AddInManager_AddInUpdated" xml:space="preserve">
-    <value>AddIn will be updated after restarting SharpDevelop</value>
+    <value>Add-in will be updated after restarting HP Virtual User Generator</value>
   </data>
   <data name="AddInManager_AddInWillBeDisabled" xml:space="preserve">
-    <value>AddIn will be disabled after restarting SharpDevelop</value>
+    <value>Add-in will be disabled after restarting HP Virtual User Generator</value>
   </data>
   <data name="AddInManager_CannotDisableAddInManager" xml:space="preserve">
     <value>You cannot disable the AddInManager because you need it to re-enable AddIns!</value>
   </data>
   <data name="AddInManager_CannotInstallIntoApplicationDirectory" xml:space="preserve">
-    <value>You cannot install AddIns inside the ${ProductName} directory, they will be picked up as pre-installed AddIns automatically.</value>
+    <value>You cannot install add-ins inside the HP Virtual User Generator directory, they will be picked up as pre-installed add-ins automatically.</value>
   </data>
-  <data name="AddInManager_DescriptionCancelDeinstallation" xml:space="preserve">
-    <value>Aborts the deinstallation of the selected AddIn(s).</value>
+  <data name="AddInManager_DescriptionCancelUninstallation" xml:space="preserve">
+    <value>Aborts the uninstallation of the selected AddIn(s).</value>
   </data>
   <data name="AddInManager_DescriptionCancelInstall" xml:space="preserve">
     <value>Aborts the installation of the selected AddIn(s).</value>
@@ -199,7 +199,7 @@
     <value>VuGen add-ins|*.vugenaddin|All files|*.*</value>
   </data>
   <data name="AddInManager_InstallButton" xml:space="preserve">
-    <value>&amp;Install AddIn</value>
+    <value>&amp;Install add-in</value>
   </data>
   <data name="AddInManager_NoAddInsInstalled" xml:space="preserve">
     <value>You don't have any AddIns installed.
@@ -245,7 +245,7 @@ Download an AddIn from the Internet, then click 'Install AddIn' and choose the d
     <value>You cannot uninstall the AddInManager because you need it to re-install AddIns!</value>
   </data>
   <data name="AddInManager2_DefaultRepository" xml:space="preserve">
-    <value>SharpDevelop AddIn Repository</value>
+    <value>HP Virtual User Generator AddIn Repository</value>
   </data>
   <data name="AddInManager2_Details_CreatedBy" xml:space="preserve">
     <value>Created by:</value>
@@ -298,7 +298,7 @@ They will stop working after disabling this AddIn! Are you sure you want to cont
 The application will try to download and install them, as well. Do you want to continue?</value>
   </data>
   <data name="AddInManager2_InvalidPackage" xml:space="preserve">
-    <value>Selected package doesn't contain a valid SharpDevelop AddIn.</value>
+    <value>Selected package doesn't contain a valid HP Virtual User Generator AddIn.</value>
   </data>
   <data name="AddInManager2_LicenseAcceptance_AcceptButton" xml:space="preserve">
     <value>I &amp;Accept</value>
@@ -306,18 +306,18 @@ The application will try to download and install them, as well. Do you want to c
   <data name="AddInManager2_LicenseAcceptance_DeclineButton" xml:space="preserve">
     <value>I &amp;Decline</value>
   </data>
-  <data name="AddInManager2_LicenseAcceptance_Explanation.Package" xml:space="preserve">
+  <data name="AddInManager2_LicenseAcceptance_Explanation_Package" xml:space="preserve">
     <value>By clicking "I Accept" you agree to the license terms for the package listed above.
 If you do not agree to the license terms click "I Decline".</value>
   </data>
-  <data name="AddInManager2_LicenseAcceptance_Explanation.Packages" xml:space="preserve">
+  <data name="AddInManager2_LicenseAcceptance_Explanation_Packages" xml:space="preserve">
     <value>By clicking "I Accept" you agree to the license terms for the packages listed above.
 If you do not agree to the license terms click "I Decline".</value>
   </data>
-  <data name="AddInManager2_LicenseAcceptance_Introduction.Package" xml:space="preserve">
+  <data name="AddInManager2_LicenseAcceptance_Introduction_Package" xml:space="preserve">
     <value>The following package requires a click-to-accept license:</value>
   </data>
-  <data name="AddInManager2_LicenseAcceptance_Introduction.Packages" xml:space="preserve">
+  <data name="AddInManager2_LicenseAcceptance_Introduction_Packages" xml:space="preserve">
     <value>The following packages require a click-to-accept license:</value>
   </data>
   <data name="AddInManager2_LicenseAcceptance_Title" xml:space="preserve">
@@ -344,13 +344,13 @@ If you do not agree to the license terms click "I Decline".</value>
   <data name="AddInManager2_OptionPanel_Source" xml:space="preserve">
     <value>Source:</value>
   </data>
-  <data name="AddInManager2_OptionPanel_Tree.AddIns" xml:space="preserve">
+  <data name="AddInManager2_OptionPanel_Tree_AddIns" xml:space="preserve">
     <value>AddIns</value>
   </data>
-  <data name="AddInManager2_OptionPanel_Tree.General" xml:space="preserve">
+  <data name="AddInManager2_OptionPanel_Tree_General" xml:space="preserve">
     <value>General</value>
   </data>
-  <data name="AddInManager2_OptionPanel_Tree.Repositories" xml:space="preserve">
+  <data name="AddInManager2_OptionPanel_Tree_Repositories" xml:space="preserve">
     <value>Repositories</value>
   </data>
   <data name="AddInManager2_RemoveDependentWarning" xml:space="preserve">
@@ -363,19 +363,19 @@ They will stop working after removing this AddIn! Are you sure you want to conti
   <data name="AddInManager2_SDAddInFileFilter" xml:space="preserve">
     <value>VuGen AddIns|*.vugenaddin|All files|*.*</value>
   </data>
-  <data name="AddInManager2_UpdateNotifier.BubbleText" xml:space="preserve">
+  <data name="AddInManager2_UpdateNotifier_BubbleText" xml:space="preserve">
     <value>Click here to see the updates.</value>
   </data>
-  <data name="AddInManager2_UpdateNotifier.BubbleTitle" xml:space="preserve">
-    <value>Updates for SharpDevelop are available</value>
+  <data name="AddInManager2_UpdateNotifier_BubbleTitle" xml:space="preserve">
+    <value>Updates for HP Virtual User Generator are available</value>
   </data>
-  <data name="AddInManager2_Views.Available" xml:space="preserve">
+  <data name="AddInManager2_Views_Available" xml:space="preserve">
     <value>Available</value>
   </data>
-  <data name="AddInManager2_Views.Installed" xml:space="preserve">
+  <data name="AddInManager2_Views_Installed" xml:space="preserve">
     <value>Installed</value>
   </data>
-  <data name="AddInManager2_Views.Updates" xml:space="preserve">
+  <data name="AddInManager2_Views_Updates" xml:space="preserve">
     <value>Updates</value>
   </data>
   <data name="AddInManager_About" xml:space="preserve">

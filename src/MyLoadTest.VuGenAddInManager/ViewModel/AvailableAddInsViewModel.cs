@@ -22,6 +22,7 @@ using System.Linq;
 using MyLoadTest.VuGenAddInManager.Compatibility;
 using MyLoadTest.VuGenAddInManager.Model;
 using MyLoadTest.VuGenAddInManager.Model.Interfaces;
+using MyLoadTest.VuGenAddInManager.Properties;
 using NuGet;
 
 namespace MyLoadTest.VuGenAddInManager.ViewModel
@@ -68,7 +69,7 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
         {
             IsSearchable = true;
             ShowPackageSources = true;
-            Title = SD.ResourceService.GetString("AddInManager2.Views.Available");
+            Title = Resources.AddInManager2_Views_Available;
 
             AddInManager.Events.AddInInstalled += AddInInstallationStateChanged;
             AddInManager.Events.AddInUninstalled += AddInInstallationStateChanged;

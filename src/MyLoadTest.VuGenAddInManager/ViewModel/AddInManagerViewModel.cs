@@ -20,11 +20,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using ICSharpCode.Core;
 using MyLoadTest.VuGenAddInManager.Compatibility;
 using MyLoadTest.VuGenAddInManager.Model;
-using MyLoadTest.VuGenAddInManager.Model.Interfaces;
+using MyLoadTest.VuGenAddInManager.Properties;
 using MyLoadTest.VuGenAddInManager.View;
 using NuGet;
 using PropertyChangedEventArgs = System.ComponentModel.PropertyChangedEventArgs;
@@ -140,9 +139,12 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
 
             // Create a license acceptance view
             var viewModel = new LicenseAcceptanceViewModel(packages);
-            var view = new LicenseAcceptanceView();
-            view.DataContext = viewModel;
-            view.Owner = SD.Workbench.MainWindow;
+            var view = new LicenseAcceptanceView
+            {
+                DataContext = viewModel,
+                Owner = SD.Workbench.MainWindow
+            };
+
             return view.ShowDialog() ?? false;
         }
 
@@ -153,24 +155,22 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
                 return;
             }
 
-            // Visuals
-            this.Title = SD.ResourceService.GetString("AddInManager.Title");
+            Title = Resources.AddInManager_Title;
 
-            // Add event handlers
             AddInManager.Events.OperationStarted += AddInManager_Events_OperationStarted;
             AddInManager.Events.AddInOperationError += AddInManager_Events_AddInOperationError;
             AddInManager.Events.AcceptLicenses += AddInManager_Events_AcceptLicenses;
 
-            _viewModels = new ObservableCollection<AddInsViewModelBase>();
-
-            // Create and collect the models
             InstalledAddInsViewModel = new InstalledAddInsViewModel();
             AvailableAddInsViewModel = new AvailableAddInsViewModel();
             UpdatedAddInsViewModel = new UpdatedAddInsViewModel();
 
-            _viewModels.Add(InstalledAddInsViewModel);
-            _viewModels.Add(AvailableAddInsViewModel);
-            _viewModels.Add(UpdatedAddInsViewModel);
+            _viewModels = new ObservableCollection<AddInsViewModelBase>
+            {
+                InstalledAddInsViewModel,
+                AvailableAddInsViewModel,
+                UpdatedAddInsViewModel
+            };
 
             foreach (var viewModel in _viewModels)
             {
@@ -195,15 +195,15 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
 
         private void ClearMessage()
         {
-            this.Message = null;
-            this.HasError = false;
+            Message = null;
+            HasError = false;
         }
 
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "IsExpandedInView")
             {
-                AddInsViewModelBase expandedViewModel = sender as AddInsViewModelBase;
+                var expandedViewModel = sender as AddInsViewModelBase;
                 if (expandedViewModel != null)
                 {
                     if (expandedViewModel.IsExpandedInView)

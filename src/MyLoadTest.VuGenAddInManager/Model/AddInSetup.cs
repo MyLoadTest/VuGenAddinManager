@@ -22,6 +22,7 @@ using ICSharpCode.Core;
 using ICSharpCode.SharpZipLib.Zip;
 using MyLoadTest.VuGenAddInManager.Compatibility;
 using MyLoadTest.VuGenAddInManager.Model.Interfaces;
+using MyLoadTest.VuGenAddInManager.Properties;
 using NuGet;
 
 namespace MyLoadTest.VuGenAddInManager.Model
@@ -35,9 +36,12 @@ namespace MyLoadTest.VuGenAddInManager.Model
         private readonly INuGetPackageManager _nuGet;
         private readonly ISDAddInManagement _sdAddInManagement;
 
-        private List<ManagedAddIn> _addInsMarkedForInstall;
+        private readonly List<ManagedAddIn> _addInsMarkedForInstall;
 
-        public AddInSetup(IAddInManagerEvents events, INuGetPackageManager nuGet, ISDAddInManagement sdAddInManagement)
+        public AddInSetup(
+            IAddInManagerEvents events,
+            INuGetPackageManager nuGet,
+            ISDAddInManagement sdAddInManagement)
         {
             _events = events;
             _nuGet = nuGet;
@@ -53,7 +57,8 @@ namespace MyLoadTest.VuGenAddInManager.Model
         {
             get
             {
-                return _sdAddInManagement.AddIns.Select(a => new ManagedAddIn(a) { IsTemporary = false, IsUpdate = false })
+                return _sdAddInManagement.AddIns.Select(
+                    a => new ManagedAddIn(a) { IsTemporary = false, IsUpdate = false })
                     .GroupJoin(
                         _addInsMarkedForInstall,
                         installedAddIn => installedAddIn.AddIn.Manifest.PrimaryIdentity,
@@ -76,7 +81,7 @@ namespace MyLoadTest.VuGenAddInManager.Model
 
         private AddIn LoadAddInFromZip(ZipFile file)
         {
-            AddIn resultAddIn = null;
+            AddIn resultAddIn;
             ZipEntry addInEntry = null;
             foreach (ZipEntry entry in file)
             {
@@ -85,8 +90,8 @@ namespace MyLoadTest.VuGenAddInManager.Model
                     if (addInEntry != null)
                     {
                         _events.OnAddInOperationError(
-                            new AddInOperationErrorEventArgs(
-                                SD.ResourceService.GetString("AddInManager2.InvalidPackage")));
+                            new AddInOperationErrorEventArgs(Resources.AddInManager2_InvalidPackage));
+
                         return null;
                     }
 
@@ -97,8 +102,8 @@ namespace MyLoadTest.VuGenAddInManager.Model
             if (addInEntry == null)
             {
                 _events.OnAddInOperationError(
-                    new AddInOperationErrorEventArgs(
-                        SD.ResourceService.GetString("AddInManager2.InvalidPackage")));
+                    new AddInOperationErrorEventArgs(Resources.AddInManager2_InvalidPackage));
+
                 return null;
             }
 
@@ -117,7 +122,7 @@ namespace MyLoadTest.VuGenAddInManager.Model
         {
             if (fileName != null)
             {
-                AddIn addIn = null;
+                AddIn addIn;
 
                 var installAsExternal = false;
 
@@ -132,7 +137,7 @@ namespace MyLoadTest.VuGenAddInManager.Model
                             // Don't allow to install AddIns from application root path
                             _events.OnAddInOperationError(
                                 new AddInOperationErrorEventArgs(
-                                    SD.ResourceService.GetString("AddInManager.CannotInstallIntoApplicationDirectory")));
+                                    Resources.AddInManager_CannotInstallIntoApplicationDirectory));
                             return null;
                         }
 
@@ -158,8 +163,7 @@ namespace MyLoadTest.VuGenAddInManager.Model
                         {
                             // ZIP file seems not to be valid
                             _events.OnAddInOperationError(
-                                new AddInOperationErrorEventArgs(
-                                    SD.ResourceService.GetString("AddInManager2.InvalidPackage")));
+                                new AddInOperationErrorEventArgs(Resources.AddInManager2_InvalidPackage));
                             return null;
                         }
                         finally
@@ -177,7 +181,8 @@ namespace MyLoadTest.VuGenAddInManager.Model
                         // Unknown format of file
                         _events.OnAddInOperationError(
                             new AddInOperationErrorEventArgs(
-                                SD.ResourceService.GetString("AddInManager.UnknownFileFormat") + " " + Path.GetExtension(fileName)));
+                                Resources.AddInManager_UnknownFileFormat + " "
+                                    + Path.GetExtension(fileName)));
                         return null;
                 }
 
@@ -187,7 +192,7 @@ namespace MyLoadTest.VuGenAddInManager.Model
                     {
                         _events.OnAddInOperationError(
                             new AddInOperationErrorEventArgs(
-                                new AddInLoadException(SD.ResourceService.GetString("AddInManager.AddInMustHaveIdentity"))));
+                                new AddInLoadException(Resources.AddInManager_AddInMustHaveIdentity)));
                         return null;
                     }
 
@@ -256,17 +261,20 @@ namespace MyLoadTest.VuGenAddInManager.Model
         public AddIn InstallAddIn(IPackage package, string packageDirectory)
         {
             // Lookup for .addin file in package output
-            var addInManifestFile = Directory.EnumerateFiles(packageDirectory, "*.addin", SearchOption.TopDirectoryOnly).FirstOrDefault();
+            var addInManifestFile =
+                Directory.EnumerateFiles(packageDirectory, "*.addin", SearchOption.TopDirectoryOnly).FirstOrDefault();
             if (addInManifestFile != null)
             {
-                SD.Log.DebugFormatted("[AddInManager2] Installing AddIn from package {0} {1}", package.Id, package.Version.ToString());
+                SD.Log.DebugFormatted(
+                    "[AddInManager2] Installing AddIn from package {0} {1}",
+                    package.Id,
+                    package.Version.ToString());
 
                 // Patch metadata of AddIn to have a permanent link to the NuGet package
                 if (!PatchAddInManifest(addInManifestFile, package))
                 {
                     _events.OnAddInOperationError(
-                        new AddInOperationErrorEventArgs(
-                            SD.ResourceService.GetString("AddInManager2.InvalidPackage")));
+                        new AddInOperationErrorEventArgs(Resources.AddInManager2_InvalidPackage));
                     return null;
                 }
 
@@ -275,7 +283,8 @@ namespace MyLoadTest.VuGenAddInManager.Model
                 {
                     _events.OnAddInOperationError(
                         new AddInOperationErrorEventArgs(
-                            new AddInLoadException(SD.ResourceService.GetString("AddInManager.AddInMustHaveIdentity"))));
+                            new AddInLoadException(Resources.AddInManager_AddInMustHaveIdentity)));
+
                     return null;
                 }
 
@@ -319,8 +328,9 @@ namespace MyLoadTest.VuGenAddInManager.Model
                 // Some debug output about AddIn's manifest
                 if ((addIn.Manifest != null) && !string.IsNullOrEmpty(addIn.Manifest.PrimaryIdentity))
                 {
-                    SD.Log.DebugFormatted("[AddInManager2] AddIn's manifest states identity '{0}'",
-                                          addIn.Manifest.PrimaryIdentity);
+                    SD.Log.DebugFormatted(
+                        "[AddInManager2] AddIn's manifest states identity '{0}'",
+                        addIn.Manifest.PrimaryIdentity);
                 }
                 else
                 {
@@ -329,8 +339,9 @@ namespace MyLoadTest.VuGenAddInManager.Model
 
                 if (addIn.Properties.Contains(ManagedAddIn.NuGetPackageIdManifestAttribute))
                 {
-                    SD.Log.DebugFormatted("[AddInManager2] AddIn's manifest states NuGet ID '{0}'",
-                                          addIn.Properties[ManagedAddIn.NuGetPackageIdManifestAttribute]);
+                    SD.Log.DebugFormatted(
+                        "[AddInManager2] AddIn's manifest states NuGet ID '{0}'",
+                        addIn.Properties[ManagedAddIn.NuGetPackageIdManifestAttribute]);
                 }
                 else
                 {
@@ -344,8 +355,9 @@ namespace MyLoadTest.VuGenAddInManager.Model
                     InstallationSource = AddInInstallationSource.NuGetRepository,
                     IsTemporary = true,
                     IsUpdate = foundAddIn != null,
-                    OldVersion = (foundAddIn != null) ?
-                        new Version(foundAddInManaged.LinkedNuGetPackageVersion ?? foundAddIn.Version.ToString()) : null
+                    OldVersion = (foundAddIn != null)
+                        ? new Version(foundAddInManaged.LinkedNuGetPackageVersion ?? foundAddIn.Version.ToString())
+                        : null
                 };
                 _addInsMarkedForInstall.Add(markedAddIn);
 
@@ -360,14 +372,13 @@ namespace MyLoadTest.VuGenAddInManager.Model
             {
                 // This is not a valid SharpDevelop AddIn package!
                 _events.OnAddInOperationError(
-                    new AddInOperationErrorEventArgs(
-                        SD.ResourceService.GetString("AddInManager2.InvalidPackage")));
+                    new AddInOperationErrorEventArgs(Resources.AddInManager2_InvalidPackage));
             }
 
             return null;
         }
 
-        private bool PatchAddInManifest(string addInManifestFile, IPackage package)
+        private static bool PatchAddInManifest(string addInManifestFile, IPackage package)
         {
             if (!File.Exists(addInManifestFile))
             {
@@ -380,12 +391,14 @@ namespace MyLoadTest.VuGenAddInManager.Model
                 addInManifestDoc.Load(addInManifestFile);
 
                 // Set our special attributes in root
-                var nuGetPackageIDAttribute = addInManifestDoc.CreateAttribute(ManagedAddIn.NuGetPackageIdManifestAttribute);
-                nuGetPackageIDAttribute.Value = package.Id;
-                addInManifestDoc.DocumentElement.Attributes.Append(nuGetPackageIDAttribute);
+                var nuGetPackageIdAttribute =
+                    addInManifestDoc.CreateAttribute(ManagedAddIn.NuGetPackageIdManifestAttribute);
+                nuGetPackageIdAttribute.Value = package.Id;
+                addInManifestDoc.DocumentElement.Attributes.Append(nuGetPackageIdAttribute);
                 if (package.Version != null)
                 {
-                    var nuGetPackageVersionAttribute = addInManifestDoc.CreateAttribute(ManagedAddIn.NuGetPackageVersionManifestAttribute);
+                    var nuGetPackageVersionAttribute =
+                        addInManifestDoc.CreateAttribute(ManagedAddIn.NuGetPackageVersionManifestAttribute);
                     nuGetPackageVersionAttribute.Value = package.Version.ToString();
                     addInManifestDoc.DocumentElement.Attributes.Append(nuGetPackageVersionAttribute);
                 }
@@ -400,7 +413,7 @@ namespace MyLoadTest.VuGenAddInManager.Model
             }
         }
 
-        private bool PatchAddInProperties(AddIn addIn, IPackage package)
+        private static bool PatchAddInProperties(AddIn addIn, IPackage package)
         {
             if ((addIn != null) && (package != null))
             {
@@ -411,7 +424,9 @@ namespace MyLoadTest.VuGenAddInManager.Model
 
                 if (!addIn.Properties.Contains(ManagedAddIn.NuGetPackageVersionManifestAttribute))
                 {
-                    addIn.Properties.Set(ManagedAddIn.NuGetPackageVersionManifestAttribute, package.Version.ToString());
+                    addIn.Properties.Set(
+                        ManagedAddIn.NuGetPackageVersionManifestAttribute,
+                        package.Version.ToString());
                 }
 
                 return true;
@@ -428,16 +443,16 @@ namespace MyLoadTest.VuGenAddInManager.Model
             {
                 try
                 {
-                    var targetDir = Path.Combine(_sdAddInManagement.TempInstallDirectory,
-                                                    addIn.Manifest.PrimaryIdentity);
+                    var targetDir = Path.Combine(
+                        _sdAddInManagement.TempInstallDirectory,
+                        addIn.Manifest.PrimaryIdentity);
                     if (Directory.Exists(targetDir))
                     {
                         Directory.Delete(targetDir, true);
                     }
 
                     var directoryInfo = Directory.CreateDirectory(targetDir);
-                    var fastZip = new FastZip();
-                    fastZip.CreateEmptyDirectories = true;
+                    var fastZip = new FastZip { CreateEmptyDirectories = true };
                     fastZip.ExtractZip(zipFile, targetDir, null);
 
                     if (addIn.FileName == null)
@@ -468,8 +483,9 @@ namespace MyLoadTest.VuGenAddInManager.Model
         {
             try
             {
-                var targetDir = Path.Combine(_sdAddInManagement.TempInstallDirectory,
-                                                addIn.Manifest.PrimaryIdentity);
+                var targetDir = Path.Combine(
+                    _sdAddInManagement.TempInstallDirectory,
+                    addIn.Manifest.PrimaryIdentity);
                 if (Directory.Exists(targetDir))
                 {
                     Directory.Delete(targetDir, true);
@@ -485,7 +501,7 @@ namespace MyLoadTest.VuGenAddInManager.Model
             }
         }
 
-        private void DeepCopy(string packageDirectory, string targetDirectory)
+        private static void DeepCopy(string packageDirectory, string targetDirectory)
         {
             Directory.CreateDirectory(targetDirectory);
 
@@ -499,10 +515,10 @@ namespace MyLoadTest.VuGenAddInManager.Model
                 }
             }
 
-            foreach (var packageSubDirectory in Directory.EnumerateDirectories(packageDirectory))
+            foreach (var packageSubdirectory in Directory.EnumerateDirectories(packageDirectory))
             {
-                var newTargetDirectory = Path.Combine(targetDirectory, Path.GetFileName(packageSubDirectory));
-                DeepCopy(packageSubDirectory, newTargetDirectory);
+                var newTargetDirectory = Path.Combine(targetDirectory, Path.GetFileName(packageSubdirectory));
+                DeepCopy(packageSubdirectory, newTargetDirectory);
             }
         }
 
@@ -529,8 +545,7 @@ namespace MyLoadTest.VuGenAddInManager.Model
                     }
                 }
 
-                var eventArgs = new AddInInstallationEventArgs(addIn);
-                eventArgs.PreviousVersionRemains = true;
+                var eventArgs = new AddInInstallationEventArgs(addIn) { PreviousVersionRemains = true };
                 _events.OnAddInUninstalled(eventArgs);
                 _events.OnAddInStateChanged(eventArgs);
             }
@@ -597,8 +612,7 @@ namespace MyLoadTest.VuGenAddInManager.Model
             {
                 SD.Log.DebugFormatted("[AddInManager2] Uninstalling AddIn {0}", addIn.Name);
 
-                var addInList = new List<AddIn>();
-                addInList.Add(addIn);
+                var addInList = new List<AddIn> { addIn };
                 _sdAddInManagement.RemoveExternalAddIns(addInList);
 
                 CancelPendingUpdate(addIn);
@@ -664,14 +678,12 @@ namespace MyLoadTest.VuGenAddInManager.Model
         {
             if (!string.IsNullOrEmpty(identity))
             {
-                return _sdAddInManagement.AddIns
-                    .Where(a => (a.Manifest != null) && a.Manifest.Identities.ContainsKey(identity))
-                    .FirstOrDefault();
+                return _sdAddInManagement
+                    .AddIns
+                    .FirstOrDefault(a => a.Manifest != null && a.Manifest.Identities.ContainsKey(identity));
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
 
         public bool IsAddInInstalled(AddIn addIn)
@@ -688,9 +700,15 @@ namespace MyLoadTest.VuGenAddInManager.Model
                 identity = addIn.Manifest.PrimaryIdentity;
             }
 
-            return _sdAddInManagement.AddIns
-                    .Where(a => (addIn == a) || ((identity != null) && (a.Manifest != null) && a.Manifest.Identities.ContainsKey(identity)))
-                    .FirstOrDefault() != null;
+            var foundAddIn = _sdAddInManagement
+                .AddIns
+                .FirstOrDefault(
+                    obj =>
+                        addIn == obj
+                            || (identity != null && obj.Manifest != null
+                                && obj.Manifest.Identities.ContainsKey(identity)));
+
+            return foundAddIn != null;
         }
 
         public bool IsAddInPreinstalled(AddIn addIn)
@@ -698,8 +716,11 @@ namespace MyLoadTest.VuGenAddInManager.Model
             if (addIn != null)
             {
                 return
-                    string.Equals(addIn.Properties["addInManagerHidden"], "preinstalled", StringComparison.OrdinalIgnoreCase)
-                    && FileUtility.IsBaseDirectory(FileUtility.ApplicationRootPath, addIn.FileName);
+                    string.Equals(
+                        addIn.Properties["addInManagerHidden"],
+                        "preinstalled",
+                        StringComparison.OrdinalIgnoreCase)
+                        && FileUtility.IsBaseDirectory(FileUtility.ApplicationRootPath, addIn.FileName);
             }
             else
             {
@@ -720,11 +741,11 @@ namespace MyLoadTest.VuGenAddInManager.Model
                 return null;
             }
 
-            IPackage package = null;
-            string nuGetPackageID = null;
+            IPackage package;
+            string nuGetPackageId = null;
             if (addIn.Properties.Contains(ManagedAddIn.NuGetPackageIdManifestAttribute))
             {
-                nuGetPackageID = addIn.Properties[ManagedAddIn.NuGetPackageIdManifestAttribute];
+                nuGetPackageId = addIn.Properties[ManagedAddIn.NuGetPackageIdManifestAttribute];
             }
 
             string primaryIdentity = null;
@@ -735,7 +756,7 @@ namespace MyLoadTest.VuGenAddInManager.Model
 
             // Find installed package with mapped NuGet package ID
             var matchingPackages = _nuGet.Packages.LocalRepository.GetPackages()
-                .Where(p => (p.Id == primaryIdentity) || (p.Id == nuGetPackageID))
+                .Where(p => (p.Id == primaryIdentity) || (p.Id == nuGetPackageId))
                 .OrderBy(p => p.Version);
             if (getLatest)
             {
@@ -775,11 +796,12 @@ namespace MyLoadTest.VuGenAddInManager.Model
                 throw new ArgumentNullException("package");
             }
 
-            var foundAddIn = _sdAddInManagement.AddIns.Where(
-                a => ((a.Manifest != null) && (a.Manifest.PrimaryIdentity == package.Id))
-                || (a.Properties.Contains(ManagedAddIn.NuGetPackageIdManifestAttribute)
-                    && (a.Properties[ManagedAddIn.NuGetPackageIdManifestAttribute] == package.Id)))
-                .FirstOrDefault();
+            var foundAddIn = _sdAddInManagement
+                .AddIns
+                .FirstOrDefault(
+                    a => ((a.Manifest != null) && (a.Manifest.PrimaryIdentity == package.Id))
+                        || (a.Properties.Contains(ManagedAddIn.NuGetPackageIdManifestAttribute)
+                            && (a.Properties[ManagedAddIn.NuGetPackageIdManifestAttribute] == package.Id)));
 
             return foundAddIn;
         }
@@ -791,13 +813,12 @@ namespace MyLoadTest.VuGenAddInManager.Model
                 throw new ArgumentNullException("package");
             }
 
-            var foundAddIn = AddInsWithMarkedForInstallation.Where(
-                a => ((a.AddIn.Manifest != null) && (a.AddIn.Manifest.PrimaryIdentity == package.Id))
-                || (a.AddIn.Properties.Contains(ManagedAddIn.NuGetPackageIdManifestAttribute)
-                    && (a.AddIn.Properties[ManagedAddIn.NuGetPackageIdManifestAttribute] == package.Id)))
-                .FirstOrDefault();
+            var foundAddIn = AddInsWithMarkedForInstallation
+                .FirstOrDefault(a => ((a.AddIn.Manifest != null) && (a.AddIn.Manifest.PrimaryIdentity == package.Id))
+                    || (a.AddIn.Properties.Contains(ManagedAddIn.NuGetPackageIdManifestAttribute)
+                        && (a.AddIn.Properties[ManagedAddIn.NuGetPackageIdManifestAttribute] == package.Id)));
 
-            return (foundAddIn != null) ? foundAddIn.AddIn : null;
+            return foundAddIn != null ? foundAddIn.AddIn : null;
         }
 
         public ManagedAddIn[] GetDependentAddIns(AddIn addIn)
@@ -888,16 +909,15 @@ namespace MyLoadTest.VuGenAddInManager.Model
                     else
                     {
                         // Count NuGet packages with current ID
-                        var allPackagesOfThisNuGetID = installedNuGetPackages
-                            .Where(p => p.Id == installedPackage.Id)
-                            .Count();
+                        var allPackagesOfThisNuGetId = installedNuGetPackages.Count(p => p.Id == installedPackage.Id);
 
-                        if (allPackagesOfThisNuGetID > 1)
+                        if (allPackagesOfThisNuGetId > 1)
                         {
                             // Compare version of package with version of installed AddIn
                             if (addIn.Properties.Contains(ManagedAddIn.NuGetPackageVersionManifestAttribute))
                             {
-                                if (addIn.Properties[ManagedAddIn.NuGetPackageVersionManifestAttribute] != installedPackage.Version.ToString())
+                                if (addIn.Properties[ManagedAddIn.NuGetPackageVersionManifestAttribute]
+                                    != installedPackage.Version.ToString())
                                 {
                                     // AddIn has a NuGet version tag in its manifest, but not this one
                                     removeThisPackage = true;
@@ -922,8 +942,10 @@ namespace MyLoadTest.VuGenAddInManager.Model
                     if (removeThisPackage)
                     {
                         // We decided to remove this package
-                        SD.Log.InfoFormatted("[AddInManager2] Removing unreferenced NuGet package {0} {1}.",
-                                             installedPackage.Id, installedPackage.Version.ToString());
+                        SD.Log.InfoFormatted(
+                            "[AddInManager2] Removing unreferenced NuGet package {0} {1}.",
+                            installedPackage.Id,
+                            installedPackage.Version.ToString());
                         _nuGet.Packages.UninstallPackage(installedPackage, true, false);
                     }
                 }

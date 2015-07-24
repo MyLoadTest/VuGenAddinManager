@@ -94,7 +94,7 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="addInListButtonStyle" TargetType="{x:Type Button}"
+        <Style x:Key="AddInListButtonStyle" TargetType="{x:Type Button}"
                 BasedOn="{x:Static core:GlobalStyles.ButtonStyle}">
             <Setter Property="Visibility" Value="Collapsed" />
             <Setter Property="HorizontalAlignment" Value="Left" />
@@ -113,7 +113,7 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="addInDetailsButtonStyle" TargetType="{x:Type Button}"
+        <Style x:Key="AddInDetailsButtonStyle" TargetType="{x:Type Button}"
                 BasedOn="{x:Static core:GlobalStyles.ButtonStyle}">
             <Setter Property="Visibility" Value="Collapsed" />
             <Style.Triggers>
@@ -131,11 +131,11 @@
 			</Style.Triggers>-->
         </Style>
 
-        <Style x:Key="packageListBoxItemContainerStyle" TargetType="{x:Type ListBoxItem}">
+        <Style x:Key="PackageListBoxItemContainerStyle" TargetType="{x:Type ListBoxItem}">
             <Setter Property="IsSelected" Value="{Binding Mode=TwoWay, Path=IsSelected}" />
         </Style>
 
-        <DataTemplate x:Key="PackageListBoxItemTemplate">
+        <DataTemplate x:Key="PackageListBoxItemTemplate" DataType="viewModel:AddInPackageViewModelBase">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="60" />
@@ -196,39 +196,39 @@
                                 Content="{x:Static properties:Resources.AddInManager_ActionInstall}"
                                 IsDefault="True"
                                 Command="{Binding Path=AddPackageCommand}"
-                                Style="{StaticResource addInListButtonStyle}" />
+                                Style="{StaticResource AddInListButtonStyle}" />
                         <Button
                                 x:Name="updatePackageButton"
                                 Content="{x:Static properties:Resources.AddInManager_ActionUpdate}"
                                 IsDefault="True"
                                 Command="{Binding Path=UpdatePackageCommand}"
-                                Style="{StaticResource addInListButtonStyle}" />
+                                Style="{StaticResource AddInListButtonStyle}" />
                         <Button
                                 x:Name="disablePackageButton"
                                 Content="{x:Static properties:Resources.AddInManager_ActionDisable}"
                                 IsDefault="True"
                                 Command="{Binding Path=DisablePackageCommand}"
-                                Style="{StaticResource addInListButtonStyle}" />
+                                Style="{StaticResource AddInListButtonStyle}" />
                         <Button
                                 x:Name="removePackageButton"
                                 Content="{x:Static properties:Resources.AddInManager_ActionUninstall}"
                                 Command="{Binding Path=RemovePackageCommand}"
-                                Style="{StaticResource addInListButtonStyle}" />
+                                Style="{StaticResource AddInListButtonStyle}" />
                         <Button
                                 x:Name="cancelInstallationButton"
                                 Content="{x:Static properties:Resources.AddInManager_ActionCancelInstallation}"
                                 Command="{Binding Path=CancelInstallationCommand}"
-                                Style="{StaticResource addInListButtonStyle}" />
+                                Style="{StaticResource AddInListButtonStyle}" />
                         <Button
                                 x:Name="cancelUpdateButton"
                                 Content="{x:Static properties:Resources.AddInManager_ActionCancelUpdate}"
                                 Command="{Binding Path=CancelUpdateCommand}"
-                                Style="{StaticResource addInListButtonStyle}" />
+                                Style="{StaticResource AddInListButtonStyle}" />
                         <Button
                                 x:Name="cancelUninstallationButton"
-                                Content="{x:Static properties:Resources.AddInManager_ActionCancelDeinstallation}"
+                                Content="{x:Static properties:Resources.AddInManager_ActionCancelUninstallation}"
                                 Command="{Binding Path=CancelUninstallationCommand}"
-                                Style="{StaticResource addInListButtonStyle}" />
+                                Style="{StaticResource AddInListButtonStyle}" />
                     </StackPanel>
                 </Grid>
             </Grid>
@@ -300,30 +300,17 @@
             </DataTemplate.Triggers>
         </DataTemplate>
 
-        <DataTemplate x:Key="PackageTemplate">
-            <ScrollViewer
-                    VerticalScrollBarVisibility="Auto">
-                <StackPanel Margin="8, 4">
-                    <StackPanel
-                            Orientation="Horizontal"
-                            Margin="0,4,0,8">
-                        <TextBlock
-                                Text="{Binding Name}"
-                                FontWeight="Bold"
-                                FontSize="14" />
-                    </StackPanel>
-                    <StackPanel
-                            Orientation="Horizontal"
-                            Margin="0, 4">
-                        <TextBlock
-                                Text="{x:Static properties:Resources.AddInManager2_Details_CreatedBy}"
+        <DataTemplate x:Key="PackageTemplate" DataType="viewModel:AddInPackageViewModelBase">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <StackPanel Margin="8, 4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="14" TextWrapping="Wrap"
+                            Margin="0,4,0,8" />
+                    <StackPanel Orientation="Horizontal" Margin="0, 4">
+                        <TextBlock Text="{x:Static properties:Resources.AddInManager2_Details_CreatedBy}"
                                 FontWeight="Bold" />
-                        <ItemsControl
-                                Margin="4, 0"
-                                ItemsSource="{Binding Path=Authors}" />
+                        <ItemsControl Margin="4, 0" ItemsSource="{Binding Path=Authors}" />
                     </StackPanel>
-                    <StackPanel
-                            Orientation="Horizontal"
+                    <StackPanel Orientation="Horizontal"
                             Visibility="{Binding Path=HasVersion, Converter={StaticResource BoolToVisibility}}"
                             Margin="0, 4">
                         <TextBlock
@@ -382,10 +369,8 @@
                                 FontWeight="Bold" />
                         <TextBlock Text="{Binding Path=Rating}" />
                     </StackPanel>
-                    <TextBlock
-                            Visibility="{Binding Path=HasLicenseUrl, Converter={StaticResource BoolToVisibility}}">
-                        <Hyperlink
-                                Command="{StaticResource OpenHyperlinkCommand}"
+                    <TextBlock Visibility="{Binding Path=HasLicenseUrl, Converter={StaticResource BoolToVisibility}}">
+                        <Hyperlink Command="{StaticResource OpenHyperlinkCommand}"
                                 CommandParameter="{Binding Path=LicenseUrl}">
                             <TextBlock Text="{x:Static properties:Resources.AddInManager2_Details_ViewLicenseTerms}" />
                         </Hyperlink>
@@ -406,18 +391,14 @@
                             <TextBlock Text="{x:Static properties:Resources.AddInManager2_Details_ReportAbuse}" />
                         </Hyperlink>
                     </TextBlock>
-                    <TextBlock
-                            Margin="0, 4"
-                            TextWrapping="Wrap"
-                            Text="{Binding Path=Description}" />
+                    <TextBlock Margin="0, 4" TextWrapping="Wrap" Text="{Binding Path=Description}" />
                     <StackPanel Margin="0, 4">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock
                                     Text="{x:Static properties:Resources.AddInManager2_Details_Dependencies}"
                                     Margin="0, 0, 4, 0"
                                     FontWeight="Bold" />
-                            <TextBlock
-                                    Text="None"
+                            <TextBlock Text="None"
                                     Visibility="{Binding Path=HasNoDependencies, Converter={StaticResource BoolToVisibility}}" />
                         </StackPanel>
                         <ItemsControl
@@ -448,7 +429,7 @@
                                 Grid.Column="0"
                                 Content="{x:Static properties:Resources.AddInManager_Options}"
                                 Command="{Binding Path=OptionsCommand}"
-                                Style="{StaticResource addInDetailsButtonStyle}" />
+                                Style="{StaticResource AddInDetailsButtonStyle}" />
                     </Grid>
                 </StackPanel>
             </ScrollViewer>
@@ -464,7 +445,7 @@
             </DataTemplate.Triggers>
         </DataTemplate>
 
-        <Style x:Key="allPackagesListBoxStyle" TargetType="ListBox">
+        <Style x:Key="AllPackagesListBoxStyle" TargetType="ListBox">
             <Setter Property="Visibility" Value="Hidden" />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding HasError}" Value="False">
@@ -536,13 +517,13 @@
 
                 <Grid Grid.Row="1">
                     <ListBox
-                            x:Name="allPackagesListBox"
+                            x:Name="AllPackagesListBox"
                             Grid.Row="0"
                             SelectedIndex="0"
                             IsSynchronizedWithCurrentItem="true"
                             ItemTemplate="{StaticResource PackageListBoxItemTemplate}"
                             ItemsSource="{Binding Path=AddInPackages}"
-                            ItemContainerStyle="{StaticResource packageListBoxItemContainerStyle}"
+                            ItemContainerStyle="{StaticResource PackageListBoxItemContainerStyle}"
                             HorizontalContentAlignment="Stretch"
                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
                     <TextBlock
@@ -562,7 +543,7 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center" />
                     <view:PagedResultsView
-                            x:Name="pagedResultsView"
+                            x:Name="PagedResultsView"
                             Grid.Row="1"
                             HorizontalAlignment="Center"
                             Visibility="{Binding Path=IsPaged, Converter={StaticResource BoolToVisibility}}"
@@ -579,17 +560,16 @@
                         <Grid
                                 Visibility="{Binding Path=HasFilterForPreinstalled, Converter={StaticResource BoolToVisibility}}">
                             <CheckBox
-                                    x:Name="preinstalledAddInsCheckBox"
+                                    x:Name="PreinstalledAddInsCheckBox"
                                     Margin="4"
                                     Content="{x:Static properties:Resources.AddInManager2_AddInsView_ShowPreinstalledAddIns}"
                                     IsChecked="{Binding Path=ShowPreinstalledAddIns, UpdateSourceTrigger=PropertyChanged}"
                                     Command="{Binding Path=UpdatePreinstalledFilterCommand}" />
                         </Grid>
 
-                        <Grid
-                                Visibility="{Binding Path=HasFilterForPrereleases, Converter={StaticResource BoolToVisibility}}">
+                        <Grid Visibility="{Binding Path=HasFilterForPrereleases, Converter={StaticResource BoolToVisibility}}">
                             <CheckBox
-                                    x:Name="prereleaseAddInsCheckBox"
+                                    x:Name="PrereleaseAddInsCheckBox"
                                     Margin="4"
                                     Content="{x:Static properties:Resources.AddInManager2_AddInsView_ShowPrereleaseAddIns}"
                                     IsChecked="{Binding Path=ShowPrereleases, UpdateSourceTrigger=PropertyChanged}"
@@ -599,11 +579,11 @@
 
                     <Grid Grid.Column="1">
                         <Button
-                                x:Name="installFromFileButton"
+                                x:Name="InstallFromFileButton"
                                 Visibility="{Binding Path=AllowInstallFromArchive, Converter={StaticResource BoolToVisibility}}"
                                 Content="{x:Static properties:Resources.AddInManager2_AddInsView_InstallFromArchive}"
                                 Command="{Binding Path=InstallFromArchiveCommand}"
-                                Style="{StaticResource addInDetailsButtonStyle}"
+                                Style="{StaticResource AddInDetailsButtonStyle}"
                                 Margin="4,4,4,4" />
                     </Grid>
                 </Grid>
@@ -623,7 +603,7 @@
             <ContentControl
                     Grid.Row="1"
                     ContentTemplate="{StaticResource PackageTemplate}"
-                    Content="{Binding ElementName=allPackagesListBox, Path=SelectedItem}" />
+                    Content="{Binding ElementName=AllPackagesListBox, Path=SelectedItem}" />
         </Grid>
     </Grid>
 </UserControl>

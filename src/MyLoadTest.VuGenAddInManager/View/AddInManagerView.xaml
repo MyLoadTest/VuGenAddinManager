@@ -9,8 +9,10 @@
         xmlns:model="clr-namespace:MyLoadTest.VuGenAddInManager.Model"
         xmlns:view="clr-namespace:MyLoadTest.VuGenAddInManager.View"
         xmlns:properties="clr-namespace:MyLoadTest.VuGenAddInManager.Properties"
-        Height="480" Width="640" MinHeight="380" MinWidth="440"
-        WindowStartupLocation="CenterOwner">
+        xmlns:self="clr-namespace:MyLoadTest.VuGenAddInManager"
+        Height="600" Width="800" MinHeight="480" MinWidth="640"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False" WindowStyle="ThreeDBorderWindow"
+        ResizeMode="CanResize" self:ExtraWindowStyles.CanMinimize="False">
     <!--Style="{x:Static core:GlobalStyles.DialogWindowStyle}"-->
 
     <Window.DataContext>

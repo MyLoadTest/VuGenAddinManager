@@ -18,9 +18,9 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-using MyLoadTest.VuGenAddInManager.Compatibility;
 using MyLoadTest.VuGenAddInManager.Model;
 using MyLoadTest.VuGenAddInManager.Model.Interfaces;
+using MyLoadTest.VuGenAddInManager.Properties;
 using MyLoadTest.VuGenAddInManager.View;
 using MyLoadTest.VuGenAddInManager.ViewModel;
 
@@ -29,7 +29,7 @@ namespace MyLoadTest.VuGenAddInManager
     /// <summary>
     /// Checks configured repositories for updates and shows a user notification.
     /// </summary>
-    public class UpdateNotifier
+    public sealed class UpdateNotifier
     {
         private readonly IAddInManagerServices _services;
         private readonly UpdatedAddInsViewModel _updatedAddInViewModel;
@@ -137,14 +137,18 @@ namespace MyLoadTest.VuGenAddInManager
 
                     _services.Events.AddInManagerViewOpened += Events_AddInManagerViewOpened;
 
-                    _notifyIcon = new NotifyIcon();
-                    _notifyIcon.Icon = Icon.ExtractAssociatedIcon(Assembly.GetEntryAssembly().Location);
+                    var text = Resources.AddInManager2_UpdateNotifier_BubbleTitle;
+
+                    _notifyIcon = new NotifyIcon
+                    {
+                        Icon = Icon.ExtractAssociatedIcon(Assembly.GetEntryAssembly().Location),
+                        Text = text,
+                        BalloonTipTitle = text,
+                        BalloonTipText = Resources.AddInManager2_UpdateNotifier_BubbleText
+                    };
+
                     _notifyIcon.Click += NotifyIcon_Click;
                     _notifyIcon.BalloonTipClicked += NotifyIcon_Click;
-
-                    _notifyIcon.Text = SD.ResourceService.GetString("AddInManager2.UpdateNotifier.BubbleTitle");
-                    _notifyIcon.BalloonTipTitle = _notifyIcon.Text;
-                    _notifyIcon.BalloonTipText = SD.ResourceService.GetString("AddInManager2.UpdateNotifier.BubbleText");
 
                     _notifyIcon.Visible = true;
                     _notifyIcon.ShowBalloonTip(40000);

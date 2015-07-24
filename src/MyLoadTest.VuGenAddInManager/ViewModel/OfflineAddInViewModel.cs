@@ -17,9 +17,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ICSharpCode.Core;
-using MyLoadTest.VuGenAddInManager.Compatibility;
 using MyLoadTest.VuGenAddInManager.Model;
 using MyLoadTest.VuGenAddInManager.Model.Interfaces;
+using MyLoadTest.VuGenAddInManager.Properties;
 
 namespace MyLoadTest.VuGenAddInManager.ViewModel
 {
@@ -241,37 +241,40 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
 
                 if (_addIn.Action == AddInAction.Install)
                 {
-                    return SurroundWithParantheses(SD.ResourceService.GetString("AddInManager.AddInInstalled"));
+                    return SurroundWithParantheses(Resources.AddInManager_AddInInstalled);
                 }
 
                 if (_addIn.Action == AddInAction.Update)
                 {
-                    return SD.ResourceService.GetString("AddInManager.AddInUpdated");
+                    return Resources.AddInManager_AddInUpdated;
                 }
 
                 if (HasDependencyConflicts)
                 {
-                    return SurroundWithParantheses(SD.ResourceService.GetString("AddInManager.AddInDependencyFailed"));
+                    return SurroundWithParantheses(Resources.AddInManager_AddInDependencyFailed);
                 }
 
                 if (IsRemoved)
                 {
-                    return SurroundWithParantheses(SD.ResourceService.GetString("AddInManager.AddInRemoved"));
+                    return SurroundWithParantheses(Resources.AddInManager_AddInRemoved);
                 }
 
                 if (IsEnabled && !_addIn.Enabled)
                 {
-                    return SurroundWithParantheses(SD.ResourceService.GetString("AddInManager.AddInEnabled"));
+                    return SurroundWithParantheses(Resources.AddInManager_AddInEnabled);
                 }
 
                 if (!IsEnabled)
                 {
-                    return SurroundWithParantheses(_addIn.Enabled ? SD.ResourceService.GetString("AddInManager.AddInWillBeDisabled") : SD.ResourceService.GetString("AddInManager.AddInDisabled"));
+                    return SurroundWithParantheses(
+                        _addIn.Enabled
+                            ? Resources.AddInManager_AddInWillBeDisabled
+                            : Resources.AddInManager_AddInDisabled);
                 }
 
                 if (_addIn.Action == AddInAction.InstalledTwice)
                 {
-                    return SurroundWithParantheses(SD.ResourceService.GetString("AddInManager.AddInInstalledTwice"));
+                    return SurroundWithParantheses(Resources.AddInManager_AddInInstalledTwice);
                 }
 
                 return _summary;
@@ -416,11 +419,13 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
 
             if (_addIn.Manifest.PrimaryIdentity == "ICSharpCode.AddInManager2")
             {
-                MessageService.ShowMessage("${res:AddInManager2.CannotRemoveAddInManager}", "${res:AddInManager.Title}");
+                MessageService.ShowMessage(
+                    "${res:AddInManager2.CannotRemoveAddInManager}",
+                    "${res:AddInManager.Title}");
                 return;
             }
 
-            if (!this.IsRemoved)
+            if (!IsRemoved)
             {
                 var dependentAddIns = AddInManager.Setup.GetDependentAddIns(_addIn);
                 if (dependentAddIns.Any())
@@ -432,7 +437,10 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
                     }
 
                     if (!MessageService.AskQuestionFormatted(
-                        "${res:AddInManager.Title}", "${res:AddInManager2.DisableDependentWarning}", _addIn.Name, addInNames))
+                        "${res:AddInManager.Title}",
+                        "${res:AddInManager2.DisableDependentWarning}",
+                        _addIn.Name,
+                        addInNames))
                     {
                         return;
                     }
@@ -474,11 +482,13 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
 
             if (_addIn.Manifest.PrimaryIdentity == "ICSharpCode.AddInManager2")
             {
-                MessageService.ShowMessage("${res:AddInManager.CannotDisableAddInManager}", "${res:AddInManager.Title}");
+                MessageService.ShowMessage(
+                    "${res:AddInManager.CannotDisableAddInManager}",
+                    "${res:AddInManager.Title}");
                 return;
             }
 
-            if (this.IsEnabled)
+            if (IsEnabled)
             {
                 var dependentAddIns = AddInManager.Setup.GetDependentAddIns(_addIn);
                 if ((dependentAddIns != null) && dependentAddIns.Any())
@@ -490,7 +500,10 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
                     }
 
                     if (!MessageService.AskQuestionFormatted(
-                        "${res:AddInManager.Title}", "${res:AddInManager2.DisableDependentWarning}", _addIn.Name, addInNames))
+                        "${res:AddInManager.Title}",
+                        "${res:AddInManager2.DisableDependentWarning}",
+                        _addIn.Name,
+                        addInNames))
                     {
                         return;
                     }
@@ -533,7 +546,7 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
             }
 
             ICSharpCode.SharpDevelop.Commands.OptionsCommand.ShowTabbedOptions(
-                _addIn.Name + " " + SD.ResourceService.GetString("AddInManager.Options"),
+                _addIn.Name + " " + Resources.AddInManager_Options,
                 dummyNode);
         }
 
