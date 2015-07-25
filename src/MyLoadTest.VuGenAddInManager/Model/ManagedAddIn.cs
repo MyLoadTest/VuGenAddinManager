@@ -17,6 +17,7 @@
 // DEALINGS IN THE SOFTWARE.
 
 using System;
+using System.Diagnostics;
 using System.Linq;
 using ICSharpCode.Core;
 
@@ -25,6 +26,7 @@ namespace MyLoadTest.VuGenAddInManager.Model
     /// <summary>
     /// Extension of AddIn class used in AddInManager internally.
     /// </summary>
+    [DebuggerDisplay("{GetType().Name,nq}. AddIn = {AddIn}")]
     public sealed class ManagedAddIn
     {
         public const string NuGetPackageIdManifestAttribute = "__nuGetPackageID";
@@ -34,6 +36,11 @@ namespace MyLoadTest.VuGenAddInManager.Model
 
         public ManagedAddIn(AddIn addIn)
         {
+            if (addIn == null)
+            {
+                throw new ArgumentNullException("addIn");
+            }
+
             _addIn = addIn;
             InstallationSource = AddInInstallationSource.Offline;
         }
@@ -70,7 +77,7 @@ namespace MyLoadTest.VuGenAddInManager.Model
             }
         }
 
-        public string LinkedNuGetPackageID
+        public string LinkedNuGetPackageId
         {
             get
             {

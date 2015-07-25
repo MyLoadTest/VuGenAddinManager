@@ -17,7 +17,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Win32;
-using MyLoadTest.VuGenAddInManager.Compatibility;
 using MyLoadTest.VuGenAddInManager.Model;
 using MyLoadTest.VuGenAddInManager.Model.Interfaces;
 using MyLoadTest.VuGenAddInManager.Properties;
@@ -64,7 +63,8 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
         protected override void UpdatePackageViewModels(IEnumerable<IPackage> packages)
         {
             var offlineAddInViewModels = GetInstalledAddIns(packages);
-            UpdatePackageViewModels(offlineAddInViewModels.OrderBy(vm => vm.Name));
+            var models = offlineAddInViewModels.OrderBy(vm => vm.Name).ToArray();
+            UpdatePackageViewModels(models);
         }
 
         protected override void UpdatePreinstalledFilter()
@@ -81,16 +81,16 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
             // Notify about new operation
             AddInManager.Events.OnOperationStarted();
 
-            var dlg = new OpenFileDialog
+            var openFileDialog = new OpenFileDialog
             {
-                Filter = Resources.AddInManager2_SDAddInFileFilter,
+                Filter = Resources.AddInManager_FileFilter,
                 Multiselect = true
             };
 
-            var showDialogResult = dlg.ShowDialog();
+            var showDialogResult = openFileDialog.ShowDialog();
             if (showDialogResult ?? false)
             {
-                foreach (var file in dlg.FileNames)
+                foreach (var file in openFileDialog.FileNames)
                 {
                     AddInManager.Setup.InstallAddIn(file);
                 }
@@ -139,11 +139,10 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
             foreach (var addIn in addInList)
             {
                 if (string.Equals(
-                    addIn.AddIn.Properties["addInManagerHidden"],
+                    addIn.AddIn.Properties[LocalConstants.AddInProperties.AddInManagerHidden],
                     "true",
                     StringComparison.OrdinalIgnoreCase))
                 {
-                    // This excludes the SharpDevelop application appearing as AddIn in the tree
                     continue;
                 }
 
@@ -152,7 +151,7 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
                     continue;
                 }
 
-                var packageId = addIn.LinkedNuGetPackageID;
+                var packageId = addIn.LinkedNuGetPackageId;
                 if (!string.IsNullOrEmpty(packageId))
                 {
                     if (packageIds.Contains(packageId))

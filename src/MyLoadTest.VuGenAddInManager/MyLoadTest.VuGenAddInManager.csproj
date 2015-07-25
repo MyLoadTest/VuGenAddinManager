@@ -88,6 +88,8 @@
     <Compile Include="Compatibility\PropertyServiceImpl.cs" />
     <Compile Include="Compatibility\SDMessageService.cs" />
     <Compile Include="Compatibility\TraceTextWriter.cs" />
+    <Compile Include="Converters\BooleanToBrushConverter.cs" />
+    <Compile Include="Converters\BooleanToValueConverter.cs" />
     <Compile Include="ExtraWindowStyles.cs" />
     <Compile Include="HostCommands\AddInManagerInitializationCommand.cs" />
     <Compile Include="HostCommands\AddInManagerVisualInitializationCommand.cs" />
@@ -110,6 +112,7 @@
     <Compile Include="Compatibility\SharpDevelopServiceContainer.cs" />
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="LocalHelper.cs" />
     <Compile Include="Model\AcceptLicensesEventArgs.cs" />
     <Compile Include="Model\AddInDependency.cs" />
     <Compile Include="Model\AddInInstallationEventArgs.cs" />
@@ -126,6 +129,7 @@
     <Compile Include="Model\Interfaces\INuGetPackageManager.cs" />
     <Compile Include="Model\Interfaces\IPackageRepositories.cs" />
     <Compile Include="Model\Interfaces\ISDAddInManagement.cs" />
+    <Compile Include="LocalConstants.cs" />
     <Compile Include="Model\ManagedAddIn.cs" />
     <Compile Include="Model\Model.cs" />
     <Compile Include="Model\NuGetPackageManager.cs" />
@@ -236,6 +240,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>@verify other 2&gt;nul

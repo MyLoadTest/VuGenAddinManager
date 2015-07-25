@@ -377,19 +377,23 @@ namespace MyLoadTest.VuGenAddInManager.ViewModel
 
             _description = _addIn.Properties["description"];
             _summary = _addIn.Properties["description"];
-            if (!string.IsNullOrEmpty(_addIn.Properties["url"]))
+
+            var projectUrlString = _addIn.Properties["url"];
+            if (!string.IsNullOrEmpty(projectUrlString))
             {
-                _projectUrl = new Uri(_addIn.Properties["url"]);
+                _projectUrl = new Uri(projectUrlString, UriKind.RelativeOrAbsolute);
             }
 
-            if (!string.IsNullOrEmpty(_addIn.Properties["license"]))
+            var licenseUrlString = _addIn.Properties["license"];
+            if (!string.IsNullOrEmpty(licenseUrlString))
             {
-                _licenseUrl = new Uri(_addIn.Properties["license"]);
+                _licenseUrl = new Uri(licenseUrlString);
             }
 
-            if (!string.IsNullOrEmpty(_addIn.Properties["author"]))
+            var author = _addIn.Properties["author"];
+            if (!string.IsNullOrEmpty(author))
             {
-                _authors = new[] { _addIn.Properties["author"] };
+                _authors = new[] { author };
             }
 
             if ((_addIn.Manifest != null) && (_addIn.Manifest.Dependencies != null))

@@ -8,7 +8,7 @@ namespace MyLoadTest.VuGenAddInManager
 {
     //// This class is borrowed from Omnifactotum.Wpf which is being developed and not yet released at the moment
 
-    internal sealed class ExtraWindowStyles : DependencyObject
+    internal static class ExtraWindowStyles
     {
         #region Constants and Fields
 

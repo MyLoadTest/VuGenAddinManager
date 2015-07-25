@@ -142,7 +142,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A dependency for this AddIn was not found. Install it to enable this add-in..
+        ///   Looks up a localized string similar to A dependency for this add-in was not found. Install it to enable this add-in..
         /// </summary>
         public static string AddInManager_AddInDependencyFailed {
             get {
@@ -187,7 +187,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The add-in must have an &lt;Identity&gt; for use with the AddIn-Manager..
+        ///   Looks up a localized string similar to The add-in must have an &lt;Identity&gt; for use with the Add-in Manager..
         /// </summary>
         public static string AddInManager_AddInMustHaveIdentity {
             get {
@@ -223,7 +223,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You cannot disable the AddInManager because you need it to re-enable AddIns!.
+        ///   Looks up a localized string similar to You cannot disable the Add-in Manager because you need it to re-enable add-ins..
         /// </summary>
         public static string AddInManager_CannotDisableAddInManager {
             get {
@@ -250,7 +250,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Aborts the installation of the selected AddIn(s)..
+        ///   Looks up a localized string similar to Aborts the installation of the selected add-in(s)..
         /// </summary>
         public static string AddInManager_DescriptionCancelInstall {
             get {
@@ -259,7 +259,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Aborts the uninstallation of the selected AddIn(s)..
+        ///   Looks up a localized string similar to Aborts the uninstallation of the selected add-in(s)..
         /// </summary>
         public static string AddInManager_DescriptionCancelUninstallation {
             get {
@@ -268,7 +268,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Aborts the update of the selected AddIn(s)..
+        ///   Looks up a localized string similar to Aborts the update of the selected add-in(s)..
         /// </summary>
         public static string AddInManager_DescriptionCancelUpdate {
             get {
@@ -277,7 +277,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Disables the selected AddIn(s)..
+        ///   Looks up a localized string similar to Disables the selected add-in(s)..
         /// </summary>
         public static string AddInManager_DescriptionDisable {
             get {
@@ -286,7 +286,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enables the selected AddIn(s)..
+        ///   Looks up a localized string similar to Enables the selected add-in(s)..
         /// </summary>
         public static string AddInManager_DescriptionEnable {
             get {
@@ -295,7 +295,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The selection is inconsistent, please select only AddIns with the same status..
+        ///   Looks up a localized string similar to The selection is inconsistent, please select only add-ins with the same status..
         /// </summary>
         public static string AddInManager_DescriptionInconsistentSelection {
             get {
@@ -304,7 +304,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AddIn Installation Package.
+        ///   Looks up a localized string similar to Add-in Installation Package.
         /// </summary>
         public static string AddInManager_FileAssociation {
             get {
@@ -331,8 +331,8 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You don&apos;t have any AddIns installed.
-        ///Download an AddIn from the Internet, then click &apos;Install AddIn&apos; and choose the downloaded file to install it..
+        ///   Looks up a localized string similar to You don&apos;t have any add-ins installed.
+        ///Download an add-in from the Internet, then click &apos;Install add-in&apos; and choose the downloaded file to install it..
         /// </summary>
         public static string AddInManager_NoAddInsInstalled {
             get {
@@ -341,7 +341,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open Website.
+        ///   Looks up a localized string similar to Open Web site.
         /// </summary>
         public static string AddInManager_OpenWebsite {
             get {
@@ -359,7 +359,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AddIns are required by:.
+        ///   Looks up a localized string similar to Add-ins are required by:.
         /// </summary>
         public static string AddInManager_RequiredBy {
             get {
@@ -377,16 +377,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show preinstalled AddIns.
-        /// </summary>
-        public static string AddInManager_ShowPreinstalledAddIns {
-            get {
-                return ResourceManager.GetString("AddInManager_ShowPreinstalledAddIns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to AddIn Manager.
+        ///   Looks up a localized string similar to Add-in Manager.
         /// </summary>
         public static string AddInManager_Title {
             get {
@@ -431,7 +422,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show preinstalled AddIns.
+        ///   Looks up a localized string similar to Show preinstalled add-ins.
         /// </summary>
         public static string AddInManager2_AddInsView_ShowPreinstalledAddIns {
             get {
@@ -449,7 +440,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You cannot uninstall the AddInManager because you need it to re-install AddIns!.
+        ///   Looks up a localized string similar to You cannot uninstall the Add-in Manager because you need it to manage add-ins..
         /// </summary>
         public static string AddInManager2_CannotRemoveAddInManager {
             get {
@@ -458,7 +449,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to HP Virtual User Generator AddIn Repository.
+        ///   Looks up a localized string similar to HP Virtual User Generator add-in Repository.
         /// </summary>
         public static string AddInManager2_DefaultRepository {
             get {
@@ -575,11 +566,11 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Following installed AddIns are depending on &quot;{0}&quot;:
+        ///   Looks up a localized string similar to Following installed add-ins are depending on &quot;{0}&quot;:
         ///
         ///{1}
         ///
-        ///They will stop working after disabling this AddIn! Are you sure you want to continue?.
+        ///They will stop working after disabling this add-in. Are you sure you want to continue?.
         /// </summary>
         public static string AddInManager2_DisableDependentWarning {
             get {
@@ -592,7 +583,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         ///
         ///{1}
         ///
-        ///The application will try to download and install them, as well. Do you want to continue?.
+        ///The application will try to download and install them as well. Do you want to continue?.
         /// </summary>
         public static string AddInManager2_InstallDependentMessage {
             get {
@@ -601,7 +592,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Selected package doesn&apos;t contain a valid HP Virtual User Generator AddIn..
+        ///   Looks up a localized string similar to Selected package doesn&apos;t contain a valid HP Virtual User Generator add-in..
         /// </summary>
         public static string AddInManager2_InvalidPackage {
             get {
@@ -738,7 +729,7 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AddIns.
+        ///   Looks up a localized string similar to Add-ins.
         /// </summary>
         public static string AddInManager2_OptionPanel_Tree_AddIns {
             get {
@@ -765,24 +756,15 @@ namespace MyLoadTest.VuGenAddInManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Following installed AddIns are depending on &quot;{0}&quot;:
+        ///   Looks up a localized string similar to Following installed add-ins depend on &quot;{0}&quot;:
         ///
         ///{1}
         ///
-        ///They will stop working after removing this AddIn! Are you sure you want to continue?.
+        ///They will stop working after removing this add-in. Are you sure you want to continue?.
         /// </summary>
         public static string AddInManager2_RemoveDependentWarning {
             get {
                 return ResourceManager.GetString("AddInManager2_RemoveDependentWarning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to VuGen AddIns|*.vugenaddin|All files|*.*.
-        /// </summary>
-        public static string AddInManager2_SDAddInFileFilter {
-            get {
-                return ResourceManager.GetString("AddInManager2_SDAddInFileFilter", resourceCulture);
             }
         }
         

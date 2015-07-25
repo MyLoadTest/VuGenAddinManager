@@ -142,7 +142,7 @@
     <value>Update</value>
   </data>
   <data name="AddInManager_AddInDependencyFailed" xml:space="preserve">
-    <value>A dependency for this AddIn was not found. Install it to enable this add-in.</value>
+    <value>A dependency for this add-in was not found. Install it to enable this add-in.</value>
   </data>
   <data name="AddInManager_AddInDisabled" xml:space="preserve">
     <value>Disabled</value>
@@ -157,7 +157,7 @@
     <value>This add-in is installed twice. Please uninstall one copy.</value>
   </data>
   <data name="AddInManager_AddInMustHaveIdentity" xml:space="preserve">
-    <value>The add-in must have an &lt;Identity&gt; for use with the AddIn-Manager.</value>
+    <value>The add-in must have an &lt;Identity&gt; for use with the Add-in Manager.</value>
   </data>
   <data name="AddInManager_AddInRemoved" xml:space="preserve">
     <value>Add-in will be removed after restarting HP Virtual User Generator</value>
@@ -169,31 +169,31 @@
     <value>Add-in will be disabled after restarting HP Virtual User Generator</value>
   </data>
   <data name="AddInManager_CannotDisableAddInManager" xml:space="preserve">
-    <value>You cannot disable the AddInManager because you need it to re-enable AddIns!</value>
+    <value>You cannot disable the Add-in Manager because you need it to re-enable add-ins.</value>
   </data>
   <data name="AddInManager_CannotInstallIntoApplicationDirectory" xml:space="preserve">
     <value>You cannot install add-ins inside the HP Virtual User Generator directory, they will be picked up as pre-installed add-ins automatically.</value>
   </data>
   <data name="AddInManager_DescriptionCancelUninstallation" xml:space="preserve">
-    <value>Aborts the uninstallation of the selected AddIn(s).</value>
+    <value>Aborts the uninstallation of the selected add-in(s).</value>
   </data>
   <data name="AddInManager_DescriptionCancelInstall" xml:space="preserve">
-    <value>Aborts the installation of the selected AddIn(s).</value>
+    <value>Aborts the installation of the selected add-in(s).</value>
   </data>
   <data name="AddInManager_DescriptionCancelUpdate" xml:space="preserve">
-    <value>Aborts the update of the selected AddIn(s).</value>
+    <value>Aborts the update of the selected add-in(s).</value>
   </data>
   <data name="AddInManager_DescriptionDisable" xml:space="preserve">
-    <value>Disables the selected AddIn(s).</value>
+    <value>Disables the selected add-in(s).</value>
   </data>
   <data name="AddInManager_DescriptionEnable" xml:space="preserve">
-    <value>Enables the selected AddIn(s).</value>
+    <value>Enables the selected add-in(s).</value>
   </data>
   <data name="AddInManager_DescriptionInconsistentSelection" xml:space="preserve">
-    <value>The selection is inconsistent, please select only AddIns with the same status.</value>
+    <value>The selection is inconsistent, please select only add-ins with the same status.</value>
   </data>
   <data name="AddInManager_FileAssociation" xml:space="preserve">
-    <value>AddIn Installation Package</value>
+    <value>Add-in Installation Package</value>
   </data>
   <data name="AddInManager_FileFilter" xml:space="preserve">
     <value>VuGen add-ins|*.vugenaddin|All files|*.*</value>
@@ -202,26 +202,23 @@
     <value>&amp;Install add-in</value>
   </data>
   <data name="AddInManager_NoAddInsInstalled" xml:space="preserve">
-    <value>You don't have any AddIns installed.
-Download an AddIn from the Internet, then click 'Install AddIn' and choose the downloaded file to install it.</value>
+    <value>You don't have any add-ins installed.
+Download an add-in from the Internet, then click 'Install add-in' and choose the downloaded file to install it.</value>
   </data>
   <data name="AddInManager_OpenWebsite" xml:space="preserve">
-    <value>Open Website</value>
+    <value>Open Web site</value>
   </data>
   <data name="AddInManager_Options" xml:space="preserve">
     <value>Options</value>
   </data>
   <data name="AddInManager_RequiredBy" xml:space="preserve">
-    <value>AddIns are required by:</value>
+    <value>Add-ins are required by:</value>
   </data>
   <data name="AddInManager_RequiredDependencies" xml:space="preserve">
     <value>Required dependencies:</value>
   </data>
-  <data name="AddInManager_ShowPreinstalledAddIns" xml:space="preserve">
-    <value>Show preinstalled AddIns</value>
-  </data>
   <data name="AddInManager_Title" xml:space="preserve">
-    <value>AddIn Manager</value>
+    <value>Add-in Manager</value>
   </data>
   <data name="AddInManager_UnknownFileFormat" xml:space="preserve">
     <value>Unknown file format:</value>
@@ -236,16 +233,16 @@ Download an AddIn from the Internet, then click 'Install AddIn' and choose the d
     <value>Search:</value>
   </data>
   <data name="AddInManager2_AddInsView_ShowPreinstalledAddIns" xml:space="preserve">
-    <value>Show preinstalled AddIns</value>
+    <value>Show preinstalled add-ins</value>
   </data>
   <data name="AddInManager2_AddInsView_ShowPrereleaseAddIns" xml:space="preserve">
     <value>Show prereleases</value>
   </data>
   <data name="AddInManager2_CannotRemoveAddInManager" xml:space="preserve">
-    <value>You cannot uninstall the AddInManager because you need it to re-install AddIns!</value>
+    <value>You cannot uninstall the Add-in Manager because you need it to manage add-ins.</value>
   </data>
   <data name="AddInManager2_DefaultRepository" xml:space="preserve">
-    <value>HP Virtual User Generator AddIn Repository</value>
+    <value>HP Virtual User Generator add-in Repository</value>
   </data>
   <data name="AddInManager2_Details_CreatedBy" xml:space="preserve">
     <value>Created by:</value>
@@ -284,21 +281,21 @@ Download an AddIn from the Internet, then click 'Install AddIn' and choose the d
     <value>View License Terms</value>
   </data>
   <data name="AddInManager2_DisableDependentWarning" xml:space="preserve">
-    <value>Following installed AddIns are depending on "{0}":
+    <value>Following installed add-ins are depending on "{0}":
 
 {1}
 
-They will stop working after disabling this AddIn! Are you sure you want to continue?</value>
+They will stop working after disabling this add-in. Are you sure you want to continue?</value>
   </data>
   <data name="AddInManager2_InstallDependentMessage" xml:space="preserve">
     <value>Package "{0}" needs at least one additional package:
 
 {1}
 
-The application will try to download and install them, as well. Do you want to continue?</value>
+The application will try to download and install them as well. Do you want to continue?</value>
   </data>
   <data name="AddInManager2_InvalidPackage" xml:space="preserve">
-    <value>Selected package doesn't contain a valid HP Virtual User Generator AddIn.</value>
+    <value>Selected package doesn't contain a valid HP Virtual User Generator add-in.</value>
   </data>
   <data name="AddInManager2_LicenseAcceptance_AcceptButton" xml:space="preserve">
     <value>I &amp;Accept</value>
@@ -345,7 +342,7 @@ If you do not agree to the license terms click "I Decline".</value>
     <value>Source:</value>
   </data>
   <data name="AddInManager2_OptionPanel_Tree_AddIns" xml:space="preserve">
-    <value>AddIns</value>
+    <value>Add-ins</value>
   </data>
   <data name="AddInManager2_OptionPanel_Tree_General" xml:space="preserve">
     <value>General</value>
@@ -354,14 +351,11 @@ If you do not agree to the license terms click "I Decline".</value>
     <value>Repositories</value>
   </data>
   <data name="AddInManager2_RemoveDependentWarning" xml:space="preserve">
-    <value>Following installed AddIns are depending on "{0}":
+    <value>Following installed add-ins depend on "{0}":
 
 {1}
 
-They will stop working after removing this AddIn! Are you sure you want to continue?</value>
-  </data>
-  <data name="AddInManager2_SDAddInFileFilter" xml:space="preserve">
-    <value>VuGen AddIns|*.vugenaddin|All files|*.*</value>
+They will stop working after removing this add-in. Are you sure you want to continue?</value>
   </data>
   <data name="AddInManager2_UpdateNotifier_BubbleText" xml:space="preserve">
     <value>Click here to see the updates.</value>

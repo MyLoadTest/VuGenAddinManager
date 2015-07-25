@@ -713,19 +713,7 @@ namespace MyLoadTest.VuGenAddInManager.Model
 
         public bool IsAddInPreinstalled(AddIn addIn)
         {
-            if (addIn != null)
-            {
-                return
-                    string.Equals(
-                        addIn.Properties["addInManagerHidden"],
-                        "preinstalled",
-                        StringComparison.OrdinalIgnoreCase)
-                        && FileUtility.IsBaseDirectory(FileUtility.ApplicationRootPath, addIn.FileName);
-            }
-            else
-            {
-                return false;
-            }
+            return LocalHelper.IsPreinstalled(addIn);
         }
 
         public IPackage GetNuGetPackageForAddIn(AddIn addIn, bool getLatest)
@@ -814,9 +802,10 @@ namespace MyLoadTest.VuGenAddInManager.Model
             }
 
             var foundAddIn = AddInsWithMarkedForInstallation
-                .FirstOrDefault(a => ((a.AddIn.Manifest != null) && (a.AddIn.Manifest.PrimaryIdentity == package.Id))
-                    || (a.AddIn.Properties.Contains(ManagedAddIn.NuGetPackageIdManifestAttribute)
-                        && (a.AddIn.Properties[ManagedAddIn.NuGetPackageIdManifestAttribute] == package.Id)));
+                .FirstOrDefault(
+                    a => ((a.AddIn.Manifest != null) && (a.AddIn.Manifest.PrimaryIdentity == package.Id))
+                        || (a.AddIn.Properties.Contains(ManagedAddIn.NuGetPackageIdManifestAttribute)
+                            && (a.AddIn.Properties[ManagedAddIn.NuGetPackageIdManifestAttribute] == package.Id)));
 
             return foundAddIn != null ? foundAddIn.AddIn : null;
         }
