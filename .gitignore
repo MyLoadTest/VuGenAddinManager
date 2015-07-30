@@ -3,7 +3,7 @@ bin/
 obj/
 _Output_/
 *.suo
-*.csproj.user
+*.*proj.user
 *.DotSettings.user
 build*.log
 *.log

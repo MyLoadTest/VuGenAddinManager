@@ -250,6 +250,8 @@
     @exit 128
 )
 
+if /i "$(Configuration)" NEQ "Debug" goto :EOF
+
 if /i "%25ADDIN_TARGET_PATH%25" equ "" (
     if "!VUGEN_PATH!" equ "" (@echo *** Cannot find VuGen! VuGen path variable is not set. &amp; @exit 100)
 

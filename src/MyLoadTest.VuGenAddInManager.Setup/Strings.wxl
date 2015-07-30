@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+	<String Id="DowngradeErrorMessage">A newer version of [ProductName] is already installed.</String>
+    <String Id="VuGenNotInstalled">Virtual User Generator is not installed. Please install it first.</String>
+    <String Id="NetFxNotInstalled">This installation requires Microsoft .NET Framework 4.5.1 or later installed.</String>
+    <String Id="SetupTitle">[ProductName] [ProductVersion] Setup</String>
+    <String Id="SetupReady">The setup is ready to install [ProductName] [ProductVersion].</String>
+    <String Id="InstallationPath">Installation path:</String>
+    <String Id="WelcomeEulaDlgInstall">Next</String>
+    <String Id="InstallButtonText">Install</String>
+</WixLocalization>

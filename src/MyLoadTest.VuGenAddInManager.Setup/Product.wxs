@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+    <Product Id="*" Name="VuGen Add-in Manager" Language="1033" Version="!(bind.FileVersion.MainAssemblyFile)"
+            Manufacturer="MyLoadTest" UpgradeCode="da80d591-8c16-48ef-a43d-e227d83e7910">
+        <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated" />
+
+        <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeErrorMessage)" />
+
+        <MediaTemplate CompressionLevel="high" EmbedCab="yes" />
+
+        <!--<Property Id="ARPNOMODIFY" Value="1" />-->
+        <Property Id="PREVIOUSVERSIONSINSTALLED" Secure="yes" />
+
+        <!--<InstallExecuteSequence>
+            <RemoveExistingProducts After="InstallValidate" />
+        </InstallExecuteSequence>-->
+
+        <Property Id="TARGETDIR">
+            <RegistrySearch Id="SearchVuGenDirectory"
+                    Root="HKLM"
+                    Key="SOFTWARE\Mercury Interactive\LoadRunner\CurrentVersion"
+                    Name="Vuser Generator"
+                    Type="directory"
+                    Win64="no" />
+        </Property>
+
+        <Condition Message="!(loc.VuGenNotInstalled)">
+            <![CDATA[REMOVE OR TARGETDIR]]>
+        </Condition>
+
+        <PropertyRef Id="NETFRAMEWORK45" />
+
+        <!-- NetFx release numbers: https://msdn.microsoft.com/en-us/library/hh925568(v=vs.110).aspx -->
+        <Condition Message="!(loc.NetFxNotInstalled)">
+            <![CDATA[Installed OR (NETFRAMEWORK45 AND (NETFRAMEWORK45 >= "#378675"))]]>
+        </Condition>
+
+        <!--
+        [ Available as of Wix 3.10+ which is not yet released ]
+
+        <PropertyRef Id="WIX_IS_NETFRAMEWORK_451_OR_LATER_INSTALLED" />
+        <Condition Message="!(loc.NetFxNotInstalled)">
+            <![CDATA[Installed OR (WIX_IS_NETFRAMEWORK_451_OR_LATER_INSTALLED = 1)]]>
+        </Condition>
+        -->
+
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="VuGenAddins" Name="Addins">
+                <Directory Id="MyLoadTest" Name="MyLoadTest">
+                    <Directory Id="INSTALLLOCATION" Name="$(var.MyLoadTest.VuGenAddInManager.ProjectName)">
+                        <Component Id="ProductComponent" Guid="ffa71c62-fccd-4608-9e2b-ba55054f0b59">
+                            <File Id="MainAssemblyFile"
+                                    Source="$(var.MyLoadTest.VuGenAddInManager.TargetPath)"
+                                    Checksum="yes"
+                                    Vital="yes" />
+                            <File
+                                    Source="$(var.MyLoadTest.VuGenAddInManager.TargetDir)\$(var.MyLoadTest.VuGenAddInManager.TargetName).addin"
+                                    Checksum="yes"
+                                    Vital="yes" />
+                            <File Source="$(var.MyLoadTest.VuGenAddInManager.TargetDir)\NuGet.Core.dll"
+                                    Checksum="yes"
+                                    Vital="yes" />
+                        </Component>
+                    </Directory>
+                </Directory>
+            </Directory>
+        </Directory>
+
+        <Feature Id="ProductFeature" Title="MyLoadTest.VuGenAddInManager.Setup" Level="1">
+            <ComponentRef Id="ProductComponent" />
+
+            <!-- Note: The following ComponentGroupRef is required to pull in generated authoring from project references. -->
+            <!--<ComponentGroupRef Id="Product.Generated" />-->
+        </Feature>
+
+        <Property Id="LicenseAccepted" Value="1" />
+        <WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
+
+        <UIRef Id="WixUI_Common" />
+        <UIRef Id="MainUi" />
+    </Product>
+
+    <Fragment>
+        <UI Id="MainUi">
+            <!--<TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />-->
+            <!--<TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="12" />-->
+            <!--<TextStyle Id="WixUI_Font_Title" FaceName="Tahoma" Size="9" Bold="yes" />-->
+
+            <!--<Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
+            <Property Id="WixUI_Mode" Value="Minimal" />-->
+
+            <DialogRef Id="ErrorDlg" />
+            <DialogRef Id="ExitDialog" />
+            <DialogRef Id="FatalError" />
+            <DialogRef Id="FilesInUse" />
+            <DialogRef Id="MsiRMFilesInUse" />
+            <DialogRef Id="PrepareDlg" />
+            <DialogRef Id="ProgressDlg" />
+            <DialogRef Id="ResumeDlg" />
+            <DialogRef Id="UserExit" />
+            <DialogRef Id="VerifyReadyDlg" />
+            <DialogRef Id="WelcomeDlg" />
+            <DialogRef Id="WelcomeEulaDlg" />
+
+            <!--<Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
+
+            <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
+
+            <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
+
+            <Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+            <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+            <Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg">1</Publish>
+
+            <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">Installed AND PATCH</Publish>
+            <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">Installed AND PATCH</Publish>-->
+
+            <Dialog Id="MainDialog" Width="370" Height="270" Title="!(loc.SetupTitle)" NoMinimize="no">
+                <Control Id="Title"
+                        Type="Text"
+                        X="15"
+                        Y="6"
+                        Width="540"
+                        Height="15"
+                        Transparent="yes"
+                        NoPrefix="yes">
+                    <Text>{\WixUI_Font_Title}!(loc.SetupReady)</Text>
+                </Control>
+                <Control Id="PathLabel"
+                        Type="Text"
+                        X="15"
+                        Y="26"
+                        Width="70"
+                        Height="15"
+                        Transparent="yes"
+                        NoPrefix="yes">
+                    <Text>!(loc.InstallationPath)</Text>
+                </Control>
+                <Control Id="Path"
+                        Type="Edit"
+                        X="90"
+                        Y="26"
+                        Width="270"
+                        Height="15"
+                        Disabled="yes"
+                        Property="INSTALLLOCATION">
+                </Control>
+                <Control Id="Install"
+                        Type="PushButton"
+                        X="212"
+                        Y="243"
+                        Width="80"
+                        Height="17"
+                        Default="yes"
+                        ElevationShield="yes"
+                        Text="!(loc.InstallButtonText)">
+                    <Publish Event="EndDialog" Value="Return" />
+                </Control>
+                <Control Id="Cancel"
+                        Type="PushButton"
+                        X="304"
+                        Y="243"
+                        Width="56"
+                        Height="17"
+                        Default="no"
+                        Cancel="yes"
+                        Text="!(loc.WixUICancel)">
+                    <Publish Event="EndDialog" Value="Exit" />
+                </Control>
+                <Control Id="Back" Type="PushButton" X="156" Y="243" Width="56" Height="17"
+                        Text="!(loc.WixUIBack)">
+                    <Publish Event="NewDialog" Value="WelcomeEulaDlg" />
+                </Control>
+            </Dialog>
+
+            <InstallUISequence>
+                <Show Dialog="MainDialog" After="WelcomeEulaDlg">NOT Installed</Show>
+            </InstallUISequence>
+        </UI>
+    </Fragment>
+</Wix>
