@@ -3,20 +3,20 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
     <Product Id="*" Name="VuGen Add-in Manager" Language="1033" Version="!(bind.FileVersion.MainAssemblyFile)"
             Manufacturer="MyLoadTest" UpgradeCode="da80d591-8c16-48ef-a43d-e227d83e7910">
-        <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated" />
+        <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated"
+                Description="[ProductName] [ProductVersion]" />
 
         <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeErrorMessage)" AllowDowngrades="no"
-                AllowSameVersionUpgrades="no"
-                Schedule="afterInstallInitialize" />
+                AllowSameVersionUpgrades="no" Schedule="afterInstallInitialize" />
 
         <MediaTemplate CompressionLevel="high" EmbedCab="yes" />
 
+        <CustomAction Id="SetBriefProductName" Property="BriefProductName" Value="[ProductName]" />
+        <CustomAction Id="SetFullProductName" Property="FullProductName" Value="[ProductName] [ProductVersion]" />
+        <SetProperty Id="ProductName" Value="[FullProductName]" After="SetFullProductName" Sequence="both" />
+
         <!--<Property Id="ARPNOMODIFY" Value="1" />-->
         <Property Id="PREVIOUSVERSIONSINSTALLED" Secure="yes" />
-
-        <!--<InstallExecuteSequence>
-            <RemoveExistingProducts After="InstallValidate" />
-        </InstallExecuteSequence>-->
 
         <Property Id="TARGETDIR">
             <RegistrySearch Id="SearchVuGenDirectory"
@@ -78,107 +78,79 @@
 
         <Property Id="LicenseAccepted" Value="1" />
         <WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
+        <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
 
-        <UIRef Id="WixUI_Common" />
-        <UIRef Id="MainUi" />
+        <UI>
+            <UIRef Id="WixUI_InstallDir" />
+
+            <!-- Skip EULA dialog -->
+            <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="Overriden_InstallDirDlg" Order="2">1</Publish>
+            <Publish Dialog="Overriden_InstallDirDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">1</Publish>
+        </UI>
+
+        <InstallExecuteSequence>
+            <Custom Action="SetBriefProductName" After="CostInitialize" />
+            <Custom Action="SetFullProductName" After="SetBriefProductName" />
+        </InstallExecuteSequence>
+
+        <InstallUISequence>
+            <Custom Action="SetBriefProductName" After="CostInitialize" />
+            <Custom Action="SetFullProductName" After="SetBriefProductName" />
+        </InstallUISequence>
     </Product>
 
     <Fragment>
-        <UI Id="MainUi">
-            <!--<TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />-->
-            <!--<TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="12" />-->
-            <!--<TextStyle Id="WixUI_Font_Title" FaceName="Tahoma" Size="9" Bold="yes" />-->
-
-            <!--<Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
-            <Property Id="WixUI_Mode" Value="Minimal" />-->
-
-            <DialogRef Id="ErrorDlg" />
-            <DialogRef Id="ExitDialog" />
-            <DialogRef Id="FatalError" />
-            <DialogRef Id="FilesInUse" />
-            <DialogRef Id="MsiRMFilesInUse" />
-            <DialogRef Id="PrepareDlg" />
-            <DialogRef Id="ProgressDlg" />
-            <DialogRef Id="ResumeDlg" />
-            <DialogRef Id="UserExit" />
-            <DialogRef Id="VerifyReadyDlg" />
-            <DialogRef Id="WelcomeDlg" />
-            <DialogRef Id="WelcomeEulaDlg" />
-
-            <!--<Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
-
-            <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
-
-            <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
-
-            <Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
-            <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
-            <Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg">1</Publish>
-
-            <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">Installed AND PATCH</Publish>
-            <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">Installed AND PATCH</Publish>-->
-
-            <Dialog Id="MainDialog" Width="370" Height="270" Title="!(loc.SetupTitle)" NoMinimize="no">
-                <Control Id="Title"
-                        Type="Text"
-                        X="15"
-                        Y="6"
-                        Width="540"
-                        Height="15"
-                        Transparent="yes"
-                        NoPrefix="yes">
-                    <Text>{\WixUI_Font_Title}!(loc.SetupReady)</Text>
-                </Control>
-                <Control Id="PathLabel"
-                        Type="Text"
-                        X="15"
-                        Y="26"
-                        Width="70"
-                        Height="15"
-                        Transparent="yes"
-                        NoPrefix="yes">
-                    <Text>!(loc.InstallationPath)</Text>
-                </Control>
-                <Control Id="Path"
-                        Type="Edit"
-                        X="90"
-                        Y="26"
-                        Width="270"
-                        Height="15"
-                        Disabled="yes"
-                        Property="INSTALLLOCATION">
-                </Control>
-                <Control Id="Install"
-                        Type="PushButton"
-                        X="212"
-                        Y="243"
-                        Width="80"
-                        Height="17"
-                        Default="yes"
-                        ElevationShield="yes"
-                        Text="!(loc.InstallButtonText)">
-                    <Publish Event="EndDialog" Value="Return" />
-                </Control>
-                <Control Id="Cancel"
-                        Type="PushButton"
-                        X="304"
-                        Y="243"
-                        Width="56"
-                        Height="17"
-                        Default="no"
-                        Cancel="yes"
+        <UI>
+            <Dialog Id="Overriden_InstallDirDlg" Width="370" Height="270" Title="!(loc.InstallDirDlg_Title)">
+                <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes"
+                        Text="!(loc.WixUINext)" />
+                <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="!(loc.WixUIBack)" />
+                <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes"
                         Text="!(loc.WixUICancel)">
-                    <Publish Event="EndDialog" Value="Exit" />
+                    <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
                 </Control>
-                <Control Id="Back" Type="PushButton" X="156" Y="243" Width="56" Height="17"
-                        Text="!(loc.WixUIBack)">
-                    <Publish Event="NewDialog" Value="WelcomeEulaDlg" />
-                </Control>
+
+                <Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes"
+                        NoPrefix="yes" Text="!(loc.InstallDirDlgDescription)" />
+                <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes"
+                        Text="!(loc.InstallDirDlgTitle)" />
+                <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no"
+                        Text="!(loc.InstallDirDlgBannerBitmap)" />
+                <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
+                <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+
+                <Control Id="FolderLabel" Type="Text" X="20" Y="60" Width="290" Height="30" NoPrefix="yes"
+                        Text="!(loc.InstallDirDlgFolderLabel)" />
+                <Control Id="Folder" Type="PathEdit" X="20" Y="100" Width="320" Height="18" Property="WIXUI_INSTALLDIR"
+                        Indirect="yes" Disabled="yes" />
+                <Control Id="ChangeFolder" Type="PushButton" X="20" Y="120" Width="56" Height="17"
+                        Text="!(loc.InstallDirDlgChange)" Hidden="yes" />
             </Dialog>
 
-            <InstallUISequence>
-                <Show Dialog="MainDialog" After="WelcomeEulaDlg">NOT Installed</Show>
-            </InstallUISequence>
+            <Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="Overriden_InstallDirDlg">LicenseAccepted = "1"</Publish>
+
+            <Publish Dialog="Overriden_InstallDirDlg" Control="Back" Event="NewDialog" Value="LicenseAgreementDlg">1</Publish>
+            <Publish Dialog="Overriden_InstallDirDlg" Control="Next" Event="SetTargetPath" Value="[WIXUI_INSTALLDIR]"
+                    Order="1">
+                1
+            </Publish>
+            <Publish Dialog="Overriden_InstallDirDlg" Control="Next" Event="DoAction" Value="WixUIValidatePath"
+                    Order="2">
+                NOT WIXUI_DONTVALIDATEPATH
+            </Publish>
+            <Publish Dialog="Overriden_InstallDirDlg" Control="Next" Event="SpawnDialog" Value="InvalidDirDlg"
+                    Order="3"><![CDATA[NOT WIXUI_DONTVALIDATEPATH AND WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
+            <Publish Dialog="Overriden_InstallDirDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Order="4">WIXUI_DONTVALIDATEPATH OR WIXUI_INSTALLDIR_VALID="1"</Publish>
+            <Publish Dialog="Overriden_InstallDirDlg" Control="ChangeFolder" Property="_BrowseProperty"
+                    Value="[WIXUI_INSTALLDIR]" Order="1">
+                1
+            </Publish>
+            <Publish Dialog="Overriden_InstallDirDlg" Control="ChangeFolder" Event="SpawnDialog" Value="BrowseDlg"
+                    Order="2">
+                1
+            </Publish>
+
+            <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="Overriden_InstallDirDlg" Order="1">NOT Installed</Publish>
         </UI>
     </Fragment>
 </Wix>
