@@ -5,7 +5,7 @@
     <String Id="NetFxNotInstalled">This installation requires Microsoft .NET Framework 4.5.1 or later installed.</String>
     <String Id="SetupTitle">[ProductName] [ProductVersion] Setup</String>
     <String Id="SetupReady">The setup is ready to install [ProductName] [ProductVersion].</String>
-    <String Id="InstallationPath">Installation path:</String>
-    <String Id="WelcomeEulaDlgInstall">Next</String>
-    <String Id="InstallButtonText">Install</String>
+    <String Id="InstallationPath">Installation &amp;path:</String>
+    <String Id="WelcomeEulaDlgInstall">&amp;Next</String>
+    <String Id="InstallButtonText">&amp;Install</String>
 </WixLocalization>

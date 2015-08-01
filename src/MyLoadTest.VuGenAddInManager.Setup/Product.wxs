@@ -5,7 +5,9 @@
             Manufacturer="MyLoadTest" UpgradeCode="da80d591-8c16-48ef-a43d-e227d83e7910">
         <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated" />
 
-        <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeErrorMessage)" />
+        <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeErrorMessage)" AllowDowngrades="no"
+                AllowSameVersionUpgrades="no"
+                Schedule="afterInstallInitialize" />
 
         <MediaTemplate CompressionLevel="high" EmbedCab="yes" />
 
