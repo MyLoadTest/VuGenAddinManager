@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+        xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
+    <Bundle Name="VuGen Add-in Manager" Version="!(bind.PackageVersion.MainPackage)"
+            Manufacturer="MyLoadTest" UpgradeCode="13750656-9bd6-43ea-8261-daf7c299a7a9">
+        <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.HyperlinkLargeLicense">
+            <bal:WixStandardBootstrapperApplication LicenseUrl="" ShowVersion="yes" SuppressOptionsUI="yes" />
+        </BootstrapperApplicationRef>
+        
+        <Chain>
+            <RollbackBoundary Id="RollbackBoundary" />
+
+            <MsiPackage Id="MainPackage" SourceFile="$(var.MyLoadTest.VuGenAddInManager.Setup.TargetPath)" Vital="yes"
+                    Compressed="yes" DisplayInternalUI="yes" />
+        </Chain>
+    </Bundle>
+</Wix>

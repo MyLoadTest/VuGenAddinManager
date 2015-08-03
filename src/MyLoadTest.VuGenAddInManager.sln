@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLoadTest.VuGenAddInManage
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "MyLoadTest.VuGenAddInManager.Setup", "MyLoadTest.VuGenAddInManager.Setup\MyLoadTest.VuGenAddInManager.Setup.wixproj", "{E909A9DC-3FCB-4F83-B11A-E665EF8F0D8A}"
 EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "MyLoadTest.VuGenAddInManager.Installer", "MyLoadTest.VuGenAddInManager.Installer\MyLoadTest.VuGenAddInManager.Installer.wixproj", "{D2C60DB8-5923-4776-ACB6-2A7671B43091}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -21,6 +23,10 @@ Global
 		{E909A9DC-3FCB-4F83-B11A-E665EF8F0D8A}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{E909A9DC-3FCB-4F83-B11A-E665EF8F0D8A}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{E909A9DC-3FCB-4F83-B11A-E665EF8F0D8A}.Release|Mixed Platforms.Build.0 = Release|x86
+		{D2C60DB8-5923-4776-ACB6-2A7671B43091}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{D2C60DB8-5923-4776-ACB6-2A7671B43091}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{D2C60DB8-5923-4776-ACB6-2A7671B43091}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{D2C60DB8-5923-4776-ACB6-2A7671B43091}.Release|Mixed Platforms.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
